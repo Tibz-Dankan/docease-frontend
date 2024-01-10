@@ -2,23 +2,24 @@ import React, { Fragment, ReactNode } from "react";
 import { Routes, Route } from "react-router-dom";
 import { SignUp } from "../auth/UI/SignUp";
 import { SignIn } from "../auth/UI/SignIn";
+// import { DashLayout } from "../shared/layout/DashLayout";
 import { ForgotPassword } from "../auth/UI/ForgotPassword";
 import { ResetPassword } from "../auth/UI/ResetPassword";
 
-interface Page {
+type TPage = {
   name: string;
   icon: ReactNode;
   path: string;
   element: ReactNode;
-}
+};
 
-interface Route {
+type TRoute = {
   title: string;
-  pages: Page[];
-}
+  pages: TPage[];
+};
 
 export const AuthRoutes: React.FC = () => {
-  const routes: Route[] = {
+  const routes: TRoute = {
     title: "auth",
     pages: [
       {
@@ -52,8 +53,8 @@ export const AuthRoutes: React.FC = () => {
     <Fragment>
       <div>
         <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
+          {routes.pages.map((page, index) => (
+            <Route key={index} path={page.path} element={page.element} />
           ))}
         </Routes>
       </div>

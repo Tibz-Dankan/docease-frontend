@@ -83,7 +83,7 @@ export const App: React.FC = () => {
             </Fragment>
           )}
 
-          {isLoggedIn && (
+          {!isLoggedIn && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
               <Routes>
                 <Route path="/patient/*" element={<PatientRoutes />} />
                 <Route path="/doctor/*" element={<DoctorRoutes />} />
-                <Route path="/" element={<PatientRoutes />} />
+                {/* <Route path="/" element={<PatientRoutes />} /> */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Fragment>
