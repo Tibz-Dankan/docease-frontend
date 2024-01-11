@@ -65,7 +65,7 @@ export const App: React.FC = () => {
     <Fragment>
       <div className="text-base overflow-x-hidden bg-gray-100">
         <BrowserRouter>
-          {isLoggedIn && (
+          {!isLoggedIn && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
             </Fragment>
           )}
 
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
