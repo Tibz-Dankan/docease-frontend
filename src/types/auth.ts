@@ -29,7 +29,7 @@ export type TAuthState = {
 };
 
 export type TSigninInPut = {
-  phoneNumber: string;
+  email: string;
   password: string;
 };
 
@@ -37,6 +37,7 @@ export type TSignupInput = {
   firstName: string;
   lastName: string;
   email: string;
+  gender: string;
   phoneNumber: string;
   password: string;
 };
