@@ -20,19 +20,18 @@ interface DashLayoutProps {
   children: ReactNode;
 }
 
-export const DashLayout: React.FC<DashLayoutProps> = (props) => {
+export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
   return (
     <Fragment>
-      <div className="w-full min-h-screen">
-        <div>
-          <DashboardSidebar routes={props.routes} />
-        </div>
-        <div>
-          <div>
-            <DashboardHeader />
-          </div>
+      <div
+        className="min-h-screen bg-blue-gray-50/50 
+         w-full relative pt-16"
+      >
+        <DashboardSidebar routes={props.routes} />
+        <div className="p-4 xl:ml-80">
+          <DashboardHeader />
           <main>{props.children}</main>
-          <div>
+          <div className="text-blue-gray-600">
             <Footer />
           </div>
         </div>

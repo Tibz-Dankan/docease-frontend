@@ -1,32 +1,29 @@
 import { useLocation, Link } from "react-router-dom";
 import {
-  Navbar,
+  // Navbar,
   Typography,
   IconButton,
   Breadcrumbs,
-  Input,
 } from "@material-tailwind/react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
-import { useMaterialTailwindController, setOpenSidenav } from "../../context";
-// import { PersonNavDropDown, NotificationDropDown } from "@/UI/shared";
+import { openSidebarHandler } from "../../store/actions/sidebar";
+import { useDispatch } from "react-redux";
 
 export function DashboardHeader() {
-  const [controller, dispatch] = useMaterialTailwindController();
-  const { fixedNavbar, openSidenav } = controller;
+  const fixedNavbar = true;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
 
+  const dispatch: any = useDispatch();
+
+  const handleOpenSidebar = () => {
+    dispatch(openSidebarHandler());
+  };
+
   return (
-    <Navbar
-      color={fixedNavbar ? "white" : "transparent"}
-      className={`rounded-xl transition-all ${
-        fixedNavbar
-          ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-          : "px-0 py-1"
-      }`}
-      fullWidth
-      blurred={fixedNavbar}
-      placeholder={""}
+    <header
+      className="transition-all fixed w-full top-0 left-0
+      z-40 py-3 h-16 bg-primary"
     >
       <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
         <div className="capitalize">
@@ -64,15 +61,13 @@ export function DashboardHeader() {
             variant="text"
             color="blue-gray"
             className="grid xl:hidden"
-            onClick={() => setOpenSidenav(dispatch, !openSidenav)}
+            onClick={() => handleOpenSidebar()}
             placeholder={""}
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          {/* <NotificationDropDown />
-          <PersonNavDropDown /> */}
         </div>
       </div>
-    </Navbar>
+    </header>
   );
 }

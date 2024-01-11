@@ -2,7 +2,6 @@ import React, { Fragment, ReactNode } from "react";
 import { Routes, Route } from "react-router-dom";
 import { SignUp } from "../auth/UI/SignUp";
 import { SignIn } from "../auth/UI/SignIn";
-// import { DashLayout } from "../shared/layout/DashLayout";
 import { ForgotPassword } from "../auth/UI/ForgotPassword";
 import { ResetPassword } from "../auth/UI/ResetPassword";
 

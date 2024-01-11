@@ -7,8 +7,10 @@ import {
   IconButton,
   Typography,
 } from "@material-tailwind/react";
-import { useMaterialTailwindController, setOpenSidenav } from ".././../context";
+import { closeSidebarHandler } from "../../store/actions/sidebar";
+import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/images/logo.jpeg";
+import { TSidebarState } from "../../types/sidebar";
 
 type TPage = {
   name: string;
@@ -27,27 +29,27 @@ interface DashboardSidebarProps {
 }
 
 export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
-  // TODO: convert this logic to redux but maintain the styling (tailwind)
-  const [controller, dispatch] = useMaterialTailwindController();
-  const { sidenavColor, sidenavType, openSidenav } = controller;
-  const sidenavTypes = {
-    dark: "bg-gradient-to-br from-blue-gray-800 to-blue-gray-900",
-    white: "bg-white shadow-lg",
-    transparent: "bg-transparent",
+  const isOpenSidebar = useSelector(
+    (state: TSidebarState) => state.sidebar.isOpen
+  );
+
+  const sidenavType = "dark";
+  const dispatch: any = useDispatch();
+
+  const handleCloseSidebar = () => {
+    dispatch(closeSidebarHandler());
   };
 
-  // TODO: import  logo image
-
-  // const routes = props.routes;
   const title = props.routes.title;
   const pages = props.routes.pages;
 
   return (
     <aside
-      className={`${sidenavTypes[sidenavType]} ${
-        openSidenav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72
-       rounded-xl transition-transform duration-300 xl:translate-x-0`}
+      className={`bg-gradient-to-br from-blue-gray-800 to-blue-gray-900 
+       fixed inset-0 top-16 z-50 h-[calc(100vh-32px)]s h-[100vh] w-72
+       transition-transform duration-300 xl:translate-x-0
+       ${isOpenSidebar ? "translate-x-0" : "-translate-x-80"}
+      `}
     >
       <div
         className={`relative border-b ${
@@ -75,14 +77,13 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           size="sm"
           ripple={false}
           className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
-          onClick={() => setOpenSidenav(dispatch, false)}
+          onClick={() => handleCloseSidebar()}
           placeholder={""}
         >
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
         </IconButton>
       </div>
       <div className="m-4">
-        {/* {pages.map(({ title, pages }, key) => ( */}
         <ul className="mb-4 flex flex-col gap-1">
           {title && (
             <li className="mx-3.5 mt-4 mb-2">
@@ -98,17 +99,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           )}
           {pages.map(({ icon, name, path }) => (
             <li key={name}>
-              <NavLink
-                to={`/${title}/${path}`}
-                className={`${path == "/patient" && "hidden"}`}
-              >
+              <NavLink to={`/${title}/${path}`}>
                 {({ isActive }) => (
                   <Button
-                    // variant={isActive ? "gradient" : "text"}
-                    // variant={isActive "text"}
-                    // color={
-                    //   isActive ? sidenavColor : sidenavType === "dark" ? "white" : "blue-gray"
-                    // }
                     className={`flex items-center gap-4 bg-inherit px-4 
                       capitalize text-gray-100 shadow-none hover:bg-blue-gray-700
                       hover:shadow-none ${isActive && "bg-blue-gray-700"}`}
@@ -129,7 +122,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
             </li>
           ))}
         </ul>
-        {/* ))} */}
       </div>
     </aside>
   );

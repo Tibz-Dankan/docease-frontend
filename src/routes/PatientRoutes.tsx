@@ -1,8 +1,7 @@
 import React, { Fragment, ReactNode } from "react";
 import { Routes, Route } from "react-router-dom";
-// import { DoctorDashboard } from "../patient/pages/DoctorDashboard";
 import { PatientDashboard } from "../doctor/pages/PatientDashboard";
-import { DashLayout } from "../shared/layout/DashLayout";
+import { DashboardLayout } from "../shared/layout/DashboardLayout";
 
 type TPage = {
   name: string;
@@ -18,7 +17,7 @@ type TRoute = {
 
 export const PatientRoutes: React.FC = () => {
   const routes: TRoute = {
-    title: "Doctor",
+    title: "patient",
     pages: [
       {
         name: "PatientDashboard",
@@ -33,18 +32,13 @@ export const PatientRoutes: React.FC = () => {
 
   return (
     <Fragment>
-      <Routes>
-        {routes.pages.map((page, index) => (
-          <Route key={index} path={page.path} element={page.element} />
-        ))}
-      </Routes>
-      <DashLayout routes={routes}>
+      <DashboardLayout routes={routes}>
         <Routes>
           {routes.pages.map((page, index) => (
             <Route key={index} path={page.path} element={page.element} />
           ))}
         </Routes>
-      </DashLayout>
+      </DashboardLayout>
     </Fragment>
   );
 };
