@@ -21,7 +21,7 @@ export const signIn = async ({ email, password }: TSigninInPut) => {
   return await response.json();
 };
 
-export const signUp = async ({
+export const signUpPatient = async ({
   firstName,
   lastName,
   email,
@@ -29,7 +29,7 @@ export const signUp = async ({
   phoneNumber,
   password,
 }: TSignupInput) => {
-  const response = await fetch(`${url}/users/signup`, {
+  const response = await fetch(`${url}/users/patients/signup`, {
     method: "POST",
     body: JSON.stringify({
       firstName,

@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from "react";
 import { Routes, Route } from "react-router-dom";
-import { SignUp } from "../auth/UI/SignUp";
+import { SignUpPatient } from "../auth/UI/SignUpPatient";
 import { SignIn } from "../auth/UI/SignIn";
 import { ForgotPassword } from "../auth/UI/ForgotPassword";
 import { ResetPassword } from "../auth/UI/ResetPassword";
@@ -24,8 +24,8 @@ export const AuthRoutes: React.FC = () => {
       {
         name: "Sign up",
         icon: "icon",
-        path: "/signup",
-        element: <SignUp />,
+        path: "patient/signup",
+        element: <SignUpPatient />,
       },
       {
         name: "Sign up",

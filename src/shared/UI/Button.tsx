@@ -12,7 +12,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     <Fragment>
       <button
         className={twMerge(
-          "text-gray-50 bg-primary p-2 text-center rounded w-full",
+          "text-gray-50 bg-primary p-2 text-center rounded w-full outline-none",
           props.className
         )}
         type={props.type}

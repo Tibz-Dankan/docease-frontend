@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 interface InputFieldProps extends React.HTMLAttributes<HTMLInputElement> {
-  formik: any;
+  formik?: any;
   label: string;
   name: string;
   type: "text" | "password" | "email" | "date" | "time";

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, ChangeEvent } from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -9,29 +9,30 @@ import {
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
-import { signUp } from "../API";
+import { InputSelect } from "../../shared/UI/InputSelect";
+import { signUpPatient } from "../API";
 import { TSignupInput } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import logo from "../../assets/images/logo.jpeg";
+import { authenticate } from "../../store/actions/auth";
 
-export const SignUp: React.FC = () => {
+export const SignUpPatient: React.FC = () => {
   const dispatch: any = useDispatch();
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: signUp,
-    onSuccess: (response: any) => {
-      console.log("response", response);
+    mutationFn: signUpPatient,
+    onSuccess: (auth: any) => {
+      dispatch(authenticate(auth));
       dispatch(
         showCardNotification({
           type: "success",
-          message: response.message,
+          message: auth.message,
         })
       );
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
-      // authenticate the user here
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -58,11 +59,13 @@ export const SignUp: React.FC = () => {
       email: Yup.string().max(255).required("email is required"),
       gender: Yup.string().max(255).required("gender is required"),
       phoneNumber: Yup.string().max(255).required("phone number is required"),
-      password: Yup.string().max(255).required("password is required"),
+      password: Yup.string()
+        .min(5)
+        .max(30)
+        .required("password must have at least 5 characters"),
     }),
 
     onSubmit: async (values, helpers) => {
-      console.log("Submit values", values);
       try {
         mutate(values);
       } catch (err: any) {
@@ -76,6 +79,26 @@ export const SignUp: React.FC = () => {
     },
   });
 
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const confirmPasswordChangeHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(() => event.target.value);
+  };
+
+  const passwordsMatch =
+    confirmPassword && confirmPassword !== formik.values.password;
+
+  const gender = ["--select-gender--", "male", "female"];
+
+  const genderChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+    const genderValue = event.target.value;
+    if (genderValue === "--select-gender--") return;
+
+    formik.values.gender = genderValue;
+  };
+
   return (
     <Fragment>
       <div className="min-h-screen grid place-items-center py-28">
@@ -87,6 +110,9 @@ export const SignUp: React.FC = () => {
           <img src={logo} alt="logo" className="w-28" />
           <p className="text-center text-2xl font-semibold">
             Welcome To Docease
+          </p>
+          <p className="text-center text-sm font-semibold text-secondary">
+            Create patient Account
           </p>
           <InputField
             type="text"
@@ -107,18 +133,33 @@ export const SignUp: React.FC = () => {
             name="phoneNumber"
             formik={formik}
           />
+          <InputSelect
+            label="Gender"
+            name="gender"
+            onChange={genderChangeHandler}
+            options={gender}
+            formik={formik}
+          />
           <InputField
             type="password"
             label="Password"
             name="password"
             formik={formik}
           />
-          <InputField
-            type="password"
-            label="Confirm password"
-            name="confirmPassword"
-            formik={formik}
-          />
+          <div className="inline-block relative w-full">
+            {passwordsMatch && (
+              <span className="text-sm text-red-500 absolute top-0 left-0">
+                Passwords don't much!
+              </span>
+            )}
+            <InputField
+              type="password"
+              label="Confirm password"
+              name="confirmPassword"
+              formik={formik}
+              onChange={(event: any) => confirmPasswordChangeHandler(event)}
+            />
+          </div>
           {!isLoading && (
             <Button
               label="Sign up"
