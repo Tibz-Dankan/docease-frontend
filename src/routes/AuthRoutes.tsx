@@ -49,7 +49,7 @@ export const AuthRoutes: React.FC = () => {
       {
         name: "Sign up",
         icon: "icon",
-        path: "/reset-password",
+        path: "/reset-password/:resetToken",
         element: <ResetPassword />,
       },
     ],

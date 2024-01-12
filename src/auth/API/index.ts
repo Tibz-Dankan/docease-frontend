@@ -101,12 +101,15 @@ export const forgotPassword = async ({ email }: { email: string }) => {
   return await response.json();
 };
 
-export const resetPassword = async (
-  newPassword: string,
-  resetToken: string
-) => {
+export const resetPassword = async ({
+  newPassword,
+  resetToken,
+}: {
+  newPassword: string;
+  resetToken: string;
+}) => {
   const response = await fetch(`${url}/users/reset-password/${resetToken}`, {
-    method: "POST",
+    method: "PATCH",
     body: JSON.stringify({
       password: newPassword,
     }),

@@ -1,9 +1,141 @@
 import React, { Fragment } from "react";
+import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
+import {
+  showCardNotification,
+  hideCardNotification,
+} from "../../store/actions/notification";
+import { useDispatch } from "react-redux";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { InputField } from "../../shared/UI/InputField";
+import { resetPassword } from "../API";
+import { authenticate } from "../../store/actions/auth";
+import { Loader } from "../../shared/UI/Loader";
+import { Button } from "../../shared/UI/Button";
+import logo from "../../assets/images/logo.jpeg";
+
+type TInitialValues = {
+  newPassword: string;
+  confirmPassword: string;
+};
 
 export const ResetPassword: React.FC = () => {
+  const dispatch: any = useDispatch();
+  const { resetToken } = useParams();
+
+  const { isLoading, mutate } = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: (auth: any) => {
+      dispatch(authenticate(auth));
+
+      dispatch(
+        showCardNotification({
+          type: "success",
+          message: "Password reset successfully",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
+    },
+    onError: (error: any) => {
+      dispatch(showCardNotification({ type: "error", message: error.message }));
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
+    },
+  });
+
+  const initialValues: TInitialValues = {
+    newPassword: "",
+    confirmPassword: "",
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: Yup.object({
+      newPassword: Yup.string()
+        .min(5)
+        .max(255)
+        .required("password must be at least 5 characters"),
+      confirmPassword: Yup.string()
+        .max(255)
+        .required("confirm password is required"),
+    }),
+
+    onSubmit: async (values, helpers) => {
+      try {
+        if (values.confirmPassword !== values.newPassword) {
+          throw new Error("Passwords don't match!");
+        }
+        mutate({
+          newPassword: values.newPassword,
+          resetToken: `${resetToken}`,
+        });
+      } catch (err: any) {
+        helpers.setStatus({ success: false });
+        helpers.setSubmitting(false);
+        dispatch(showCardNotification({ type: "error", message: err.message }));
+        setTimeout(() => {
+          dispatch(hideCardNotification());
+        }, 5000);
+      }
+    },
+  });
+
   return (
     <Fragment>
-      <div>ResetPassword</div>
+      <div className="min-h-screen grid place-items-center py-28">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
+          bg-blue-500s shadow-2xl p-8 rounded-2xl"
+        >
+          <img src={logo} alt="logo" className="w-28" />
+          <p className="text-center text-2xl font-semibold">Reset Password</p>
+          <p className="text-start text-sm text-gray-700 mt-4">
+            To complete the process, provide your new password and its
+            confirmation
+          </p>
+          <InputField
+            type="password"
+            label="New Password"
+            name="newPassword"
+            formik={formik}
+          />
+          <InputField
+            type="password"
+            label="Confirm Password"
+            name="confirmPassword"
+            formik={formik}
+          />
+          {!isLoading && (
+            <Button
+              label="Reset"
+              type="submit"
+              aria-disabled={isLoading}
+              className="mt-6 font-semibold"
+            />
+          )}
+          {isLoading && (
+            <div
+              className="bg-primary text-gray-50 flex items-center
+              justify-center p-1 w-full rounded mt-6"
+            >
+              <Loader className="w-8 h-8" />
+            </div>
+          )}
+          <div className="mt-4 space-y-4">
+            <p className="text-center hover:underline hover:text-blue-500 cursor-pointer">
+              <Link to="/auth/signin" className="underline">
+                Remember password? Log in
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
     </Fragment>
   );
 };
