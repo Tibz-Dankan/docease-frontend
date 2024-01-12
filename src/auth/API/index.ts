@@ -83,7 +83,7 @@ export const signUpDoctor = async ({
   return await response.json();
 };
 
-export const forgotPassword = async (email: string) => {
+export const forgotPassword = async ({ email }: { email: string }) => {
   const response = await fetch(`${url}/users/forgot-password`, {
     method: "POST",
     body: JSON.stringify({

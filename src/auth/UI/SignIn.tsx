@@ -90,7 +90,7 @@ export const SignIn: React.FC = () => {
           />
           {!isLoading && (
             <Button
-              label="Sign up"
+              label="Log in"
               type="submit"
               aria-disabled={isLoading}
               className="mt-6 font-semibold"
