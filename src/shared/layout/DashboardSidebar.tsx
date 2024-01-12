@@ -1,16 +1,15 @@
 import React, { ReactNode } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { closeSidebarHandler } from "../../store/actions/sidebar";
 import { useSelector, useDispatch } from "react-redux";
-import logo from "../../assets/images/logo.jpeg";
 import { TSidebarState } from "../../types/sidebar";
+import doctorIcon from "../../assets/icons/doctor-icon.svg";
+import patientIcon from "../../assets/icons/patient-icon.svg";
+import adminIcon from "../../assets/icons/admin-icon.svg";
+
+import { TAuthState } from "../../types/auth";
 
 type TPage = {
   name: string;
@@ -28,6 +27,32 @@ interface DashboardSidebarProps {
   routes: TRoute;
 }
 
+const UserRoleIcon: React.FC<{ role: string }> = (props) => {
+  const role = props.role;
+
+  if (role === "patient") {
+    return (
+      <svg className="w-8 h-8 fill-primary">
+        <use href={`${patientIcon}#patient`}></use>
+      </svg>
+    );
+  }
+  if (role === "doctor") {
+    return (
+      <svg className="w-8 h-8 fill-primary">
+        <use href={`${doctorIcon}#doctor`}></use>
+      </svg>
+    );
+  }
+  if (role === "admin") {
+    return (
+      <svg className="w-8 h-8 fill-primary">
+        <use href={`${adminIcon}#admin`}></use>
+      </svg>
+    );
+  }
+};
+
 export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
   const isOpenSidebar = useSelector(
     (state: TSidebarState) => state.sidebar.isOpen
@@ -43,9 +68,13 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
   const title = props.routes.title;
   const pages = props.routes.pages;
 
+  const userRole = useSelector(
+    (state: TAuthState) => state.auth.user?.role
+  ) as string;
+
   return (
     <aside
-      className={`bg-gradient-to-br from-blue-gray-800 to-blue-gray-900 
+      className={`bg-gradient-to-br from-blue-gray-800s to-blue-gray-900s bg-gray-200
        fixed inset-0 top-16 z-50 h-[calc(100vh-32px)]s h-[100vh] w-72
        transition-transform duration-300 xl:translate-x-0
        ${isOpenSidebar ? "translate-x-0" : "-translate-x-80"}
@@ -56,21 +85,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
         }`}
       >
-        <Link to="/" className="flex items-center gap-4 py-6 px-8">
-          <Avatar
-            src={logo}
-            size="sm"
-            className="h-auto w-16"
-            placeholder={""}
-          />
-          <Typography
-            variant="h6"
-            color={sidenavType === "dark" ? "white" : "blue-gray"}
-            placeholder={""}
-          >
-            Docease
-          </Typography>
-        </Link>
         <IconButton
           variant="text"
           color="white"
@@ -86,15 +100,16 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
       <div className="m-4">
         <ul className="mb-4 flex flex-col gap-1">
           {title && (
-            <li className="mx-3.5 mt-4 mb-2">
-              <Typography
-                variant="small"
-                color={sidenavType === "dark" ? "white" : "blue-gray"}
-                className="font-black uppercase opacity-75"
-                placeholder={""}
-              >
+            <li
+              className="bg-gray-300 flex items-center justify-center
+               mt-4 rounded-md p-2 py-4 gap-4"
+            >
+              <span className="flex items-center justify-center">
+                <UserRoleIcon role={userRole} />
+              </span>
+              <span className="text-primary font-semibold text-xl uppercase ">
                 {title}
-              </Typography>
+              </span>
             </li>
           )}
           {pages.map(({ icon, name, path }) => (
@@ -111,7 +126,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                     {icon}
                     <Typography
                       color="inherit"
-                      className="font-medium capitalize"
+                      className="font-medium capitalize text-gray-800"
                       placeholder={""}
                     >
                       {name}
