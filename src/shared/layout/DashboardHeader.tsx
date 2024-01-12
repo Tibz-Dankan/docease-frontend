@@ -19,7 +19,7 @@ export const DashboardHeader = () => {
   return (
     <header
       className="transition-all fixed w-full top-0 left-0
-      z-40 py-3 h-16 bg-primary"
+      z-40 py-3 h-16 bg-primary px-4"
     >
       <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
         <div className="flex items-center gap-0 relative bg-purple-500s">
