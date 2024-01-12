@@ -23,15 +23,6 @@ export const SignIn: React.FC = () => {
     mutationFn: signIn,
     onSuccess: (auth: any) => {
       dispatch(authenticate(auth));
-      dispatch(
-        showCardNotification({
-          type: "success",
-          message: auth.message,
-        })
-      );
-      setTimeout(() => {
-        dispatch(hideCardNotification());
-      }, 5000);
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
