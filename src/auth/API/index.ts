@@ -52,6 +52,37 @@ export const signUpPatient = async ({
   return await response.json();
 };
 
+export const signUpDoctor = async ({
+  firstName,
+  lastName,
+  email,
+  gender,
+  phoneNumber,
+  password,
+}: TSignupInput) => {
+  const response = await fetch(`${url}/users/doctors/signup`, {
+    method: "POST",
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      gender,
+      phoneNumber,
+      password,
+    }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const forgotPassword = async (email: string) => {
   const response = await fetch(`${url}/users/forgot-password`, {
     method: "POST",

@@ -10,18 +10,18 @@ import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
 import { InputSelect } from "../../shared/UI/InputSelect";
-import { signUpPatient } from "../API";
+import { signUpDoctor } from "../API";
 import { TSignupInput } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import logo from "../../assets/images/logo.jpeg";
 import { authenticate } from "../../store/actions/auth";
 
-export const SignUpPatient: React.FC = () => {
+export const SignUpDoctor: React.FC = () => {
   const dispatch: any = useDispatch();
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: signUpPatient,
+    mutationFn: signUpDoctor,
     onSuccess: (auth: any) => {
       dispatch(authenticate(auth));
       dispatch(
@@ -111,8 +111,8 @@ export const SignUpPatient: React.FC = () => {
           <p className="text-center text-2xl font-semibold">
             Welcome To Docease
           </p>
-          <p className="text-center text-sm font-semibold text-secondary">
-            Create Patient Account
+          <p className="text-center text-sm font-semibold text-primary">
+            Create Doctor Account
           </p>
           <InputField
             type="text"
