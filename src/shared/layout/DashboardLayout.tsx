@@ -24,7 +24,7 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
   return (
     <Fragment>
       <div
-        className="min-h-screen bg-blue-gray-50/50 
+        className="min-h-screen bg-gray-100 
          w-full relative pt-16"
       >
         <DashboardSidebar routes={props.routes} />

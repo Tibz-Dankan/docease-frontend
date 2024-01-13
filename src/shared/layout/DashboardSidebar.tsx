@@ -74,11 +74,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
 
   return (
     <aside
-      className={`bg-gradient-to-br from-blue-gray-800s to-blue-gray-900s bg-gray-200
-       fixed inset-0 top-16 z-50 h-[calc(100vh-32px)]s h-[100vh] w-72
+      className={`bg-gray-50 fixed inset-0 top-16 z-50 h-[100vh] w-72
        transition-transform duration-300 xl:translate-x-0
        ${isOpenSidebar ? "translate-x-0" : "-translate-x-80"}
-      `}
+       shadow shadow-slate-900/20 shadow-b-2 shadow-r-[3px] -shadow-spread-2`}
     >
       <div className="relative">
         <span
