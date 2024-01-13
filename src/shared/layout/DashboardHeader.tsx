@@ -28,7 +28,12 @@ export const DashboardHeader = () => {
             alt="logo"
             className="w-12 absolute -top-1 left-0 fill-white"
           />
-          <span className="text-gray-50 ml-11 text-2xl">Docease</span>
+          <span
+            className="text-gray-50 ml-11 text-2xl uppercase
+            font-semibold"
+          >
+            Docease
+          </span>
         </div>
 
         <div className="flex items-center">
@@ -62,11 +67,11 @@ export const DashboardHeader = () => {
           </span>
           <div className="flex items-center">
             <span
-              className="cursor-pointer grid place-items-center  bg-gray-700 p-1
-            w-10 h-10 rounded-[50%]"
+              className="cursor-pointer grid place-items-center  bg-gray-300 p-1
+              w-10 h-10 rounded-[50%]"
             >
               <IconContext.Provider
-                value={{ size: "1.2rem", color: "#ced4da" }}
+                value={{ size: "1.4rem", color: "#495057" }}
               >
                 <IoPerson />
               </IconContext.Provider>
