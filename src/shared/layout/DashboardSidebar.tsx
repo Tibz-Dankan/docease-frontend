@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button, IconButton, Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import { closeSidebarHandler } from "../../store/actions/sidebar";
 import { useSelector, useDispatch } from "react-redux";
+import { IconContext } from "react-icons";
+import { IoMdClose } from "react-icons/io";
 import { TSidebarState } from "../../types/sidebar";
 import doctorIcon from "../../assets/icons/doctor-icon.svg";
 import patientIcon from "../../assets/icons/patient-icon.svg";
@@ -58,7 +59,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
     (state: TSidebarState) => state.sidebar.isOpen
   );
 
-  const sidenavType = "dark";
   const dispatch: any = useDispatch();
 
   const handleCloseSidebar = () => {
@@ -80,29 +80,23 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
        ${isOpenSidebar ? "translate-x-0" : "-translate-x-80"}
       `}
     >
-      <div
-        className={`relative border-b ${
-          sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
-        }`}
-      >
-        <IconButton
-          variant="text"
-          color="white"
-          size="sm"
-          ripple={false}
-          className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
+      <div className="relative">
+        <span
           onClick={() => handleCloseSidebar()}
-          placeholder={""}
+          className="cursor-pointer absolute right-4 top-[6px] grid 
+           rounded-br-none rounded-tl-none xl:hidden"
         >
-          <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
-        </IconButton>
+          <IconContext.Provider value={{ size: "1.4rem", color: "#495057" }}>
+            <IoMdClose />
+          </IconContext.Provider>
+        </span>
       </div>
       <div className="m-4">
         <ul className="mb-4 flex flex-col gap-1">
           {title && (
             <li
-              className="bg-gray-300 flex items-center justify-center
-               mt-4 rounded-md p-2 py-4 gap-4"
+              className="bg-gray-400 flex items-center justify-center
+               my-4 rounded-md p-2 py-4 gap-4"
             >
               <span className="flex items-center justify-center">
                 <UserRoleIcon role={userRole} />
@@ -118,15 +112,19 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                 {({ isActive }) => (
                   <Button
                     className={`flex items-center gap-4 bg-inherit px-4 
-                      capitalize text-gray-100 shadow-none hover:bg-blue-gray-700
-                      hover:shadow-none ${isActive && "bg-blue-gray-700"}`}
+                      capitalize text-gray-100 shadow-none hover:bg-gray-300
+                      hover:shadow-none ${isActive && "bg-gray-300"}`}
                     fullWidth
                     placeholder={""}
                   >
                     {icon}
                     <Typography
                       color="inherit"
-                      className="font-medium capitalize text-gray-800"
+                      className={`font-medium capitalize ${
+                        isActive
+                          ? "text-primary font-semibold"
+                          : "text-gray-800"
+                      }`}
                       placeholder={""}
                     >
                       {name}

@@ -13,6 +13,13 @@ import { DoctorRoutes } from "./routes/DoctorRoutes";
 export const App: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
   const isLoggedIn = auth.isLoggedIn;
+  const isPatient = auth.user?.role === "patient";
+  const isDoctor = auth.user?.role === "doctor";
+  // const isAdmin = auth.user?.role === "admin";
+
+  const loggedInPatient = isLoggedIn && isPatient;
+  const loggedInDoctor = isLoggedIn && isDoctor;
+  // const loggedInAdmin = isLoggedIn && isAdmin;
 
   const dispatch: any = useDispatch();
 
@@ -83,7 +90,7 @@ export const App: React.FC = () => {
             </Fragment>
           )}
 
-          {isLoggedIn && (
+          {loggedInPatient && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
@@ -93,10 +100,32 @@ export const App: React.FC = () => {
                 />
               )}
               <Routes>
-                <Route path="/" element={<PatientRoutes />} />
+                <Route path="/patient/dashboard" element={<PatientRoutes />} />
                 <Route path="/patient/*" element={<PatientRoutes />} />
+                <Route
+                  path="*"
+                  element={<Navigate to="/patient/dashboard" replace />}
+                />
+              </Routes>
+            </Fragment>
+          )}
+
+          {loggedInDoctor && (
+            <Fragment>
+              {notification.showCardNotification && (
+                <Notification
+                  type={notification.cardNotificationType}
+                  message={notification.cardMessage}
+                  onClose={closeCardHandler}
+                />
+              )}
+              <Routes>
+                <Route path="/doctor/dashboard" element={<DoctorRoutes />} />
                 <Route path="/doctor/*" element={<DoctorRoutes />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route
+                  path="*"
+                  element={<Navigate to="/doctor/dashboard" replace />}
+                />
               </Routes>
             </Fragment>
           )}
