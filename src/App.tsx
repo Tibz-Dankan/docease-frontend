@@ -17,9 +17,9 @@ export const App: React.FC = () => {
   const isDoctor = auth.user?.role === "doctor";
   // const isAdmin = auth.user?.role === "admin";
 
-  const loggedInPatient = isLoggedIn && isPatient;
-  const loggedInDoctor = isLoggedIn && isDoctor;
-  // const loggedInAdmin = isLoggedIn && isAdmin;
+  const isLoggedInPatient = isLoggedIn && isPatient;
+  const isLoggedInDoctor = isLoggedIn && isDoctor;
+  // const  isLoggedInAdmin = isLoggedIn && isAdmin;
 
   const dispatch: any = useDispatch();
 
@@ -90,7 +90,7 @@ export const App: React.FC = () => {
             </Fragment>
           )}
 
-          {loggedInPatient && (
+          {isLoggedInPatient && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
             </Fragment>
           )}
 
-          {loggedInDoctor && (
+          {isLoggedInDoctor && (
             <Fragment>
               {notification.showCardNotification && (
                 <Notification
