@@ -27,7 +27,7 @@ export const SignUpDoctor: React.FC = () => {
       dispatch(
         showCardNotification({
           type: "success",
-          message: auth.message,
+          message: "Account created successfully",
         })
       );
       setTimeout(() => {
