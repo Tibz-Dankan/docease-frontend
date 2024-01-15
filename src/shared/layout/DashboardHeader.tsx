@@ -7,6 +7,7 @@ import { IoPerson } from "react-icons/io5";
 import { GoTriangleDown } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { SearchApp } from "../UI/SearchApp";
+import { NavDropdown } from "../UI/NavDropdown";
 import logo from "../../assets/images/logo.jpeg";
 
 export const DashboardHeader = () => {
@@ -74,23 +75,25 @@ export const DashboardHeader = () => {
               <IoMdNotificationsOutline />
             </IconContext.Provider>
           </span>
-          <div className="flex items-center">
-            <span
-              className="cursor-pointer grid place-items-center  bg-gray-300 p-1
+          <NavDropdown>
+            <div className="flex items-center">
+              <span
+                className="cursor-pointer grid place-items-center  bg-gray-300 p-1
               w-10 h-10 rounded-[50%]"
-            >
-              <IconContext.Provider
-                value={{ size: "1.4rem", color: "#495057" }}
               >
-                <IoPerson />
-              </IconContext.Provider>
-            </span>
-            <span className="inline-block cursor-pointer">
-              <IconContext.Provider value={{ size: "1.2rem", color: "#fff" }}>
-                <GoTriangleDown />
-              </IconContext.Provider>
-            </span>
-          </div>
+                <IconContext.Provider
+                  value={{ size: "1.4rem", color: "#495057" }}
+                >
+                  <IoPerson />
+                </IconContext.Provider>
+              </span>
+              <span className="inline-block cursor-pointer">
+                <IconContext.Provider value={{ size: "1.2rem", color: "#fff" }}>
+                  <GoTriangleDown />
+                </IconContext.Provider>
+              </span>
+            </div>
+          </NavDropdown>
         </div>
       </div>
     </header>
