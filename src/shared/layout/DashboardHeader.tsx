@@ -19,24 +19,33 @@ export const DashboardHeader = () => {
   return (
     <header
       className="transition-all fixed w-full top-0 left-0
-      z-40 py-3 h-16 bg-primary px-4"
+       z-40 py-3 h-16 bg-primary px-4"
     >
-      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
-        <div className="flex items-center gap-0 relative bg-purple-500s">
+      <div
+        className="flex flex-col-reverses justify-between 
+         gap-4 sm:gap-6 md:flex-row md:items-center"
+      >
+        <div
+          className="flex items-center gap-0 relative 
+          w-12 sm:w-64"
+        >
           <img
             src={logo}
             alt="logo"
-            className="w-12 absolute -top-1 left-0 fill-white"
+            className="w-12 absolute top-0 sm:-top-1 left-0 fill-white"
           />
           <span
             className="text-gray-50 ml-11 text-2xl uppercase
-            font-semibold"
+            font-semibold hidden sm:block"
           >
             Docease
           </span>
         </div>
 
-        <div className="flex items-center">
+        <div
+          className="flex items-center justify-center absolute top-20 
+           left-0 sm:static w-full"
+        >
           <SearchApp />
         </div>
 

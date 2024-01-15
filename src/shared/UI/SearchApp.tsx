@@ -20,7 +20,7 @@ export const SearchApp: React.FC = () => {
     <Fragment>
       <div
         className="relative flex flex-col items-start 
-         justify-center gap-1 w-full sm:w-72"
+         justify-center gap-1 w-[90%] sm:w-72"
       >
         {!isLoading && (
           <span
