@@ -28,7 +28,7 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
          w-full relative pt-32 sm:pt-16"
       >
         <DashboardSidebar routes={props.routes} />
-        <div className="p-4 xl:ml-80">
+        <div className="p-4 xl:ml-72">
           <DashboardHeader />
           <main
             className="flex items-center justify-center
