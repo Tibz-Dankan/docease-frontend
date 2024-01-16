@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from "react";
 import { Routes, Route } from "react-router-dom";
-import { DoctorDashboard } from "../patient/pages/DoctorDashboard";
+import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { Messages } from "../shared/pages/Messages";
