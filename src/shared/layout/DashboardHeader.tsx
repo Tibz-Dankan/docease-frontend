@@ -1,5 +1,5 @@
 import { openSidebarHandler } from "../../store/actions/sidebar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosMenu } from "react-icons/io";
 import { PiChatsCircleLight } from "react-icons/pi";
@@ -9,6 +9,8 @@ import { IconContext } from "react-icons";
 import { SearchApp } from "../UI/SearchApp";
 import { NavDropdown } from "../UI/NavDropdown";
 import logo from "../../assets/images/logo.jpeg";
+import { TAuthState } from "../../types/auth";
+import { Link } from "react-router-dom";
 
 export const DashboardHeader = () => {
   const dispatch: any = useDispatch();
@@ -16,6 +18,8 @@ export const DashboardHeader = () => {
   const handleOpenSidebar = () => {
     dispatch(openSidebarHandler());
   };
+
+  const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
 
   return (
     <header
@@ -59,22 +63,16 @@ export const DashboardHeader = () => {
               <IoIosMenu />
             </IconContext.Provider>
           </span>
-          <span
-            onClick={() => handleOpenSidebar()}
-            className="inline-block cursor-pointer"
-          >
+          <Link to={`/${userRole}/messages`}>
             <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
               <PiChatsCircleLight />
             </IconContext.Provider>
-          </span>
-          <span
-            onClick={() => handleOpenSidebar()}
-            className="inline-block cursor-pointer"
-          >
+          </Link>
+          <Link to={`/${userRole}/notifications`}>
             <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
               <IoMdNotificationsOutline />
             </IconContext.Provider>
-          </span>
+          </Link>
           <NavDropdown>
             <div className="flex items-center">
               <span
