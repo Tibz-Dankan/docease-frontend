@@ -30,8 +30,16 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
         <DashboardSidebar routes={props.routes} />
         <div className="p-4 xl:ml-80">
           <DashboardHeader />
-          <main>{props.children}</main>
-          <div className="text-blue-gray-600">
+          <main
+            className="flex items-center justify-center
+            selection: min-h-[84vh] h-auto"
+          >
+            {props.children}
+          </main>
+          <div
+            className="text-blue-gray-600 flex items-center 
+             justify-center mt-12"
+          >
             <Footer />
           </div>
         </div>
