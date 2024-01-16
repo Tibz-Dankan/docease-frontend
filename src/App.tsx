@@ -100,7 +100,6 @@ export const App: React.FC = () => {
                 />
               )}
               <Routes>
-                <Route path="/patient/dashboard" element={<PatientRoutes />} />
                 <Route path="/patient/*" element={<PatientRoutes />} />
                 <Route
                   path="*"
@@ -120,7 +119,6 @@ export const App: React.FC = () => {
                 />
               )}
               <Routes>
-                <Route path="/doctor/dashboard" element={<DoctorRoutes />} />
                 <Route path="/doctor/*" element={<DoctorRoutes />} />
                 <Route
                   path="*"
