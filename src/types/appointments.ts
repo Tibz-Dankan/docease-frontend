@@ -9,3 +9,43 @@ export type TPostAppointment = {
 export type TPostAppointmentAuthorized = TPostAppointment & {
   token: string;
 };
+
+type TAccessTokens = {
+  createdAt: string;
+};
+export type TUser = {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  role: string;
+  imageUrl: string;
+  accessTokens: TAccessTokens[];
+};
+
+export type TAppointmentStatus = {
+  status: string;
+};
+
+export type TAppointment = {
+  appointmentId: string;
+  patient?: TUser;
+  patientId: string;
+  doctor?: TUser;
+  doctorId: string;
+  subject: string;
+  startsAt: string;
+  endsAt: string;
+  doctorsComment?: string;
+  patientsComment?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  overallStatus: string;
+  statuses: TAppointmentStatus[];
+};
+
+export type TAppointmentOverallStatus = {
+  overallStatus: string;
+  bgColor: string;
+  color: string;
+};

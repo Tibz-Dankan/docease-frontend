@@ -37,7 +37,7 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
         >
           <span
             className="w-6 h-6 flex items-center
-                justify-center rounded-md"
+             justify-center rounded-md"
           >
             <IconContext.Provider
               value={{
