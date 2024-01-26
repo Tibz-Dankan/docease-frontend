@@ -14,7 +14,7 @@ export class AppDate {
 
   dayMonthYear() {
     const year = this.date.getFullYear();
-    const month = this.date.toLocaleDateString("en-US", { month: "long" });
+    const month = this.date.toLocaleDateString("en-US", { month: "short" });
     const dayOfMonth = this.date.getDate();
 
     return `${dayOfMonth} ${month} ${year}`;
@@ -24,10 +24,18 @@ export class AppDate {
     const dayOfWeek = this.date.toLocaleDateString("en-US", {
       weekday: "long",
     });
-    const month = this.date.toLocaleDateString("en-US", { month: "long" });
+    const month = this.date.toLocaleDateString("en-US", { month: "short" });
     const dayOfMonth = this.buildDayMonthPostfix(this.date.getDate());
 
     return `${dayOfWeek}, ${month} ${dayOfMonth}`;
+  }
+
+  weekday() {
+    const dayOfWeek = this.date.toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+
+    return `${dayOfWeek}`;
   }
 
   time() {

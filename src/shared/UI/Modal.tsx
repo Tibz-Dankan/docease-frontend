@@ -23,7 +23,7 @@ interface ModalProps {
 const ModalOverlay: React.FC<ModalOverlayProps> = (props) => {
   return (
     <div
-      className="fixed top-0 left-0 z-[70] h-full w-full bg-gray-500 opacity-60"
+      className="fixed top-0 left-0 z-[70] h-full w-full bg-gray-500 opacity-20"
       onClick={props.onClose}
     />
   );
@@ -33,8 +33,8 @@ const ModalContent: React.FC<ModalContentProps> = (props) => {
   return (
     <div
       className={twMerge(
-        `bg-gray-light-1 relative z-[1000] rounded-lg bg-gray-50 p-0 
-         shadow-2xl transition-all`,
+        `bg-gray-light-1 relative z-[1000] rounded-lg bg-white p-0 
+         shadow-xl transition-all`,
         props.className
       )}
     >

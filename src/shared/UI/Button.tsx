@@ -5,6 +5,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   className?: string;
   label: string;
   type: "submit" | "reset" | "button";
+  onClick?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = (props) => {
@@ -16,6 +17,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
           props.className
         )}
         type={props.type}
+        onClick={props.onClick}
       >
         {props.label}
       </button>

@@ -5,6 +5,7 @@ import { Button } from "../../shared/UI/Button";
 import { FaStethoscope } from "react-icons/fa";
 import { Modal } from "../../shared/UI/Modal";
 import { AppDate } from "../../utils/appDate";
+import { PostAppointment } from "../../appointment/UI/PostAppointment";
 
 interface CardProps {
   userId: string;
@@ -21,6 +22,8 @@ interface CardProps {
 export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
   const lastSeenAtDate = new AppDate(props.lastSeenAt).dayMonthYear();
   const lastSeenAtTime = new AppDate(props.lastSeenAt).time();
+  const doctorName = `${props.firstName} ${props.lastName}`;
+  const doctorId = props.userId;
 
   return (
     <Fragment>
@@ -100,7 +103,9 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
             }
             className=""
           >
-            <div>Make Appointment model</div>
+            <div>
+              <PostAppointment doctorName={doctorName} doctorId={doctorId} />
+            </div>
           </Modal>
         </div>
       </div>

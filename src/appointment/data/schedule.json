@@ -1,0 +1,32 @@
+{
+  "schedule": [
+    {
+      "day": "Tuesday",
+      "timeSlots": [
+        { "start": "9:00AM", "end": "10:00AM" },
+        { "start": "2:00PM", "end": "4:00PM" }
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "timeSlots": [
+        { "start": "10:00AM", "end": "12:00PM" },
+        { "start": "4:00PM", "end": "5:00PM" }
+      ]
+    },
+    {
+      "day": "Friday",
+      "timeSlots": [
+        { "start": "9:00AM", "end": "10:00AM" },
+        { "start": "2:00PM", "end": "4:00PM" }
+      ]
+    },
+    {
+      "day": "Saturday",
+      "timeSlots": [
+        { "start": "8:00AM", "end": "10:00AM" },
+        { "start": "1:00PM", "end": "5:00PM" }
+      ]
+    }
+  ]
+}
