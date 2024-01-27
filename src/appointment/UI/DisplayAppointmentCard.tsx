@@ -7,6 +7,8 @@ import { truncateString } from "../../utils/truncateString";
 import { elapsedTime } from "../../utils/elapsedTime";
 import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallStatus";
 import { TUser } from "../../types/appointments";
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface CardProps {
   appointment: TAppointment;
@@ -36,11 +38,21 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
     return `${elapseTime} past`;
   };
 
-  //   bg-[#868e96]s
+  const getStatusBgColor = (status: string): string => {
+    if (status === "pending") return "bg-gray-300";
+    if (status === "edited") return "bg-yellow-300";
+    if (status === "approved") return "bg-blue-300";
+    if (status === "done") return "bg-green-300";
+
+    return "bg-gray-300";
+  };
 
   return (
     <Fragment>
-      <div className="w-full p-4 relative rounded-md shadow-md bg-white pt-10">
+      <div
+        className="w-full p-4 relative rounded-md shadow-md
+        bg-white pt-10 space-y-2"
+      >
         <div
           className={`${overallStatusColor} ${overallStatusBgColor}
            text-center absolute top-0 left-0 w-full rounded-t-md 
@@ -49,56 +61,92 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
           {overallStatusTitle}
         </div>
 
-        <div className="flex items-center justify-center">
+        <div
+          className="flex items-center justify-center text-sm
+         text-gray-800"
+        >
           <span className="mr-2">Status:</span>
           {appointment.statuses.map((status, index) => (
-            <span key={index} className="first-letter:uppercase">
+            <span
+              key={index}
+              className={`first-letter:uppercase ${getStatusBgColor(
+                status.status
+              )} text-[14px] rounded-xl px-2`}
+            >
               {status.status}
             </span>
           ))}
         </div>
 
-        <div className="flex items-center justify-center">
-          <div className="flex flex-col items-center justify-center gap-2">
-            <span>{appointmentDate}</span>
-            <span>{getAppointmentElapseTime(appointment.startsAt)}</span>
+        <div className="flex items-center justify-center gap-4">
+          <div
+            className="flex flex-col items-center justify-center
+             gap-0 bg-gray-300 p-2 rounded text-sm text-primary"
+          >
+            <span className="font-semibold text-center">{appointmentDate}</span>
+            <span className="">
+              {getAppointmentElapseTime(appointment.startsAt)}
+            </span>
           </div>
-          <div className="flex items-center justify-center gap-4">
+          <div
+            className="flex items-center justify-center gap-4
+            text-gray-800 text-sm"
+          >
             <p className="flex flex-col justify-center gap-2">
-              <span>Start Time</span>
-              <span>{new AppDate(appointment.startsAt).time()}</span>
+              <span>Start</span>
+              <span
+                className="bg-gray-300 px-2 py-1 rounded
+                 text-[14px] text-primary font-semibold"
+              >
+                {new AppDate(appointment.startsAt).time()}
+              </span>
             </p>
             <p className="flex flex-col justify-center gap-2">
-              <span>End Time</span>
-              <span>{new AppDate(appointment.endsAt).time()}</span>
+              <span>End</span>
+              <span
+                className="bg-gray-300 px-2 py-1 rounded
+                 text-[14px] text-primary font-semibold"
+              >
+                {new AppDate(appointment.endsAt).time()}
+              </span>
             </p>
           </div>
         </div>
 
         <div>
-          <p className="flex items-start justify-start">
-            <span className="mr-4">Subject:</span>
-            <span>{truncateString(appointment.subject)}</span>
+          <p
+            className="flex items-start justify-start
+            text-gray-600"
+          >
+            <span className="mr-2">Subject:</span>
+            <span className="text-gray-800 italic">
+              {truncateString(appointment.subject)}
+            </span>
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-4">
+        <div
+          className="flex items-center justify-center gap-4
+          border-[1px] border-gray-300 rounded-md p-4
+          text-gray-800"
+        >
           <div>
             {appointment.doctor?.imageUrl && (
               <img
                 src={appointment.doctor?.imageUrl}
                 alt={appointment.doctor?.firstName}
+                className="w-24 h-24 rounded-md"
               />
             )}
             {!appointment.doctor?.imageUrl && (
               <span
-                className="w-24 h-24 bg-gray-500 flex items-center
-                justify-center rounded-md shadow"
+                className="w-16 h-16 bg-gray-300 flex items-center
+                justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
                   value={{
-                    size: "3.4rem",
-                    color: "#f1f3f5",
+                    size: "2rem",
+                    color: "#868e96",
                   }}
                 >
                   <IoPerson />
@@ -106,14 +154,53 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
               </span>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <span>{`Dr. ${doctor.firstName} ${doctor.lastName}`}</span>
-            <span>Last seen: {`${elapsedTime(lastSeenAt)} ago`}</span>
+          <div className="flex flex-col items-start">
+            <span className="text-xl">{`Dr. ${doctor.firstName} ${doctor.lastName}`}</span>
+            <span className="text-sm">
+              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
+            </span>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-4">
-          <span>Edit</span>
-          <span>Delete</span>
+
+        <div className="text-gray-800 text-sm">
+          <p className="flex items-center justify-center gap-2">
+            <span>Made on</span>
+            <span>{new AppDate(appointment.createdAt!).dayMonthYear()},</span>
+            <span>{new AppDate(appointment.createdAt!).time()}</span>
+          </p>
+        </div>
+
+        <div
+          className="flex items-center justify-center gap-4
+         text border-t-[1px] border-gray-300 pt-4 text-gray-700
+         text-sm"
+        >
+          <p className="flex items-center justify-center gap-1">
+            <span className="grid h-7 w-7 place-items-center">
+              <IconContext.Provider
+                value={{
+                  size: "1rem",
+                  color: "#5BC0DE",
+                }}
+              >
+                <FiEdit />
+              </IconContext.Provider>
+            </span>
+            <span>Edit</span>
+          </p>
+          <p className="flex items-center justify-center gap-1">
+            <span className="w-auto h-auto">
+              <IconContext.Provider
+                value={{
+                  size: "1rem",
+                  color: "#D9534F",
+                }}
+              >
+                <RiDeleteBin6Line />
+              </IconContext.Provider>
+            </span>
+            <span>Delete</span>
+          </p>
         </div>
       </div>
     </Fragment>
