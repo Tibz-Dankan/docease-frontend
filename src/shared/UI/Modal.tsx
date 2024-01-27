@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { twMerge } from "tailwind-merge";
 import { IconContext } from "react-icons";
 import { IoClose } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { onOpenModal, onCloseModal } from "../../store/actions/modal";
 
 interface ModalOverlayProps {
   onClose: () => void;
@@ -57,10 +59,17 @@ const ModalContent: React.FC<ModalContentProps> = (props) => {
 };
 
 export const Modal: React.FC<ModalProps> = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpenModal: boolean = useSelector((state: any) => state.modal.isOpen);
+  const [isOpen, setIsOpen] = useState(isOpenModal);
+  const dispatch: any = useDispatch();
 
-  const onOpenHandler = () => setIsOpen(() => !isOpen);
-  const onCloseHandler = () => setIsOpen(() => !isOpen);
+  const onOpenHandler = () => {
+    setIsOpen(() => !isOpen), dispatch(onOpenModal());
+  };
+
+  const onCloseHandler = () => {
+    setIsOpen(() => !isOpen), dispatch(onCloseModal());
+  };
 
   const createAppendPortalElement = () => {
     const portalElement = document.createElement("div");

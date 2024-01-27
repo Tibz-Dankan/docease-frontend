@@ -11,6 +11,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Modal } from "../../shared/UI/Modal";
 import { PatientEditAppointment } from "./PatientEditAppointment";
+import { PatientDeleteAppointment } from "./PatientDeleteAppointment";
 
 interface CardProps {
   appointment: TAppointment;
@@ -179,7 +180,10 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
         >
           <Modal
             openModalElement={
-              <p className="flex items-center justify-center gap-1">
+              <p
+                className="flex items-center justify-center gap-1
+                cursor-pointer"
+              >
                 <span className="grid h-7 w-7 place-items-center">
                   <IconContext.Provider
                     value={{
@@ -197,19 +201,29 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
           >
             <PatientEditAppointment appointment={appointment} />
           </Modal>
-          <p className="flex items-center justify-center gap-1">
-            <span className="w-auto h-auto">
-              <IconContext.Provider
-                value={{
-                  size: "1rem",
-                  color: "#D9534F",
-                }}
+          <Modal
+            openModalElement={
+              <p
+                className="flex items-center justify-center gap-1
+                cursor-pointer"
               >
-                <RiDeleteBin6Line />
-              </IconContext.Provider>
-            </span>
-            <span>Delete</span>
-          </p>
+                <span className="w-auto h-auto">
+                  <IconContext.Provider
+                    value={{
+                      size: "1rem",
+                      color: "#D9534F",
+                    }}
+                  >
+                    <RiDeleteBin6Line />
+                  </IconContext.Provider>
+                </span>
+                <span>Delete</span>
+              </p>
+            }
+            className=""
+          >
+            <PatientDeleteAppointment appointment={appointment} />
+          </Modal>
         </div>
       </div>
     </Fragment>
