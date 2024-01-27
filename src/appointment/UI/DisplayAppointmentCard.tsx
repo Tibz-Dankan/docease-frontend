@@ -119,10 +119,10 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
         <div>
           <p
             className="flex items-start justify-start
-            text-gray-600"
+            text-gray-600 py-2"
           >
-            <span className="mr-2">Subject:</span>
-            <span className="text-gray-800 italic">
+            <span className="mr-2 font-thin">Subject:</span>
+            <span className="text-gray-800 italics">
               {truncateString(appointment.subject)}
             </span>
           </p>
