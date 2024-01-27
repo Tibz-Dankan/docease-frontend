@@ -63,7 +63,6 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: updateAppointment,
     onSuccess: (response: any) => {
-      console.log("response--->", response);
       dispatch(
         showCardNotification({
           type: "success",
@@ -178,8 +177,8 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
             <Calendar
               onChange={appointmentDateChangeHandler}
               value={appointmentDate}
-              className="w-full border-none bg-gray-300 px-0 text-lg
-               rounded h-[300]"
+              className="w-full border-none bg-gray-300 text-lg
+               rounded h-[300] px-2"
               tileContent={tileContent}
               tileClassName="relative"
             />

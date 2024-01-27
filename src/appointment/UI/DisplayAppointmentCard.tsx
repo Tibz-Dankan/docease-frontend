@@ -131,9 +131,17 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
         <div
           className="flex items-center justify-center gap-4
           border-[1px] border-gray-300 rounded-md p-4
-          text-gray-800"
+          text-gray-800 relative"
         >
-          <div>
+          <div className="absolute top-0 right-1">
+            <span
+              className="text-[12px] uppercase text-[#1098ad]
+              font-semibold"
+            >
+              #{appointment.doctor?.role}
+            </span>
+          </div>
+          <div className="">
             {appointment.doctor?.imageUrl && (
               <img
                 src={appointment.doctor?.imageUrl}
