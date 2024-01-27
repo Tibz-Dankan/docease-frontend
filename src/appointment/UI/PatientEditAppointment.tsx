@@ -10,28 +10,42 @@ import {
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { postAppointment } from "../API";
+import { updateAppointment } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
+import { TAppointment } from "../../types/appointments";
 
 interface TileContentProps {
   date: any;
   view?: any;
 }
 
-interface PostAppointmentProps {
-  doctorName: string;
-  doctorId: string;
+interface PatientEditAppointmentProps {
+  appointment: TAppointment;
 }
 
-export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
-  const [appointmentDate, setAppointmentDate] = useState(new Date(Date.now()));
-  const [appointmentStartTime, setAppointmentStartTime] = useState("");
-  const [appointmentEndTime, setAppointmentEndTime] = useState("");
-  const [appointmentSubject, setAppointmentSubject] = useState("");
-  const [selectedAppointmentDate, setSelectedAppointmentDate] = useState("");
+export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
+  props
+) => {
+  const appointment = props.appointment;
+  const [appointmentDate, setAppointmentDate] = useState(
+    new Date(appointment.startsAt)
+  );
+  const [appointmentStartTime, setAppointmentStartTime] = useState(
+    new AppDate(appointment.startsAt).time24hourFormat()
+  );
+  const [appointmentEndTime, setAppointmentEndTime] = useState(
+    new AppDate(appointment.endsAt).time24hourFormat()
+  );
+  const [appointmentSubject, setAppointmentSubject] = useState(
+    appointment.subject
+  );
+  const [selectedAppointmentDate, setSelectedAppointmentDate] = useState(
+    new Date(appointment.startsAt)
+  );
+  const doctorName = `${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`;
 
-  // TODO: to get appointment schedule from the api
+  //   TODO: to get appointment schedules from the api
   const appointmentAvailabilitySchedule = schedules.schedule;
 
   const appointmentDateChangeHandler = (date: any) => {
@@ -44,12 +58,10 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
 
   const weekDay = new AppDate(selectedAppointmentDate).weekday();
   const dayMonthYear = new AppDate(selectedAppointmentDate).dayMonthYear();
-  const selectedDate = selectedAppointmentDate
-    ? `${weekDay}, ${dayMonthYear}`
-    : "Appointment Date";
+  const selectedDate = `${weekDay}, ${dayMonthYear}`;
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: postAppointment,
+    mutationFn: updateAppointment,
     onSuccess: (response: any) => {
       console.log("response--->", response);
       dispatch(
@@ -70,9 +82,9 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
     },
   });
 
-  const appointmentPostHandler = () => {
-    console.log("Submitting...");
-    const doctorId = props.doctorId;
+  const appointmentEditHandler = () => {
+    const appointmentId = appointment.appointmentId;
+    const doctorId = appointment.doctorId;
     const patientId = auth.user?.userId as string;
     const startsAt = new AppDate(appointmentDate).addTimeToDate(
       appointmentStartTime
@@ -96,6 +108,7 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
     }
 
     mutate({
+      appointmentId: appointmentId,
       patientId: patientId,
       doctorId: doctorId,
       subject: subject,
@@ -128,7 +141,7 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
             className="text-lg border-b-[1px] border-gray-300 pb-2
             text-primary font-semibold"
           >
-            <p>{"Dr. " + props.doctorName + " Appointment Schedule"}</p>
+            <p>{"Dr. " + doctorName + " Appointment Schedule"}</p>
           </div>
           <div
             className=" border-b-[1px] border-gray-300
@@ -229,9 +242,9 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
         <div>
           {!isLoading && (
             <Button
-              label="Make Appointment"
+              label="Save"
               type="button"
-              onClick={() => appointmentPostHandler()}
+              onClick={() => appointmentEditHandler()}
             />
           )}
           {isLoading && (

@@ -1,4 +1,5 @@
 export type TPostAppointment = {
+  appointmentId?: string;
   patientId: string;
   doctorId: string;
   subject: string;

@@ -9,6 +9,8 @@ import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallSt
 import { TUser } from "../../types/appointments";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { Modal } from "../../shared/UI/Modal";
+import { PatientEditAppointment } from "./PatientEditAppointment";
 
 interface CardProps {
   appointment: TAppointment;
@@ -71,7 +73,7 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
               key={index}
               className={`first-letter:uppercase ${getStatusBgColor(
                 status.status
-              )} text-[14px] rounded-xl px-2`}
+              )} text-[14px] rounded-xl px-2 mr-1`}
             >
               {status.status}
             </span>
@@ -175,19 +177,26 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
          text border-t-[1px] border-gray-300 pt-4 text-gray-700
          text-sm"
         >
-          <p className="flex items-center justify-center gap-1">
-            <span className="grid h-7 w-7 place-items-center">
-              <IconContext.Provider
-                value={{
-                  size: "1rem",
-                  color: "#5BC0DE",
-                }}
-              >
-                <FiEdit />
-              </IconContext.Provider>
-            </span>
-            <span>Edit</span>
-          </p>
+          <Modal
+            openModalElement={
+              <p className="flex items-center justify-center gap-1">
+                <span className="grid h-7 w-7 place-items-center">
+                  <IconContext.Provider
+                    value={{
+                      size: "1rem",
+                      color: "#5BC0DE",
+                    }}
+                  >
+                    <FiEdit />
+                  </IconContext.Provider>
+                </span>
+                <span>Edit</span>
+              </p>
+            }
+            className=""
+          >
+            <PatientEditAppointment appointment={appointment} />
+          </Modal>
           <p className="flex items-center justify-center gap-1">
             <span className="w-auto h-auto">
               <IconContext.Provider

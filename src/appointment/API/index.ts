@@ -32,6 +32,38 @@ export const postAppointment = async ({
   return await response.json();
 };
 
+export const updateAppointment = async ({
+  appointmentId,
+  patientId,
+  doctorId,
+  subject,
+  startsAt,
+  endsAt,
+  token,
+}: TPostAppointmentAuthorized) => {
+  const response = await fetch(`${url}/appointments/update/${appointmentId}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      patientId,
+      doctorId,
+      subject,
+      startsAt,
+      endsAt,
+    }),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const getAppointmentsByPatient = async ({
   patientId,
   token,
