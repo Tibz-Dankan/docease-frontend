@@ -15,9 +15,6 @@ interface CardProps {
 export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
   const appointment = props.appointment;
 
-  // TODO: to dynamically change the color of the overallStatus depending the status
-  // TODO: to dynamically change bg color of the status
-
   const weekday = new AppDate(appointment.startsAt).weekday();
   const dayMonthYear = new AppDate(appointment.startsAt).dayMonthYear();
   const appointmentDate = `${weekday}, ${dayMonthYear}`;
