@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { PatientDisplayAppointmentCard } from "./PatientDisplayAppointmentCard";
+import { DoctorDisplayAppointmentCard } from "./DoctorDisplayAppointmentCard";
 import { useSelector, useDispatch } from "react-redux";
 import { TAuthState } from "../../types/auth";
 import { useQuery } from "@tanstack/react-query";
@@ -7,11 +7,11 @@ import {
   showCardNotification,
   hideCardNotification,
 } from "../../store/reducers/notification";
-import { getAppointmentsByPatient } from "../API";
+import { getAppointmentsByDoctor } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAppointment } from "../../types/appointments";
 
-export const PatientAppointmentList: React.FC = () => {
+export const DoctorAppointmentList: React.FC = () => {
   const dispatch: any = useDispatch();
 
   const token = useSelector(
@@ -23,9 +23,8 @@ export const PatientAppointmentList: React.FC = () => {
   ) as string;
 
   const { isLoading, data } = useQuery({
-    queryKey: [`patient-${userId}`],
-    queryFn: () =>
-      getAppointmentsByPatient({ patientId: userId, token: token }),
+    queryKey: [`doctor-${userId}`],
+    queryFn: () => getAppointmentsByDoctor({ doctorId: userId, token: token }),
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
@@ -48,7 +47,7 @@ export const PatientAppointmentList: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-16">
         {appointments.map((appointment, index) => (
           <div key={index}>
-            <PatientDisplayAppointmentCard appointment={appointment} />
+            <DoctorDisplayAppointmentCard appointment={appointment} />
           </div>
         ))}
       </div>

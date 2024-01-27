@@ -17,7 +17,7 @@ interface CardProps {
   appointment: TAppointment;
 }
 
-export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
+export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
   const appointment = props.appointment;
 
   const weekday = new AppDate(appointment.startsAt).weekday();

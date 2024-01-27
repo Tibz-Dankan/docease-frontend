@@ -90,6 +90,32 @@ export const getAppointmentsByPatient = async ({
   return await response.json();
 };
 
+export const getAppointmentsByDoctor = async ({
+  doctorId,
+  token,
+}: {
+  doctorId: string;
+  token: string;
+}) => {
+  const response = await fetch(
+    `${url}/appointments/get-by-doctor?doctorId=${doctorId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const deleteAppointment = async ({
   appointmentId,
   token,
