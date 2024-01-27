@@ -59,7 +59,7 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
         <div
           className={`${overallStatusColor} ${overallStatusBgColor}
            text-center absolute top-0 left-0 w-full rounded-t-md 
-           uppercase text-sm p-2`}
+           uppercase text-sm p-2 font-semibold`}
         >
           {overallStatusTitle}
         </div>
