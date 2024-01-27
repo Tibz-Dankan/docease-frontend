@@ -27,9 +27,8 @@ export const DisplayAppointmentCard: React.FC<CardProps> = (props) => {
 
   const overallStatus = getAppointmentOverallStatus(appointment);
   const overallStatusTitle = overallStatus.overallStatus;
-  //   const overallStatusBgColor = `bg-[${overallStatus.bgColor}]`;
-  const overallStatusBgColor = "bg-[" + overallStatus.bgColor + "]";
-  const overallStatusColor = `text-[${overallStatus.color}]`;
+  const overallStatusBgColor = overallStatus.bgColor;
+  const overallStatusColor = overallStatus.color;
 
   const getAppointmentElapseTime = (dateStr: string): string => {
     const elapseTime = elapsedTime(dateStr) as string;
