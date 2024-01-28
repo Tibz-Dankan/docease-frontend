@@ -28,7 +28,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
   const dayMonthYear = new AppDate(appointment.startsAt).dayMonthYear();
   const appointmentDate = `${weekday}, ${dayMonthYear}`;
 
-  const lastSeenAt = appointment.patient?.accessTokens[0].createdAt as string;
+  const lastSeenAt = appointment.patient?.accessTokens[0]?.createdAt as string;
   const patient = appointment?.patient as TUser;
 
   const overallStatus = getAppointmentOverallStatus(appointment);
@@ -72,22 +72,22 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
 
         <div
           className="flex items-center justify-center text-sm
-         text-gray-800"
+          text-gray-800 mb-4 border-b-[1px] border-gray-300
+          pb-4"
         >
-          <span className="mr-2">Status:</span>
           {appointment.statuses.map((status, index) => (
             <span
               key={index}
               className={`first-letter:uppercase ${getStatusBgColor(
                 status.status
-              )} text-[14px] rounded-xl px-2 mr-1`}
+              )} text-[12px] rounded-xl px-2 mr-1`}
             >
               {status.status}
             </span>
           ))}
         </div>
 
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-between gap-4">
           <div
             className="flex flex-col items-center justify-center
              gap-0 bg-gray-300 p-2 rounded text-sm text-primary"
