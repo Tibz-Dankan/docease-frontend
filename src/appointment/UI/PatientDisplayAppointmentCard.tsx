@@ -42,7 +42,7 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
   };
 
   const getStatusBgColor = (status: string): string => {
-    if (status === "pending") return "bg-cyan-300";
+    if (status === "pending") return "bg-gray-300";
     if (status === "edited") return "bg-yellow-300";
     if (status === "approved") return "bg-blue-300";
     if (status === "done") return "bg-green-300";
@@ -68,15 +68,16 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
 
         <div
           className="flex items-center justify-center text-sm
-         text-gray-800"
+          text-gray-800 mb-4 border-b-[1px] border-gray-300
+          pb-4"
         >
-          <span className="mr-2">Status:</span>
+          {/* <span className="mr-2">Status:</span> */}
           {appointment.statuses.map((status, index) => (
             <span
               key={index}
               className={`first-letter:uppercase ${getStatusBgColor(
                 status.status
-              )} text-[14px] rounded-xl px-2 mr-1`}
+              )} text-[12px] rounded-xl px-2 mr-1`}
             >
               {status.status}
             </span>

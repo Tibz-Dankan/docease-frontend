@@ -10,7 +10,7 @@ import {
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { updateAppointment } from "../API";
+import { rescheduleAppointment } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { TAppointment } from "../../types/appointments";
@@ -61,7 +61,7 @@ export const DoctorRescheduleAppointment: React.FC<
   const selectedDate = `${weekDay}, ${dayMonthYear}`;
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: updateAppointment,
+    mutationFn: rescheduleAppointment,
     onSuccess: (response: any) => {
       dispatch(
         showCardNotification({
@@ -81,10 +81,10 @@ export const DoctorRescheduleAppointment: React.FC<
     },
   });
 
-  const appointmentScheduleHandler = () => {
+  const appointmentRescheduleHandler = () => {
     const appointmentId = appointment.appointmentId;
     const doctorId = appointment.doctorId;
-    const patientId = auth.user?.userId as string;
+    const patientId = appointment.patientId;
     const startsAt = new AppDate(appointmentDate).addTimeToDate(
       appointmentStartTime
     );
@@ -243,7 +243,7 @@ export const DoctorRescheduleAppointment: React.FC<
             <Button
               label="Save"
               type="button"
-              onClick={() => appointmentScheduleHandler()}
+              onClick={() => appointmentRescheduleHandler()}
             />
           )}
           {isLoading && (

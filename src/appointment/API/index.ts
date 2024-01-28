@@ -139,6 +139,41 @@ export const deleteAppointment = async ({
   return await response.json();
 };
 
+export const rescheduleAppointment = async ({
+  appointmentId,
+  patientId,
+  doctorId,
+  subject,
+  startsAt,
+  endsAt,
+  token,
+}: TPostAppointmentAuthorized) => {
+  const response = await fetch(
+    `${url}/appointments/reschedule/${appointmentId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        patientId,
+        doctorId,
+        subject,
+        startsAt,
+        endsAt,
+      }),
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const cancelAppointment = async ({
   appointmentId,
   doctorsComment,

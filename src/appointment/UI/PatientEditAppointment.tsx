@@ -84,7 +84,7 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
   const appointmentEditHandler = () => {
     const appointmentId = appointment.appointmentId;
     const doctorId = appointment.doctorId;
-    const patientId = auth.user?.userId as string;
+    const patientId = appointment.patientId;
     const startsAt = new AppDate(appointmentDate).addTimeToDate(
       appointmentStartTime
     );
