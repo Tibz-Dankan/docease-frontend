@@ -50,6 +50,8 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
     if (status === "edited") return "bg-yellow-300";
     if (status === "approved") return "bg-blue-300";
     if (status === "done") return "bg-green-300";
+    if (status === "cancelled") return "bg-red-300";
+    if (status === "rescheduled") return "bg-cyan-300";
 
     return "bg-gray-300";
   };

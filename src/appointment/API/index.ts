@@ -166,3 +166,26 @@ export const cancelAppointment = async ({
 
   return await response.json();
 };
+
+export const approveAppointment = async ({
+  appointmentId,
+  token,
+}: {
+  appointmentId: string;
+  token: string;
+}) => {
+  const response = await fetch(`${url}/appointments/approve/${appointmentId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
