@@ -1,0 +1,116 @@
+{
+  "schedules": [
+    {
+      "scheduleId": "1",
+      "userId": "user1",
+      "weekday": "Monday",
+      "weekdayNum": 1,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st1",
+          "scheduleId": "1",
+          "start": "09:00 AM",
+          "end": "12:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st2",
+          "scheduleId": "1",
+          "start": "02:00 PM",
+          "end": "05:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "3",
+      "userId": "user3",
+      "weekday": "Wednesday",
+      "weekdayNum": 3,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st6",
+          "scheduleId": "3",
+          "start": "08:00 AM",
+          "end": "11:00 AM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st7",
+          "scheduleId": "3",
+          "start": "01:00 PM",
+          "end": "04:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st8",
+          "scheduleId": "3",
+          "start": "06:00 PM",
+          "end": "09:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "6",
+      "userId": "user6",
+      "weekday": "Saturday",
+      "weekdayNum": 6,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st12",
+          "scheduleId": "6",
+          "start": "10:00 AM",
+          "end": "01:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st13",
+          "scheduleId": "6",
+          "start": "03:00 PM",
+          "end": "06:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "7",
+      "userId": "user7",
+      "weekday": "Sunday",
+      "weekdayNum": 7,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st14",
+          "scheduleId": "7",
+          "start": "01:00 PM",
+          "end": "04:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st15",
+          "scheduleId": "7",
+          "start": "05:00 PM",
+          "end": "08:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    }
+  ]
+}

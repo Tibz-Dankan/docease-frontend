@@ -1,0 +1,160 @@
+{
+  "schedules": [
+    {
+      "scheduleId": "1",
+      "userId": "user1",
+      "weekday": "Monday",
+      "weekdayNum": 1,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st1",
+          "scheduleId": "1",
+          "start": "09:00 AM",
+          "end": "12:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st2",
+          "scheduleId": "1",
+          "start": "02:00 PM",
+          "end": "05:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "2",
+      "userId": "user2",
+      "weekday": "Tuesday",
+      "weekdayNum": 2,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st3",
+          "scheduleId": "2",
+          "start": "11:00 AM",
+          "end": "02:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st4",
+          "scheduleId": "2",
+          "start": "03:00 PM",
+          "end": "06:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st5",
+          "scheduleId": "2",
+          "start": "07:00 PM",
+          "end": "10:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "4",
+      "userId": "user4",
+      "weekday": "Thursday",
+      "weekdayNum": 4,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st9",
+          "scheduleId": "4",
+          "start": "12:00 PM",
+          "end": "03:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st10",
+          "scheduleId": "4",
+          "start": "04:00 PM",
+          "end": "07:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "5",
+      "userId": "user5",
+      "weekday": "Friday",
+      "weekdayNum": 5,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st11",
+          "scheduleId": "5",
+          "start": "02:00 PM",
+          "end": "05:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "6",
+      "userId": "user6",
+      "weekday": "Saturday",
+      "weekdayNum": 6,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st12",
+          "scheduleId": "6",
+          "start": "10:00 AM",
+          "end": "01:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st13",
+          "scheduleId": "6",
+          "start": "03:00 PM",
+          "end": "06:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "scheduleId": "7",
+      "userId": "user7",
+      "weekday": "Sunday",
+      "weekdayNum": 7,
+      "createdAt": "2024-01-29T12:00:00.000Z",
+      "updatedAt": "2024-01-29T12:00:00.000Z",
+      "scheduleTime": [
+        {
+          "scheduleTimeId": "st14",
+          "scheduleId": "7",
+          "start": "01:00 PM",
+          "end": "04:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        },
+        {
+          "scheduleTimeId": "st15",
+          "scheduleId": "7",
+          "start": "05:00 PM",
+          "end": "08:00 PM",
+          "createdAt": "2024-01-29T12:00:00.000Z",
+          "updatedAt": "2024-01-29T12:00:00.000Z"
+        }
+      ]
+    }
+  ]
+}
