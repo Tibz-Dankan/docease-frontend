@@ -122,7 +122,7 @@ export const updateScheduleTime = async ({
   token: string;
 }) => {
   const response = await fetch(`${url}/schedules/update-schedule-time`, {
-    method: "POST",
+    method: "PATCH",
     body: JSON.stringify({
       scheduleTimeId,
       start,

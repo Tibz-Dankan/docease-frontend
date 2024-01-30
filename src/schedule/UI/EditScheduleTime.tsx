@@ -1,17 +1,16 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   showCardNotification,
   hideCardNotification,
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { postScheduleTime } from "../API";
+import { updateScheduleTime } from "../API";
 import { Loader } from "../../shared/UI/Loader";
-import { Button } from "../../shared/UI/Button";
 import { TAuthState } from "../../types/auth";
 
 interface EditScheduleTimeTimeProps {
-  scheduleId: string;
+  scheduleTimeId: string;
   start: string;
   end: string;
 }
@@ -24,8 +23,11 @@ export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
   const auth = useSelector((state: TAuthState) => state.auth);
   const accessToken = auth.accessToken as string;
 
+  const [startTime, setStartTime] = useState(props.start);
+  const [endTime, setEndTime] = useState(props.end);
+
   const { isLoading, mutate } = useMutation({
-    mutationFn: postScheduleTime,
+    mutationFn: updateScheduleTime,
     onSuccess: (response: any) => {
       console.log("response", response);
     },
@@ -37,36 +39,51 @@ export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
     },
   });
 
-  const postScheduleTimeHandler = () => {
-    const scheduleId = props.scheduleId;
-    const startTime = props.start;
-    const endTime = props.end;
+  useEffect(() => {
+    const editScheduleTimeHandler = () => {
+      const scheduleTimeId = props.scheduleTimeId;
+      const startTime = props.start;
+      const endTime = props.end;
 
-    if (!scheduleId || !startTime || !endTime) return;
+      if (!scheduleTimeId || !startTime || !endTime) return;
 
-    try {
-      mutate({
-        scheduleId: scheduleId,
-        start: startTime,
-        end: endTime,
-        token: accessToken,
-      });
-    } catch (err: any) {
-      console.log(err.message);
-    }
-  };
+      try {
+        mutate({
+          scheduleTimeId: scheduleTimeId,
+          start: startTime,
+          end: endTime,
+          token: accessToken,
+        });
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    };
+
+    editScheduleTimeHandler();
+  }, [startTime, endTime]);
 
   return (
     <Fragment>
-      <div className="flex items-center justify-start gap-4">
-        {/* consider using an icon for this operation */}
-        <Button
-          label={"delete"}
-          type="button"
-          onClick={() => postScheduleTimeHandler()}
-          aria-disabled={isLoading}
-        />
-        {isLoading && <Loader className="w-4 h-4 stroke-gray-500" />}
+      <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-center gap-2">
+          <input
+            type="time"
+            value={startTime}
+            onChange={(event) => setStartTime(() => event.target.value)}
+            className="bg-gray-300 outline-none border-[2px]
+             border-gray-300 focus:border-primary rounded p-1
+             text-gray-800 text-sm"
+          />
+          <input
+            type="time"
+            value={endTime}
+            onChange={(event) => setEndTime(() => event.target.value)}
+            className="bg-gray-300 outline-none border-[2px]
+            border-gray-300 focus:border-primary rounded p-1
+            text-gray-800 text-sm"
+          />
+        </div>
+        {isLoading && <Loader className="w-4 h-4 stroke-gray-600" />}
       </div>
     </Fragment>
   );

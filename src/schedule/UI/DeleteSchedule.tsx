@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { deleteSchedule } from "../API";
 import { Loader } from "../../shared/UI/Loader";
-import { Button } from "../../shared/UI/Button";
 import { TAuthState } from "../../types/auth";
+import { IconContext } from "react-icons";
+import { MdDeleteOutline } from "react-icons/md";
 
 interface DeleteScheduleProps {
   scheduleId: string;
@@ -50,15 +51,26 @@ export const DeleteSchedule: React.FC<DeleteScheduleProps> = (props) => {
 
   return (
     <Fragment>
-      <div className="flex items-center justify-start gap-4">
-        {/* consider using an icon for this */}
-        <Button
-          label={"Delete"}
-          type="button"
+      <div className="flex items-center justify-start gap-2 relative">
+        <span
           onClick={() => deleteScheduleHandler()}
-          aria-disabled={isLoading}
-        />
-        {isLoading && <Loader className="w-4 h-4 stroke-gray-500" />}
+          className="cursor-pointer"
+        >
+          <IconContext.Provider
+            value={{
+              size: "1.3rem",
+              color: "#343a40",
+            }}
+          >
+            <MdDeleteOutline />
+          </IconContext.Provider>
+        </span>
+        {isLoading && (
+          <Loader
+            className="w-4 h-4 stroke-red-500 
+             absolute top-[2px] -right-4"
+          />
+        )}
       </div>
     </Fragment>
   );

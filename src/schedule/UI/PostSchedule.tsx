@@ -58,8 +58,9 @@ export const PostSchedule: React.FC<PostScheduleProps> = (props) => {
           type="button"
           onClick={() => postScheduleHandler()}
           aria-disabled={isLoading}
+          className="text-gray-800 bg-transparent first-letter:uppercase"
         />
-        {isLoading && <Loader className="w-4 h-4 stroke-gray-500" />}
+        {isLoading && <Loader className="w-4 h-4 stroke-primary" />}
       </div>
     </Fragment>
   );
