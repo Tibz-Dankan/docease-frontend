@@ -1,25 +1,5 @@
 import { Schedule } from "../types/schedule";
-
-const getWeekDay = (weekdayNum: number): string | null => {
-  switch (weekdayNum) {
-    case 1:
-      return "monday";
-    case 2:
-      return "tuesday";
-    case 3:
-      return "wednesday";
-    case 4:
-      return "thursday";
-    case 5:
-      return "friday";
-    case 6:
-      return "saturday";
-    case 7:
-      return "seven";
-    default:
-      return null;
-  }
-};
+import DefaultScheduleData from "../schedule/data/schedule.json";
 
 const findSchedule = (
   schedules: Schedule[],
@@ -29,31 +9,15 @@ const findSchedule = (
 };
 
 export const buildScheduleList = (schedules: Schedule[]): Schedule[] => {
-  const scheduleList: Schedule[] = [];
+  const defaultSchedules: any = DefaultScheduleData.schedules;
 
-  const defaultSchedule: Schedule = {
-    scheduleId: "",
-    userId: "",
-    weekday: "",
-    weekdayNum: 0,
-    createdAt: "",
-    updatedAt: "",
-    scheduleTime: [],
-  };
-  const weekdayNumList = [1, 2, 3, 4, 5, 6, 7];
+  defaultSchedules.map((schedule: Schedule, index: number) => {
+    const sched = findSchedule(schedules, schedule.weekdayNum);
 
-  weekdayNumList.map((weekdayNum) => {
-    const schedule = findSchedule(schedules, weekdayNum);
-    if (schedule) {
-      scheduleList.push(schedule);
-      return;
-    }
+    if (!sched) return;
 
-    if (!schedule) {
-      defaultSchedule.weekday = getWeekDay(weekdayNum)!;
-      scheduleList.push(defaultSchedule);
-    }
+    defaultSchedules[index] = sched;
   });
 
-  return scheduleList;
+  return defaultSchedules;
 };

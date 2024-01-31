@@ -62,7 +62,7 @@ export const getAppointmentOverallStatus = (
     return {
       overallStatus: "on going",
       bgColor: "bg-[#15aabf]",
-      color: "#fff",
+      color: "text-[#fff]",
     };
   }
   if (isApprovalPending) {

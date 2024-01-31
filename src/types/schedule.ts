@@ -14,5 +14,5 @@ export type Schedule = {
   weekdayNum: number;
   createdAt: string;
   updatedAt: string;
-  scheduleTime: ScheduleTime[];
+  scheduleTime: ScheduleTime[] | never[];
 };

@@ -1,0 +1,67 @@
+{
+  "schedules": [
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "monday",
+      "weekdayNum": 1,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "tuesday",
+      "weekdayNum": 2,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "wednesday",
+      "weekdayNum": 3,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "thursday",
+      "weekdayNum": 4,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "friday",
+      "weekdayNum": 5,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "saturday",
+      "weekdayNum": 6,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    },
+    {
+      "scheduleId": "",
+      "userId": "",
+      "weekday": "sunday",
+      "weekdayNum": 7,
+      "createdAt": "",
+      "updatedAt": "",
+      "scheduleTime": []
+    }
+  ]
+}

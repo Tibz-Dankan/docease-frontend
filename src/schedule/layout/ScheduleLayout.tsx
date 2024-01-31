@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import ScheduleMockData from "../../appointment/data/schedule-mock.json";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Modal } from "../../shared/UI/Modal";
 import { Button } from "../../shared/UI/Button";
@@ -30,7 +29,7 @@ export const ScheduleLayout: React.FC = () => {
   const user = useSelector((state: TAuthState) => state.auth.user);
 
   const { isLoading, data } = useQuery({
-    queryKey: [`$schedules${user?.userId}`],
+    queryKey: [`schedules-${user?.userId}`],
     queryFn: () => getScheduleByUser({ userId: user?.userId!, token: token }),
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -42,15 +41,16 @@ export const ScheduleLayout: React.FC = () => {
 
   if (isLoading)
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
-  // const schedules = ScheduleMockData.schedules;
 
   console.log("API response data for schedules ->", data);
 
-  const scheduleList = buildScheduleList(ScheduleMockData.schedules);
+  // const scheduleList = buildScheduleList(ScheduleMockData.schedules);
+  const scheduleList = buildScheduleList(data.data?.schedules);
 
-  // console.log("scheduleList", scheduleList);
+  console.log("scheduleList", scheduleList);
 
-  const hasSchedule = !!ScheduleMockData.schedules[0];
+  // const hasSchedule = !!ScheduleMockData.schedules[0];
+  const hasSchedule = !!data.data?.schedules[0];
 
   return (
     <Fragment>
@@ -94,7 +94,9 @@ export const ScheduleLayout: React.FC = () => {
                         <IoMdCheckmark />
                       </IconContext.Provider>
                     </span>
-                    <span className="text-gray-800">{schedule.weekday}</span>
+                    <span className="text-gray-800 first-letter:uppercase">
+                      {schedule.weekday}
+                    </span>
                     <DeleteSchedule scheduleId={schedule.scheduleId} />
                   </div>
                 )}
@@ -111,40 +113,48 @@ export const ScheduleLayout: React.FC = () => {
              sm:h-[70vh] overflow-x-hidden"
           >
             <div>
-              {scheduleList.map((schedule, index) => {
-                if (!schedule.scheduleId) return;
+              {!hasSchedule && (
+                <div className="flex items-center justify-center w-full h-full">
+                  <p className="text-gray-800 text-lg text-center">
+                    You no schedules yet
+                  </p>
+                </div>
+              )}
+              {hasSchedule &&
+                scheduleList.map((schedule, index) => {
+                  if (!schedule.scheduleId) return;
 
-                return (
-                  <div key={index} className="flex flex-col gap-4">
-                    <p
-                      className="text-lg text-primary 
+                  return (
+                    <div key={index} className="flex flex-col gap-4">
+                      <p
+                        className="text-lg text-primary 
                        text-center w-full bg-gray-300 rounded 
                        first-letter:uppercase py-2"
-                    >
-                      {schedule.weekday}
-                    </p>
-                    <div className="flex flex-col gap-2">
-                      {schedule.scheduleTime.map((scheduleTime, index) => (
-                        <div key={index}>
-                          <div className="flex items-center justify-center gap-2">
-                            <EditScheduleTime
-                              start={scheduleTime.start}
-                              end={scheduleTime.end}
-                              scheduleTimeId={scheduleTime.scheduleTimeId}
-                            />
-                            <DeleteScheduleTime
-                              scheduleTimeId={scheduleTime.scheduleTimeId}
-                            />
+                      >
+                        {schedule.weekday}
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {schedule.scheduleTime.map((scheduleTime, index) => (
+                          <div key={index}>
+                            <div className="flex items-center justify-center gap-2">
+                              <EditScheduleTime
+                                start={scheduleTime.start}
+                                end={scheduleTime.end}
+                                scheduleTimeId={scheduleTime.scheduleTimeId}
+                              />
+                              <DeleteScheduleTime
+                                scheduleTimeId={scheduleTime.scheduleTimeId}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                      <div className="mb-4">
+                        <PostScheduleTime scheduleId={schedule.scheduleId} />
+                      </div>
                     </div>
-                    <div className="mb-4">
-                      <PostScheduleTime scheduleId={schedule.scheduleId} />
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         </div>
