@@ -5,6 +5,7 @@ import {
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
+import { startScheduleReload } from "../../store/actions/reload";
 import { postScheduleTime } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
@@ -28,6 +29,13 @@ export const PostScheduleTime: React.FC<PostScheduleTimeProps> = (props) => {
     mutationFn: postScheduleTime,
     onSuccess: (response: any) => {
       console.log("response", response);
+      dispatch(startScheduleReload());
+      dispatch(
+        showCardNotification({ type: "success", message: response.message })
+      );
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));

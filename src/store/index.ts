@@ -3,6 +3,7 @@ import { authSlice } from "./reducers/auth";
 import { notificationSlice } from "./reducers/notification";
 import { sidebarSlice } from "./reducers/sidebar";
 import { modalSlice } from "./reducers/modal";
+import { reloadSlice } from "./reducers/reload";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     notification: notificationSlice.reducer,
     sidebar: sidebarSlice.reducer,
     modal: modalSlice.reducer,
+    reload: reloadSlice.reducer,
   },
 });
 
@@ -25,3 +27,4 @@ export const authActions = authSlice.actions;
 export const notificationActions = notificationSlice.actions;
 export const sidebarActions = sidebarSlice.actions;
 export const modalActions = modalSlice.actions;
+export const reloadActions = reloadSlice.actions;

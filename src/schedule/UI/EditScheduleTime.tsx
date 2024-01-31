@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateScheduleTime } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
+import { startScheduleReload } from "../../store/actions/reload";
 
 interface EditScheduleTimeTimeProps {
   scheduleTimeId: string;
@@ -26,10 +27,25 @@ export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
   const [startTime, setStartTime] = useState(props.start);
   const [endTime, setEndTime] = useState(props.end);
 
+  // const [InitialStartTime, setInitialStartTime] = useState(props.start);
+  // const [InitialEndTime, setInitialEndTime] = useState(props.end);
+  const [InitialStartTime] = useState(props.start);
+  const [InitialEndTime] = useState(props.end);
+
+  const timeHasChanged: boolean =
+    startTime !== InitialStartTime || endTime !== InitialEndTime;
+
   const { isLoading, mutate } = useMutation({
     mutationFn: updateScheduleTime,
     onSuccess: (response: any) => {
       console.log("response", response);
+      dispatch(startScheduleReload());
+      dispatch(
+        showCardNotification({ type: "success", message: response.message })
+      );
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -42,8 +58,8 @@ export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
   useEffect(() => {
     const editScheduleTimeHandler = () => {
       const scheduleTimeId = props.scheduleTimeId;
-      const startTime = props.start;
-      const endTime = props.end;
+   
+      if (!timeHasChanged) return;
 
       if (!scheduleTimeId || !startTime || !endTime) return;
 

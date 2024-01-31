@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Modal } from "../../shared/UI/Modal";
 import { Button } from "../../shared/UI/Button";
@@ -12,6 +12,7 @@ import {
   showCardNotification,
   hideCardNotification,
 } from "../../store/reducers/notification";
+import { stopScheduleReload } from "../../store/actions/reload";
 import { getScheduleByUser } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
@@ -27,11 +28,21 @@ export const ScheduleLayout: React.FC = () => {
   ) as string;
 
   const user = useSelector((state: TAuthState) => state.auth.user);
+  const isScheduleReload: boolean = useSelector(
+    (state: any) => state.reload.isScheduleReload
+  );
+
+  const [isReload, _] = useState(isScheduleReload);
+  console.log("isScheduleReload-->", isReload);
 
   const { isLoading, data } = useQuery({
     queryKey: [`schedules-${user?.userId}`],
     queryFn: () => getScheduleByUser({ userId: user?.userId!, token: token }),
+    onSuccess(_) {
+      dispatch(stopScheduleReload());
+    },
     onError: (error: any) => {
+      dispatch(stopScheduleReload());
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
@@ -51,6 +62,11 @@ export const ScheduleLayout: React.FC = () => {
 
   // const hasSchedule = !!ScheduleMockData.schedules[0];
   const hasSchedule = !!data.data?.schedules[0];
+
+  // useEffect(() => {
+  //   console.log("reloading schedule layout...");
+  //   // }, [isScheduleReload]);
+  // }, []);
 
   return (
     <Fragment>
