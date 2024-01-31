@@ -62,7 +62,7 @@ export const deleteSchedule = async ({
   scheduleId: string;
   token: string;
 }) => {
-  const response = await fetch(`${url}/schedules/delete?${scheduleId}`, {
+  const response = await fetch(`${url}/schedules/delete/${scheduleId}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json",
