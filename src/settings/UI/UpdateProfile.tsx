@@ -1,25 +1,40 @@
 import React, { Fragment, ChangeEvent } from "react";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import {
   showCardNotification,
   hideCardNotification,
 } from "../../store/actions/notification";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
 import { InputSelect } from "../../shared/UI/InputSelect";
-import { signUpDoctor } from "../API";
-import { TSignupInput } from "../../types/auth";
+import { updateProfile } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
+import { TAuthState } from "../../types/auth";
 
-export const SignUpDoctor: React.FC = () => {
+type TUpdateUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  phoneNumber: string;
+  accessToken: string;
+};
+
+export const UpdateProfile: React.FC = () => {
   const dispatch: any = useDispatch();
 
+  const userId = useSelector(
+    (state: TAuthState) => state.auth.user?.userId
+  ) as string;
+  const accessToken = useSelector(
+    (state: TAuthState) => state.auth.accessToken
+  ) as string;
+
   const { isLoading, mutate } = useMutation({
-    mutationFn: signUpDoctor,
+    mutationFn: updateProfile,
     onSuccess: (response: any) => {
       dispatch(
         showCardNotification({
@@ -39,13 +54,13 @@ export const SignUpDoctor: React.FC = () => {
     },
   });
 
-  const initialValues: TSignupInput = {
+  const initialValues: TUpdateUser = {
     firstName: "",
     lastName: "",
     email: "",
     gender: "",
     phoneNumber: "",
-    password: "",
+    accessToken: "",
   };
 
   const formik = useFormik({
@@ -56,15 +71,19 @@ export const SignUpDoctor: React.FC = () => {
       email: Yup.string().max(255).required("email is required"),
       gender: Yup.string().max(255).required("gender is required"),
       phoneNumber: Yup.string().max(255).required("phone number is required"),
-      password: Yup.string()
-        .min(5)
-        .max(30)
-        .required("password must have at least 5 characters"),
     }),
 
     onSubmit: async (values, helpers) => {
       try {
-        mutate(values);
+        mutate({
+          userId: userId,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          gender: values.gender,
+          phoneNumber: values.phoneNumber,
+          accessToken: accessToken,
+        });
       } catch (err: any) {
         helpers.setStatus({ success: false });
         helpers.setSubmitting(false);
@@ -87,13 +106,13 @@ export const SignUpDoctor: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="min-h-screen grid place-items-center py-28">
+      <div className="min-h-screen grid place-items-center">
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
           bg-blue-500s shadow-2xl p-8 rounded-2xl"
         >
-          <p className="text-center text-sm font-semibold text-primary">
+          <p className="text-start w-full text-lg font-semibold text-gray-800">
             Update profile
           </p>
           <InputField
@@ -122,9 +141,15 @@ export const SignUpDoctor: React.FC = () => {
             options={gender}
             formik={formik}
           />
+          <InputField
+            type="password"
+            label="Password"
+            name="password"
+            formik={formik}
+          />
           {!isLoading && (
             <Button
-              label="Sign up"
+              label="Update"
               type="submit"
               aria-disabled={isLoading}
               className="mt-6 font-semibold"
@@ -138,14 +163,6 @@ export const SignUpDoctor: React.FC = () => {
               <Loader className="w-8 h-8" />
             </div>
           )}
-          <div className="mt-4">
-            <p className="hover:underline hover:text-blue-500 cursor-pointer">
-              Already have an account?{" "}
-              <Link to="/auth/signin" className="underline">
-                Log In
-              </Link>
-            </p>
-          </div>
         </form>
       </div>
     </Fragment>

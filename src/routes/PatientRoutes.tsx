@@ -5,7 +5,7 @@ import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { Messages } from "../shared/pages/Messages";
 import { PatientAppointments } from "../patient/pages/PatientAppointments";
-import { Settings } from "../shared/pages/Settings";
+import { Settings } from "../settings/Pages/Settings";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
 import { IoMdNotificationsOutline } from "react-icons/io";
