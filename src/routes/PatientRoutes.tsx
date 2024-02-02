@@ -5,6 +5,9 @@ import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { Messages } from "../shared/pages/Messages";
 import { PatientAppointments } from "../patient/pages/PatientAppointments";
+// import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
+// import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
+import { PatientMedicalPage } from "../medical-history/pages/PatientMedicalPage";
 import { Settings } from "../settings/Pages/Settings";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
@@ -12,6 +15,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { PiChatsCircleLight } from "react-icons/pi";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { GoHistory } from "react-icons/go";
 
 type TPage = {
   name: string;
@@ -66,6 +70,31 @@ export const PatientRoutes: React.FC = () => {
         element: <PatientAppointments />,
       },
       {
+        name: "Medical History",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
+              <GoHistory />
+            </IconContext.Provider>
+          </span>
+        ),
+        // path: "medical-history#files",
+        path: "medical-history/files",
+        element: <PatientMedicalPage />,
+      },
+      // {
+      //   name: "Medical History",
+      //   icon: (
+      //     <span className="inline-block cursor-pointer">
+      //       <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
+      //         <GoHistory />
+      //       </IconContext.Provider>
+      //     </span>
+      //   ),
+      //   path: "medical-history#form",
+      //   element: <PatientMedicalForm />,
+      // },
+      {
         name: "Messages",
         icon: (
           <span className="inline-block cursor-pointer">
@@ -91,8 +120,6 @@ export const PatientRoutes: React.FC = () => {
       },
     ],
   };
-
-  //TODO: check for role("patient")
 
   return (
     <Fragment>
