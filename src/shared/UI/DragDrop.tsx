@@ -15,7 +15,7 @@ const DropZoneArea = ({ hasFile }: { hasFile: boolean }) => {
         items-center justify-center rounded-md border-[2px] 
         border-dashed border-gray-600 text-gray-700
         sm:w-72 xl:w-96
-        ${!hasFile && "animate-pulse"}
+        ${!hasFile && ""}
         `}
       >
         <span className="text-center text-xl font-bold">Drag & Drop Here</span>
