@@ -1,13 +1,12 @@
 import React, { Fragment, ReactNode } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { PatientDashboard } from "../patient/pages/PatientDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { Messages } from "../shared/pages/Messages";
 import { PatientAppointments } from "../patient/pages/PatientAppointments";
-// import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
-// import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
-import { PatientMedicalPage } from "../medical-history/pages/PatientMedicalPage";
+import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
+import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
 import { Settings } from "../settings/Pages/Settings";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
@@ -17,11 +16,17 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 
+type TChildPath = {
+  path: string;
+  element: ReactNode;
+};
+
 type TPage = {
   name: string;
   icon: ReactNode;
   path: string;
   element: ReactNode;
+  childrenPath?: TChildPath[];
 };
 
 type TRoute = {
@@ -78,22 +83,27 @@ export const PatientRoutes: React.FC = () => {
             </IconContext.Provider>
           </span>
         ),
-        // path: "medical-history#files",
-        path: "medical-history/files",
-        element: <PatientMedicalPage />,
+        path: "medical-history",
+        element: (
+          <div className="w-full">
+            <Outlet />
+          </div>
+        ),
+        childrenPath: [
+          {
+            path: "",
+            element: <PatientMedicalFiles />,
+          },
+          {
+            path: "files",
+            element: <PatientMedicalFiles />,
+          },
+          {
+            path: "form",
+            element: <PatientMedicalForm />,
+          },
+        ],
       },
-      // {
-      //   name: "Medical History",
-      //   icon: (
-      //     <span className="inline-block cursor-pointer">
-      //       <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
-      //         <GoHistory />
-      //       </IconContext.Provider>
-      //     </span>
-      //   ),
-      //   path: "medical-history#form",
-      //   element: <PatientMedicalForm />,
-      // },
       {
         name: "Messages",
         icon: (
@@ -125,9 +135,24 @@ export const PatientRoutes: React.FC = () => {
     <Fragment>
       <DashboardLayout routes={routes}>
         <Routes>
-          {routes.pages.map((page, index) => (
-            <Route key={index} path={page.path} element={page.element} />
-          ))}
+          {routes.pages.map((page, index) => {
+            if (page.childrenPath) {
+              return (
+                <Route key={index} path={page.path} element={page.element}>
+                  {page.childrenPath.map((child, index) => (
+                    <Route
+                      key={index}
+                      path={child.path}
+                      element={child.element}
+                    />
+                  ))}
+                </Route>
+              );
+            }
+            return (
+              <Route key={index} path={page.path} element={page.element} />
+            );
+          })}
         </Routes>
       </DashboardLayout>
     </Fragment>

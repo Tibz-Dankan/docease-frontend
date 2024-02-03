@@ -24,14 +24,14 @@ export const MedicalLayout: React.FC<MedicalLayoutProps> = (props) => {
           >
             <span>
               <Link
-                to="/patient/medical-history#files"
+                to="/patient/medical-history/files"
                 className="text-primary"
               >
                 Files
               </Link>
             </span>
             <span>
-              <Link to="/patient/medical-history#form">Form</Link>
+              <Link to="/patient/medical-history/form">Form</Link>
             </span>
           </div>
         </div>
