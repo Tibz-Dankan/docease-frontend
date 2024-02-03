@@ -1,14 +1,17 @@
 import React, { Fragment } from "react";
 import { FileItem } from "./FileItem";
+import records from "../data/records.json";
 
 export const MedicalFileList: React.FC = () => {
-  const files = [1, 2, 3, 4, 5, 6];
+  // TODO: make an api call here
+
+  console.log("records->", records);
   return (
     <Fragment>
       <div className="w-full space-y-4">
-        {files.map((_, index: any) => (
+        {records.map((record, index: number) => (
           <div key={index}>
-            <FileItem filename="Document1.docx" createdAt="2 Jan 2024" />
+            <FileItem filename={record.name} createdAt={record.createdAt} />
           </div>
         ))}
       </div>

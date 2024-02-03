@@ -11,9 +11,10 @@ const DropZoneArea = ({ hasFile }: { hasFile: boolean }) => {
   return (
     <Fragment>
       <div
-        className={`flex h-52 sm:h-72 w-[80vw]s
+        className={`flex h-52 sm:h-72 w-[80vw]
         items-center justify-center rounded-md border-[2px] 
-        border-dashed border-gray-600 text-gray-700 w-fulls md:min-w-72
+        border-dashed border-gray-600 text-gray-700
+        sm:w-72 xl:w-96
         ${!hasFile && "animate-pulse"}
         `}
       >

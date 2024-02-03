@@ -17,7 +17,9 @@ export const PatientMedicalPage: React.FC = () => {
   return (
     <Fragment>
       {/* {!isFiles && <MedicalLayout children={<MedicalFileLayout />} />} */}
-      <MedicalFileLayout />
+      <div className="w-full">
+        <MedicalFileLayout />
+      </div>
     </Fragment>
   );
 };

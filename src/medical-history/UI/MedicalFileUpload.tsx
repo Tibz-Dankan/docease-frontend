@@ -30,6 +30,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     mutationFn: uploadPatientMedicalFile,
     onSuccess: (response) => {
       console.log("response", response);
+      setFile(() => "");
       dispatch(
         showCardNotification({
           type: "success",
@@ -75,11 +76,14 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
   return (
     <Fragment>
       <div
-        className="flex h-full w-full flex-col items-center justify-center 
-         gap-4"
+        className="flex h-full w-full flex-col items-center 
+        justify-center gap-4 py-8 rounded-md"
       >
-        <div>
-          <p></p>
+        <div
+          className="-mt-8 mb-4 w-full text-gray-800s text-center
+          bg-gray-300 rounded-md p-4 text-primary"
+        >
+          <p>Upload Medical File</p>
         </div>
         {/* Preview image */}
         {file && (
@@ -94,7 +98,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
         {/* File uploader */}
         <div
           className="flex w-full items-center justify-center gap-4
-            md:gap-8 -mt-4"
+           md:gap-8 -mt-4 sm:py-8 sm:bg-gray-300 rounded-md"
         >
           <MedicalFilePicker onSave={onSelectHandler} isLoading={isLoading} />
           {file && !isLoading && (
@@ -125,7 +129,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
                disabled:opacity-60 md:w-40"
               disabled={isLoading}
             >
-              <Loader className="text-inherit" />
+              <Loader className="w-6 h-6" />
             </button>
           )}
         </div>

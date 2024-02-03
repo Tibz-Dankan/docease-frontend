@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { AppDate } from "../../utils/appDate";
 
 interface FileItemProps {
   filename: string;
@@ -6,6 +7,8 @@ interface FileItemProps {
 }
 
 export const FileItem: React.FC<FileItemProps> = (props) => {
+  const createdAt = new AppDate(props.createdAt).dayMonthYear();
+
   return (
     <Fragment>
       <div
@@ -13,7 +16,7 @@ export const FileItem: React.FC<FileItemProps> = (props) => {
          p-4 rounded shadow text-gray-800"
       >
         <span>{props.filename}</span>
-        <span>{props.createdAt}</span>
+        <span>{createdAt}</span>
       </div>
     </Fragment>
   );
