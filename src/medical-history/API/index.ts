@@ -1,4 +1,5 @@
 import { url } from "../../store/index";
+import { TMedicationExtended } from "../../types/medication";
 
 interface UploadMedicalFile {
   formData: FormData;
@@ -9,13 +10,64 @@ export const uploadPatientMedicalFile = async ({
   formData,
   token,
 }: UploadMedicalFile) => {
-  const response = await fetch(`${url}/medical-records/post`, {
+  const response = await fetch(`${url}/medical-records/post-file`, {
     method: "POST",
     body: formData,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
+export const postMedicalHistory = async ({
+  healthStatus,
+  medication,
+  illness,
+  diet,
+  accessToken,
+}: TMedicationExtended) => {
+  const response = await fetch(`${url}/medical-records/post`, {
+    method: "POST",
+    body: JSON.stringify({
+      healthStatus,
+      medication,
+      illness,
+      diet,
+    }),
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
+export const getMedicalHistory = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/medical-records/get-by-user/?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message);

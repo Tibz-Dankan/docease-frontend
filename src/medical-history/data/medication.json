@@ -1,0 +1,44 @@
+[
+  {
+    "healthStatus": "Good",
+    "medication": "Aspirin",
+    "illness": "Headache",
+    "diet": "Balanced",
+    "createdAt": "2024-02-04T12:00:00Z"
+  },
+  {
+    "healthStatus": "Fair",
+    "medication": "Ibuprofen",
+    "illness": "Fever",
+    "diet": "Healthy",
+    "createdAt": "2024-02-04T12:00:00Z"
+  },
+  {
+    "healthStatus": "Poor",
+    "medication": "Antibiotics",
+    "illness": "Infection",
+    "diet": "Restricted",
+    "createdAt": "2024-02-04T12:00:00Z"
+  },
+  {
+    "healthStatus": "Excellent",
+    "medication": "Vitamin C",
+    "illness": "Common Cold",
+    "diet": "Nutrient-rich",
+    "createdAt": "2024-02-04T12:00:00Z"
+  },
+  {
+    "healthStatus": "Average",
+    "medication": "Antihistamine",
+    "illness": "Allergies",
+    "diet": "Avoid allergens",
+    "createdAt": "2024-02-04T12:00:00Z"
+  },
+  {
+    "healthStatus": "Good",
+    "medication": "Antacid",
+    "illness": "Indigestion",
+    "diet": "Mild and easy-to-digest",
+    "createdAt": "2024-02-04T12:00:00Z"
+  }
+]

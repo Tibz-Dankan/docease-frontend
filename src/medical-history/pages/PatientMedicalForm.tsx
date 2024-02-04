@@ -1,9 +1,12 @@
 import React, { Fragment } from "react";
+import { MedicalFormLayout } from "../layout/MedicalFormLayout";
 
 export const PatientMedicalForm: React.FC = () => {
   return (
     <Fragment>
-      <div>PatientMedicalForm</div>
+      <div>
+        <MedicalFormLayout />
+      </div>
     </Fragment>
   );
 };
