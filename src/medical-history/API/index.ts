@@ -15,6 +15,7 @@ export const uploadPatientMedicalFile = async ({
     body: formData,
     headers: {
       Authorization: `Bearer ${token}`,
+      "Content-type": "application/json",
     },
   });
   if (!response.ok) {
@@ -38,6 +39,7 @@ export const getMedicalFilesByUser = async ({
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     }
   );
@@ -68,6 +70,7 @@ export const postMedicalRecord = async ({
     }),
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      "Content-type": "application/json",
     },
   });
   if (!response.ok) {
@@ -91,6 +94,7 @@ export const getMedicalRecordByUser = async ({
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     }
   );

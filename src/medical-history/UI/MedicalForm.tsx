@@ -60,6 +60,7 @@ export const MedicalForm: React.FC = () => {
     }),
 
     onSubmit: async (values, helpers) => {
+      console.log("Values=>", values);
       try {
         mutate({
           healthStatus: values.healthStatus,
