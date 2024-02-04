@@ -34,6 +34,7 @@ export const MedicalForm: React.FC = () => {
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
+      clearForm();
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -80,6 +81,10 @@ export const MedicalForm: React.FC = () => {
       }
     },
   });
+
+  const clearForm = () => {
+    formik.values = initialValues;
+  };
 
   return (
     <Fragment>

@@ -15,7 +15,6 @@ export const uploadPatientMedicalFile = async ({
     body: formData,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-type": "application/json",
     },
   });
   if (!response.ok) {
