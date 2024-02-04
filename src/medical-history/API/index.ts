@@ -25,11 +25,36 @@ export const uploadPatientMedicalFile = async ({
   return await response.json();
 };
 
-export const postMedicalHistory = async ({
+export const getMedicalFilesByUser = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/medical-records/get-files-by-user/?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
+export const postMedicalRecord = async ({
   healthStatus,
   medication,
   illness,
   diet,
+  userId,
   accessToken,
 }: TMedicationExtended) => {
   const response = await fetch(`${url}/medical-records/post`, {
@@ -39,6 +64,7 @@ export const postMedicalHistory = async ({
       medication,
       illness,
       diet,
+      userId,
     }),
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -52,7 +78,7 @@ export const postMedicalHistory = async ({
   return await response.json();
 };
 
-export const getMedicalHistory = async ({
+export const getMedicalRecordByUser = async ({
   userId,
   accessToken,
 }: {

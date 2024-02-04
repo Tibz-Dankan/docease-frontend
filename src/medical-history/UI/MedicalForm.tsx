@@ -8,7 +8,7 @@ import {
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { postMedicalHistory } from "../API";
+import { postMedicalRecord } from "../API";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { InputTextArea } from "../../shared/UI/InputTextArea";
@@ -20,9 +20,10 @@ export const MedicalForm: React.FC = () => {
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   ) as string;
+  const user = useSelector((state: TAuthState) => state.auth.user);
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: postMedicalHistory,
+    mutationFn: postMedicalRecord,
     onSuccess: (response: any) => {
       dispatch(
         showCardNotification({
@@ -65,6 +66,7 @@ export const MedicalForm: React.FC = () => {
           medication: values.medication,
           illness: values.illness,
           diet: values.diet,
+          userId: user?.userId!,
           accessToken: accessToken,
         });
       } catch (err: any) {
