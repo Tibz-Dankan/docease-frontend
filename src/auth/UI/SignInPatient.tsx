@@ -1,4 +1,4 @@
-import React, { Fragment, ChangeEvent } from "react";
+import React, { Fragment } from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -9,28 +9,20 @@ import {
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
-import { InputSelect } from "../../shared/UI/InputSelect";
-import { signUpDoctor } from "../API";
-import { TSignupInput } from "../../types/auth";
+import { signInPatient } from "../API";
+import { TSigninInPut } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import logo from "../../assets/images/logo.jpeg";
+import { authenticate } from "../../store/actions/auth";
 
-export const SignUpDoctor: React.FC = () => {
+export const SignInPatient: React.FC = () => {
   const dispatch: any = useDispatch();
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: signUpDoctor,
-    onSuccess: (response: any) => {
-      dispatch(
-        showCardNotification({
-          type: "success",
-          message: response.message,
-        })
-      );
-      setTimeout(() => {
-        dispatch(hideCardNotification());
-      }, 5000);
+    mutationFn: signInPatient,
+    onSuccess: (auth: any) => {
+      dispatch(authenticate(auth));
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -40,27 +32,20 @@ export const SignUpDoctor: React.FC = () => {
     },
   });
 
-  const initialValues: TSignupInput = {
-    firstName: "",
-    lastName: "",
+  const initialValues: TSigninInPut = {
     email: "",
-    gender: "",
-    phoneNumber: "",
     password: "",
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object({
-      firstName: Yup.string().max(255).required("first name is required"),
-      lastName: Yup.string().max(255).required("last name is required"),
       email: Yup.string().max(255).required("email is required"),
-      gender: Yup.string().max(255).required("gender is required"),
-      phoneNumber: Yup.string().max(255).required("phone number is required"),
       password: Yup.string()
+        .max(255)
         .min(5)
         .max(30)
-        .required("password must have at least 5 characters"),
+        .required("password is required"),
     }),
 
     onSubmit: async (values, helpers) => {
@@ -77,15 +62,6 @@ export const SignUpDoctor: React.FC = () => {
     },
   });
 
-  const gender = ["--select-gender--", "male", "female"];
-
-  const genderChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
-    const genderValue = event.target.value;
-    if (genderValue === "--select-gender--") return;
-
-    formik.values.gender = genderValue;
-  };
-
   return (
     <Fragment>
       <div className="min-h-screen grid place-items-center py-28">
@@ -95,41 +71,22 @@ export const SignUpDoctor: React.FC = () => {
           bg-blue-500s shadow-2xl p-8 rounded-2xl"
         >
           <img src={logo} alt="logo" className="w-28" />
-          <p className="text-center text-2xl font-semibold">
-            Welcome To Docease
+          <p
+            className="text-center text-2xl font-semibold
+          text-gray-800"
+          >
+            Log in as Patient
           </p>
-          <p className="text-center text-sm font-semibold text-primary">
-            Create Doctor Account
-          </p>
-          <InputField
-            type="text"
-            label="First name"
-            name="firstName"
-            formik={formik}
-          />
-          <InputField
-            type="text"
-            label="Last name"
-            name="lastName"
-            formik={formik}
-          />
           <InputField type="email" label="Email" name="email" formik={formik} />
           <InputField
-            type="text"
-            label="Phone number"
-            name="phoneNumber"
-            formik={formik}
-          />
-          <InputSelect
-            label="Gender"
-            name="gender"
-            onChange={genderChangeHandler}
-            options={gender}
+            type="password"
+            label="Password"
+            name="password"
             formik={formik}
           />
           {!isLoading && (
             <Button
-              label="Sign up"
+              label="Log in"
               type="submit"
               aria-disabled={isLoading}
               className="mt-6 font-semibold"
@@ -143,11 +100,14 @@ export const SignUpDoctor: React.FC = () => {
               <Loader className="w-8 h-8" />
             </div>
           )}
-          <div className="mt-4">
+          <div className="mt-4 space-y-4">
+            <p className="text-center hover:underline hover:text-blue-500 cursor-pointer">
+              <Link to="/auth/forgot-password">Forgot password?</Link>
+            </p>
             <p className="hover:underline hover:text-blue-500 cursor-pointer">
-              Already have an account?{" "}
-              <Link to="/auth/signin" className="underline">
-                Log In
+              Don't have an account?{" "}
+              <Link to="/auth/patient/signup" className="underline">
+                sign Up
               </Link>
             </p>
           </div>

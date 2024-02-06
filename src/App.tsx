@@ -85,6 +85,14 @@ export const App: React.FC = () => {
                 <Route path="/" element={<div>Landing page</div>} />
                 <Route path="/auth/*" element={<AuthRoutes />} />
                 <Route path="/home" element={<Navigate to="/" replace />} />
+                <Route
+                  path="/doctor/dashboard"
+                  element={<Navigate to="/auth/doctor/signup" replace />}
+                />
+                <Route
+                  path="/patient/dashboard"
+                  element={<Navigate to="/auth/patient/signup" replace />}
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Fragment>

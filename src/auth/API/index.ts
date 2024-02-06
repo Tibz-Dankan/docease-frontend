@@ -21,6 +21,46 @@ export const signIn = async ({ email, password }: TSigninInPut) => {
   return await response.json();
 };
 
+export const signInDoctor = async ({ email, password }: TSigninInPut) => {
+  const response = await fetch(`${url}/users/doctor/signin`, {
+    method: "POST",
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
+export const signInPatient = async ({ email, password }: TSigninInPut) => {
+  const response = await fetch(`${url}/users/patient/signin`, {
+    method: "POST",
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const signUpPatient = async ({
   firstName,
   lastName,

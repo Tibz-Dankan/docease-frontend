@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import { SignUpPatient } from "../auth/UI/SignUpPatient";
 import { SignUpDoctor } from "../auth/UI/SignUpDoctor";
 import { SignIn } from "../auth/UI/SignIn";
+import { SignInDoctor } from "../auth/UI/SignInDoctor";
+import { SignInPatient } from "../auth/UI/SignInPatient";
 import { ForgotPassword } from "../auth/UI/ForgotPassword";
 import { ResetPassword } from "../auth/UI/ResetPassword";
 
@@ -33,6 +35,18 @@ export const AuthRoutes: React.FC = () => {
         icon: "icon",
         path: "doctor/signup",
         element: <SignUpDoctor />,
+      },
+      {
+        name: "Sign In Patient",
+        icon: "icon",
+        path: "patient/signin",
+        element: <SignInPatient />,
+      },
+      {
+        name: "Sign In Doctor",
+        icon: "icon",
+        path: "doctor/signin",
+        element: <SignInDoctor />,
       },
       {
         name: "Sign up",
