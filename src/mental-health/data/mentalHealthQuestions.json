@@ -1,0 +1,171 @@
+[
+  {
+    "question": "How would you rate your overall mental well-being currently?",
+    "options": ["Excellent", "Good", "Fair", "Poor", "Very Poor"]
+  },
+  {
+    "question": "Have you experienced any significant changes in your mental health over the past few months?",
+    "options": [
+      "Yes, positive changes",
+      "Yes, negative changes",
+      "No significant changes"
+    ]
+  },
+  {
+    "question": "Do you feel that your mental health is being adequately addressed and supported by your healthcare provider?",
+    "options": [
+      "Yes, fully supported",
+      "Yes, to some extent",
+      "No, not adequately supported"
+    ]
+  },
+  {
+    "question": "Have you been diagnosed with any mental health disorders, such as anxiety or depression?",
+    "options": [
+      "Yes, diagnosed with anxiety",
+      "Yes, diagnosed with depression",
+      "Yes, diagnosed with other mental health disorders",
+      "No, not diagnosed with any mental health disorders"
+    ]
+  },
+  {
+    "question": "Are you currently experiencing any symptoms of anxiety, such as excessive worry or restlessness?",
+    "options": [
+      "Yes, experiencing symptoms of anxiety",
+      "No, not experiencing symptoms of anxiety"
+    ]
+  },
+  {
+    "question": "Are you currently experiencing any symptoms of depression, such as persistent sadness or loss of interest?",
+    "options": [
+      "Yes, experiencing symptoms of depression",
+      "No, not experiencing symptoms of depression"
+    ]
+  },
+  {
+    "question": "Are you currently receiving treatment or therapy for your mental health condition(s)?",
+    "options": [
+      "Yes, currently receiving treatment or therapy",
+      "No, not currently receiving treatment or therapy"
+    ]
+  },
+  {
+    "question": "How satisfied are you with the mental health treatment and support provided by your healthcare provider?",
+    "options": [
+      "Very satisfied",
+      "Satisfied",
+      "Neutral",
+      "Dissatisfied",
+      "Very dissatisfied"
+    ]
+  },
+  {
+    "question": "Are you aware of the available mental health resources and support services in your community?",
+    "options": [
+      "Yes, well aware",
+      "Somewhat aware",
+      "Not very aware",
+      "Not aware at all"
+    ]
+  },
+  {
+    "question": "Do you feel that you have positive and supportive relationships with your colleagues?",
+    "options": [
+      "Yes, very positive and supportive",
+      "Yes, somewhat positive and supportive",
+      "No, not very positive and supportive",
+      "No, not at all positive and supportive"
+    ]
+  },
+  {
+    "question": "Are there any interpersonal conflicts or challenging relationships that affect your mental well-being at work?",
+    "options": [
+      "Yes, significant conflicts affecting mental well-being",
+      "Yes, some conflicts affecting mental well-being",
+      "No, minimal conflicts affecting mental well-being",
+      "No, no conflicts affecting mental well-being"
+    ]
+  },
+  {
+    "question": "Are there opportunities for team-building activities or social support within the company?",
+    "options": [
+      "Yes, plenty of opportunities",
+      "Yes, some opportunities",
+      "No, limited opportunities",
+      "No, no opportunities"
+    ]
+  },
+  {
+    "question": "Can you describe any recent changes in your mood or emotions?",
+    "options": [
+      "Positive changes",
+      "Negative changes",
+      "Mixed/Varied changes",
+      "No significant changes"
+    ]
+  },
+  {
+    "question": "Have you noticed any patterns or disruptions in your sleep?",
+    "options": [
+      "Yes, patterns in sleep",
+      "Yes, disruptions in sleep",
+      "No, no noticeable changes in sleep"
+    ]
+  },
+  {
+    "question": "How would you describe your ability to focus and concentrate lately?",
+    "options": ["Excellent", "Good", "Fair", "Poor", "Very Poor"]
+  },
+  {
+    "question": "Are there specific stressors or challenges that you're currently facing?",
+    "options": ["Yes, specific stressors", "No, not facing specific stressors"]
+  },
+  {
+    "question": "Can you share any recent experiences that have had a significant impact on your mental health?",
+    "options": [
+      "Yes, positive impact",
+      "Yes, negative impact",
+      "No, no significant impact"
+    ]
+  },
+  {
+    "question": "How satisfied are you with your daily activities and routines?",
+    "options": [
+      "Very satisfied",
+      "Satisfied",
+      "Neutral",
+      "Dissatisfied",
+      "Very dissatisfied"
+    ]
+  },
+  {
+    "question": "Have you noticed any changes in your appetite or eating habits?",
+    "options": [
+      "Yes, changes in appetite or eating habits",
+      "No, no changes in appetite or eating habits"
+    ]
+  },
+  {
+    "question": "Are there moments when you feel overwhelmed or anxious?",
+    "options": [
+      "Yes, moments of feeling overwhelmed or anxious",
+      "No, no overwhelming or anxious moments"
+    ]
+  },
+  {
+    "question": "How would you describe your energy levels throughout the day?",
+    "options": [
+      "High energy",
+      "Moderate energy",
+      "Low energy",
+      "Varies throughout the day"
+    ]
+  },
+  {
+    "question": "Can you identify any sources of joy or fulfillment in your life right now?",
+    "options": [
+      "Yes, sources of joy and fulfillment",
+      "No, struggling to find sources of joy and fulfillment"
+    ]
+  }
+]

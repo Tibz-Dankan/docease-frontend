@@ -8,6 +8,7 @@ import { PatientAppointments } from "../patient/pages/PatientAppointments";
 import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
 import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
 import { Settings } from "../settings/Pages/Settings";
+import { MentalHealth } from "../mental-health/Pages/MentalHealth";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -103,6 +104,18 @@ export const PatientRoutes: React.FC = () => {
             element: <PatientMedicalForm />,
           },
         ],
+      },
+      {
+        name: "Mental health",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
+              <MdOutlineCalendarMonth />
+            </IconContext.Provider>
+          </span>
+        ),
+        path: "mental-health",
+        element: <MentalHealth />,
       },
       {
         name: "Messages",
