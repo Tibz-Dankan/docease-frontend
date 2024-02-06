@@ -17,6 +17,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: v4.29.17
     version: 4.29.17(react-dom@18.2.0)(react@18.2.0)
+  '@types/react-radio-group':
+    specifier: ^3.0.7
+    version: 3.0.7
   formik:
     specifier: ^2.4.5
     version: 2.4.5(react@18.2.0)
@@ -37,10 +40,13 @@ dependencies:
     version: 18.2.0(react@18.2.0)
   react-drag-drop-files:
     specifier: ^2.3.10
-    version: 2.3.10(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)
+    version: 2.3.10(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   react-icons:
     specifier: ^4.12.0
     version: 4.12.0(react@18.2.0)
+  react-radio-group:
+    specifier: ^3.0.3
+    version: 3.0.3(react-dom@18.2.0)(react@18.2.0)
   react-redux:
     specifier: ^9.0.2
     version: 9.0.4(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1)
@@ -1035,6 +1041,12 @@ packages:
       '@types/react': 18.2.47
     dev: true
 
+  /@types/react-radio-group@3.0.7:
+    resolution: {integrity: sha512-jP3WTE2qCd8GkYGtpY/kKEBgHxxiKsy/Q5VyCaE2X+Q9rnlsTnAQrR1I7odHkUnaMLUYJ2lLtvies+x0RkRKWQ==}
+    dependencies:
+      '@types/react': 18.2.47
+    dev: false
+
   /@types/react@18.2.47:
     resolution: {integrity: sha512-xquNkkOirwyCgoClNk85BjP+aqnIS+ckAJ8i37gAbDs14jfW/J23f2GItAf33oiUPQnqNMALiFeoM9Y5mbjpVQ==}
     dependencies:
@@ -1318,7 +1330,7 @@ packages:
       '@babel/plugin-syntax-jsx': 7.23.3(@babel/core@7.23.7)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)
+      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
     transitivePeerDependencies:
       - '@babel/core'
     dev: false
@@ -2465,7 +2477,7 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-drag-drop-files@2.3.10(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0):
+  /react-drag-drop-files@2.3.10(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Fv614W9+OtXFB5O+gjompTxQZLYGO7wJeT4paETGiXtiADB9yPOMGYD4A3PMCTY9Be874/wcpl+2dm3MvCIRzg==}
     peerDependencies:
       react: ^18.0.0
@@ -2474,7 +2486,7 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)
+      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
     transitivePeerDependencies:
       - '@babel/core'
       - react-is
@@ -2498,6 +2510,17 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-radio-group@3.0.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-MUNRRjZqQ2y+1K6rBuH0zO+gLVmCnWIcc5GnNwr9WNoUwZ9FUAKJ1UfsKXwYS93whR6/qrZKoVgiOltRkbzezw==}
+    peerDependencies:
+      react: '>=0.14.0'
+      react-dom: '>=15.5.4'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-redux@9.0.4(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1):
@@ -2738,7 +2761,7 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /styled-components@5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0):
+  /styled-components@5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -2756,7 +2779,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      react-is: 16.13.1
+      react-is: 18.2.0
       shallowequal: 1.1.0
       supports-color: 5.5.0
     transitivePeerDependencies:

@@ -16,6 +16,7 @@ import { PiChatsCircleLight } from "react-icons/pi";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
+import { LiaBrainSolid } from "react-icons/lia";
 
 type TChildPath = {
   path: string;
@@ -110,7 +111,7 @@ export const PatientRoutes: React.FC = () => {
         icon: (
           <span className="inline-block cursor-pointer">
             <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
-              <MdOutlineCalendarMonth />
+              <LiaBrainSolid />
             </IconContext.Provider>
           </span>
         ),
