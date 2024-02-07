@@ -146,7 +146,7 @@ export const SignUpDoctor: React.FC = () => {
           <div className="mt-4">
             <p className="hover:underline hover:text-blue-500 cursor-pointer">
               Already have an account?{" "}
-              <Link to="/auth/signin" className="underline">
+              <Link to="/auth/doctor/signin" className="underline">
                 Log In
               </Link>
             </p>

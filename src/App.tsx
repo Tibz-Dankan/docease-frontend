@@ -87,11 +87,11 @@ export const App: React.FC = () => {
                 <Route path="/home" element={<Navigate to="/" replace />} />
                 <Route
                   path="/doctor/dashboard"
-                  element={<Navigate to="/auth/doctor/signup" replace />}
+                  element={<Navigate to="/auth/doctor/signin" replace />}
                 />
                 <Route
                   path="/patient/dashboard"
-                  element={<Navigate to="/auth/patient/signup" replace />}
+                  element={<Navigate to="/auth/patient/signin" replace />}
                 />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
