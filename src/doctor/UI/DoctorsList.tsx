@@ -50,7 +50,7 @@ export const DoctorsList: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="flex items-center justify-center gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-16">
         {doctors.map((doctor, index) => (
           <div key={index}>
             <DoctorAppointmentCard

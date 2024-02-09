@@ -15,9 +15,16 @@ export const store = configureStore({
   },
 });
 
+// let url: string;
+// if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+//   url = "http://localhost:8000/api/v1";
+// } else {
+//   url = "https://docease-backend-v2.onrender.com/api/v1";
+// }
+
 let url: string;
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-  url = "http://localhost:8000/api/v1";
+  url = "https://docease-backend-v2.onrender.com/api/v1";
 } else {
   url = "https://docease-backend-v2.onrender.com/api/v1";
 }

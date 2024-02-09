@@ -2,10 +2,9 @@ import React, { Fragment } from "react";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
 import { Button } from "../../shared/UI/Button";
-import { FaStethoscope } from "react-icons/fa";
 import { Modal } from "../../shared/UI/Modal";
-import { AppDate } from "../../utils/appDate";
 import { PostAppointment } from "../../appointment/UI/PostAppointment";
+import { elapsedTime } from "../../utils/elapsedTime";
 
 interface CardProps {
   userId: string;
@@ -20,10 +19,10 @@ interface CardProps {
 }
 
 export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
-  const lastSeenAtDate = new AppDate(props.lastSeenAt).dayMonthYear();
-  const lastSeenAtTime = new AppDate(props.lastSeenAt).time();
   const doctorName = `${props.firstName} ${props.lastName}`;
   const doctorId = props.userId;
+
+  const lastSeenAt = props.lastSeenAt as string;
 
   return (
     <Fragment>
@@ -32,43 +31,35 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
         relative"
       >
         <div
-          className="bg-[#748ffc] h-4 w-full absolute top-0 left-0 
-          rounded-t-md flex items-center justify-center"
+          className="flex items-center justify-center gap-4
+          border-[1px] border-gray-300 rounded-md p-4
+          text-gray-800 relative"
         >
-          <span
-            className="w-6 h-6 flex items-center
-             justify-center rounded-md"
-          >
-            <IconContext.Provider
-              value={{
-                size: "0.8rem",
-                color: "#f1f3f5",
-              }}
+          <div className="absolute top-0 right-1">
+            <span
+              className="text-[12px] uppercase text-[#1098ad]
+              font-semibold"
             >
-              <FaStethoscope />
-            </IconContext.Provider>
-          </span>
-          <span
-            className="uppercase text-[12px] font-semibold
-            text-gray-50"
-          >
-            Doctor
-          </span>
-        </div>
-        <div className="flex items-start gap-4 text-gray-700">
-          <div>
-            {props.imageUrl && (
-              <img src={props.imageUrl} alt={props.firstName} />
+              #{props?.role}
+            </span>
+          </div>
+          <div className="">
+            {props?.imageUrl && (
+              <img
+                src={props?.imageUrl}
+                alt={props?.firstName}
+                className="w-24 h-24 rounded-md"
+              />
             )}
-            {!props.imageUrl && (
+            {!props?.imageUrl && (
               <span
-                className="w-24 h-24 bg-gray-500 flex items-center
-                justify-center rounded-md shadow"
+                className="w-16 h-16 bg-gray-300 flex items-center
+                justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
                   value={{
-                    size: "3.4rem",
-                    color: "#f1f3f5",
+                    size: "2rem",
+                    color: "#868e96",
                   }}
                 >
                   <IoPerson />
@@ -76,19 +67,11 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
               </span>
             )}
           </div>
-          <div className="text-sm">
-            <p className="text-xl text-gray-800">
-              {"Dr." + props.firstName + " " + props.lastName}
-            </p>
-            <p className="first-letter:uppercase">{props.gender}</p>
-            {/* <p>{"Speciality"}</p> */}
-            <p className="flex items-start gap-[6px]">
-              <span>Last seen:</span>
-              <span className="flex flex-col gap-[-4px]s">
-                <span>{lastSeenAtDate}</span>
-                <span>{lastSeenAtTime}</span>
-              </span>
-            </p>
+          <div className="flex flex-col items-start">
+            <span className="text-xl">{`Dr. ${doctorName}`}</span>
+            <span className="text-sm">
+              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
+            </span>
           </div>
         </div>
 
