@@ -7,6 +7,12 @@ import {
 } from "../../store/actions/notification";
 import { inputFileToArrayBuffer } from "../../utils/inputFileToArrayBuffer";
 
+type TFile = {
+  content: any; //content is ArrayBuffer of a file
+  name: string;
+  type: string;
+};
+
 const DropZoneArea = ({ hasFile }: { hasFile: boolean }) => {
   return (
     <Fragment>
@@ -32,8 +38,24 @@ interface DragDropProps {
 
 export const DragDrop: React.FC<DragDropProps> = (props) => {
   const [file, setFile] = useState(null);
-  const handleChange = (file: any) => {
+
+  const [droppedFile, setDroppedFile] = useState<TFile>({
+    content: null,
+    name: "",
+    type: "",
+  });
+
+  const handleChange = async (file: any) => {
     setFile(file);
+
+    const fileArrayBuffer = await inputFileToArrayBuffer(file);
+    setDroppedFile(() => {
+      return {
+        content: fileArrayBuffer,
+        name: file.name,
+        type: file.type,
+      };
+    });
   };
 
   const dispatch: any = useDispatch();
@@ -53,13 +75,12 @@ export const DragDrop: React.FC<DragDropProps> = (props) => {
 
   const dragHandler = async () => {
     validateFileSize(file);
-    const fileArrayBuffer = await inputFileToArrayBuffer(file);
-    props.onDrag(fileArrayBuffer);
+    props.onDrag(droppedFile);
   };
 
   useEffect(() => {
     dragHandler();
-  }, [file]);
+  }, [droppedFile]);
 
   return (
     <FileUploader

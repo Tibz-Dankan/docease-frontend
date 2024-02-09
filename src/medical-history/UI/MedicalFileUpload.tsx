@@ -14,8 +14,19 @@ import { TAuthState } from "../../types/auth";
 
 interface UploadMedicalFileProps {}
 
+type TFile = {
+  content: any; //content is ArrayBuffer of a file
+  name: string;
+  type: string;
+};
+
 export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState<TFile>({
+    content: null,
+    name: "",
+    type: "",
+  });
+
   const dispatch: any = useDispatch();
   const user = useSelector((state: TAuthState) => state.auth.user);
   const accessToken = useSelector(
@@ -30,7 +41,13 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     mutationFn: uploadPatientMedicalFile,
     onSuccess: (response) => {
       console.log("response", response);
-      setFile(() => "");
+      setFile(() => {
+        return {
+          content: null,
+          name: "",
+          type: "",
+        };
+      });
       dispatch(
         showCardNotification({
           type: "success",
@@ -55,8 +72,8 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     const formData = new FormData();
     formData.append(
       "file",
-      new Blob([file], { type: "image/*" }),
-      `custom-file-name`
+      new Blob([file.content], { type: "image/*" }),
+      file.name
     );
 
     formData.append("userId", userId);
@@ -86,10 +103,10 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
           <p>Upload Medical File</p>
         </div>
         {/* Preview image */}
-        {file && (
+        {file.content && (
           <div>
             <img
-              src={imageURLHandler(file)}
+              src={imageURLHandler(file.content)}
               alt={"medical-file"}
               className="h-80 w-auto rounded-md"
             />
@@ -101,7 +118,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
            md:gap-8 -mt-4 sm:py-8 sm:bg-gray-300 rounded-md"
         >
           <MedicalFilePicker onSave={onSelectHandler} isLoading={isLoading} />
-          {file && !isLoading && (
+          {file.content && !isLoading && (
             <button
               onClick={() => uploadFileHandler()}
               className="flex w-auto items-center justify-center
@@ -122,7 +139,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
               <span>Upload</span>
             </button>
           )}
-          {file && isLoading && (
+          {file.content && isLoading && (
             <button
               className="flex w-auto items-center justify-center
                gap-4 rounded bg-primary p-4 py-3 text-gray-50

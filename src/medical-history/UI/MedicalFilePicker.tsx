@@ -6,7 +6,6 @@ import {
   FileSizeValidator,
 } from "use-file-picker/validators";
 import { IconContext } from "react-icons";
-import { useSelector } from "react-redux";
 import { MdCloudUpload } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { DragDrop } from "../../shared/UI/DragDrop";
@@ -16,10 +15,18 @@ interface MedicalFilePickerProps {
   isLoading: boolean;
 }
 
+type TFile = {
+  content: any; //content is ArrayBuffer of a file
+  name: string;
+  type: string;
+};
+
 export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
-  const [photo, setPhoto] = useState(null);
-  const user = useSelector((state: any) => state.auth.user);
-  console.log("user", user);
+  const [file, setFile] = useState<TFile>({
+    content: null,
+    name: "",
+    type: "",
+  });
 
   const { openFilePicker, filesContent } = useFilePicker({
     readAs: "ArrayBuffer",
@@ -28,32 +35,40 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
 
     validators: [
       new FileAmountLimitValidator({ max: 1 }),
-      new FileTypeValidator(["jpeg", "jpg", "png"]),
+      new FileTypeValidator(["jpeg", "jpg", "png", "pdf"]),
       new FileSizeValidator({ maxFileSize: 50 * 1024 * 1024 /* 50 MB */ }),
     ],
   });
   useEffect(() => {
     filesContent.map((file: any) => {
-      return setPhoto(file.content);
+      return setFile({
+        content: file.content,
+        name: file.name,
+        type: "",
+      });
     });
   }, [filesContent]);
 
   const saveHandler = () => {
-    props.onSave(photo);
+    props.onSave(file);
   };
 
   const onDragHandler = (file: any) => {
-    setPhoto(file);
+    setFile(file);
   };
 
   const onCancelSelectHandler = () => {
     props.onSave("");
-    setPhoto(null);
+    setFile({
+      content: null,
+      name: "",
+      type: "",
+    });
   };
 
   useEffect(() => {
     saveHandler();
-  }, [photo]);
+  }, [file]);
 
   return (
     <Fragment>
@@ -61,7 +76,7 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
         className="flex h-auto w-auto items-center
         justify-center gap-x-2 text-gray-800"
       >
-        {!photo && (
+        {!file.content && (
           <div className="grid h-auto w-auto place-items-center gap-y-4">
             <DragDrop onDrag={onDragHandler} />
             <button
@@ -83,7 +98,7 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
             </button>
           </div>
         )}
-        {photo && (
+        {file.content && (
           <button
             onClick={() => onCancelSelectHandler()}
             className="flex w-full items-center justify-center gap-4
