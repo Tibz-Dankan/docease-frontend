@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import { Button } from "../../shared/UI/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import schedules from "../data/schedule.json";
 import { AppDate } from "../../utils/appDate";
 import {
   showCardNotification,
@@ -14,6 +13,7 @@ import { rescheduleAppointment } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { TAppointment } from "../../types/appointments";
+import { DoctorScheduleList } from "../../schedule/UI/DoctorScheduleList";
 
 interface TileContentProps {
   date: any;
@@ -44,9 +44,6 @@ export const DoctorRescheduleAppointment: React.FC<
     new Date(appointment.startsAt)
   );
   //   const patient = `${appointment.patient?.firstName} ${appointment.patient?.lastName}`;
-
-  //   TODO: to get appointment schedules from the api
-  const appointmentAvailabilitySchedule = schedules.schedule;
 
   const appointmentDateChangeHandler = (date: any) => {
     setAppointmentDate(() => date);
@@ -135,34 +132,14 @@ export const DoctorRescheduleAppointment: React.FC<
         className="p-8  w-[90%] md:w-[600px] h-[90v] 
          md:h-[70vh] overflow-x-hidden flex flex-col gap-4"
       >
-        <div className="text-sm text-gray-800">
+        <div>
           <div
             className="text-lg border-b-[1px] border-gray-300 pb-2
             text-primary font-semibold"
           >
             <p>{"My Appointment Schedule"}</p>
           </div>
-          <div
-            className=" border-b-[1px] border-gray-300
-            text-primary space-y-4 py-4 h-auto"
-          >
-            {appointmentAvailabilitySchedule.map((schedule, index) => (
-              <div key={index} className="flex items-center gap-4">
-                <p className="w-20 text-start">{schedule.day}</p>
-                <p className="space-x-2">
-                  {schedule.timeSlots.map((timeSlot, index) => (
-                    <span
-                      key={index}
-                      className="bg-gray-300 rounded p-2 text-center
-                       text-[12px] font-semibold"
-                    >
-                      {timeSlot.start} - {timeSlot.end}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            ))}
-          </div>
+          <DoctorScheduleList doctorId={appointment.doctorId} />
         </div>
         <div
           className="text-base border-b-[1px] border-gray-300
