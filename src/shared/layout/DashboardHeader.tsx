@@ -11,6 +11,11 @@ import { NavDropdown } from "../UI/NavDropdown";
 import logo from "../../assets/images/logo.jpeg";
 import { TAuthState } from "../../types/auth";
 import { Link } from "react-router-dom";
+import {
+  TLiveNotification,
+  TLiveNotificationState,
+} from "../../types/liveNotification";
+import { useEffect, useState } from "react";
 
 export const DashboardHeader = () => {
   const dispatch: any = useDispatch();
@@ -20,6 +25,33 @@ export const DashboardHeader = () => {
   };
 
   const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
+
+  const notifications: TLiveNotification[] = useSelector(
+    (state: TLiveNotificationState) => state.liveNotification.notifications
+  );
+  const [notificationCount, setNotificationCount] = useState<number | string>(
+    notifications?.length
+  );
+
+  // TODO: to animate notification count
+  // TODO(maybe): to implement notification count
+
+  useEffect(() => {
+    const notificationCountStrBuilder = () => {
+      const notifyCount: number = notifications?.length;
+      if (notifyCount > 9 && notifyCount < 99) {
+        setNotificationCount(() => "9+");
+        return;
+      }
+      if (notifyCount > 99) {
+        setNotificationCount(() => "99+");
+        return;
+      }
+      setNotificationCount(() => notifyCount);
+    };
+
+    notificationCountStrBuilder();
+  }, [notifications]);
 
   return (
     <header
@@ -68,7 +100,16 @@ export const DashboardHeader = () => {
               <PiChatsCircleLight />
             </IconContext.Provider>
           </Link>
-          <Link to={`/${userRole}/notifications`}>
+          <Link to={`/${userRole}/notifications`} className="relative">
+            <span
+              className="absolute -top-4 -right-1 text-[12px] 
+                  font-semibold text-gray-50 bg-red-700 rounded-[50%] 
+                  grid place-items-center min-w-6 min-h-6 px-1
+                  animate-opacityZeroToFull"
+              key={notificationCount}
+            >
+              {notificationCount}
+            </span>
             <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
               <IoMdNotificationsOutline />
             </IconContext.Provider>
