@@ -11,15 +11,38 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { TAuthState } from "../types/auth";
 import { postDeviceToken } from "../device/API";
+// import dotenv from "dotenv";
+
+// dotenv.config();
+
+// const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+//   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
+//   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+// };
+
+// const firebaseConfig = {
+//   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+//   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+//   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+//   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+//   appId: import.meta.env.VITE_FIREBASE_APP_ID,
+//   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+// };
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAcG4U56TO1A1cCOxXWpBr-DQDuyQsXm7A",
+  authDomain: "doceasev2.firebaseapp.com",
+  projectId: "doceasev2",
+  storageBucket: "doceasev2.appspot.com",
+  messagingSenderId: "740647548486",
+  appId: "1:740647548486:web:8e1aa9297f4d9d049e3c47",
+  measurementId: "G-TF2C92VX7R",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -61,12 +84,6 @@ export const useGetDeviceToken = () => {
     });
   };
 
-  // function requestPermission() {
-  //     console.log('Requesting permission...');
-  //     Notification.requestPermission().then((permission) => {
-  //       if (permission === 'granted') {
-  //         console.log('Notification permission granted.');
-
   const isPermissionGranted = async (): Promise<boolean> => {
     const permission = await Notification.requestPermission();
     console.log("permission->", permission);
@@ -75,6 +92,12 @@ export const useGetDeviceToken = () => {
   };
 
   const getDeviceToken = async () => {
+    const userId = auth.user?.userId as string;
+    const accessToken = auth.accessToken as string;
+    if (!userId || !accessToken) {
+      return;
+    }
+
     if (!(await isPermissionGranted())) {
       console.log("Not granted permission");
       return;

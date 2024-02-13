@@ -8,7 +8,7 @@ import {
 import { IconContext } from "react-icons";
 import { MdCloudUpload } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { DragDrop } from "../../shared/UI/DragDrop";
+// import { DragDrop } from "../../shared/UI/DragDrop";
 
 interface MedicalFilePickerProps {
   onSave: (photo: any) => void;
@@ -53,9 +53,9 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
     props.onSave(file);
   };
 
-  const onDragHandler = (file: any) => {
-    setFile(file);
-  };
+  // const onDragHandler = (file: any) => {
+  //   setFile(file);
+  // };
 
   const onCancelSelectHandler = () => {
     props.onSave("");
@@ -78,7 +78,7 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
       >
         {!file.content && (
           <div className="grid h-auto w-auto place-items-center gap-y-4">
-            <DragDrop onDrag={onDragHandler} />
+            {/* <DragDrop onDrag={onDragHandler} /> */}
             <button
               onClick={() => openFilePicker()}
               className="flex w-full items-center justify-center gap-4
