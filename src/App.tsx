@@ -11,6 +11,7 @@ import { PatientRoutes } from "./routes/PatientRoutes";
 import { DoctorRoutes } from "./routes/DoctorRoutes";
 import { useGetDeviceToken } from "./hooks/useGetDeviceToken";
 import { useLiveNotification } from "./hooks/useLiveNotification";
+import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 
 export const App: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
@@ -39,12 +40,9 @@ export const App: React.FC = () => {
     }, 4000);
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   useGetDeviceToken();
-  // }, []);
   useGetDeviceToken();
-
   useLiveNotification();
+  useGetOnlineStatus();
 
   useEffect(() => {
     const tryLogin = async () => {
