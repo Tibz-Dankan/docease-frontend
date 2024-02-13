@@ -10,7 +10,7 @@ import {
 } from "../store/actions/notification";
 import { useMutation } from "@tanstack/react-query";
 import { TAuthState } from "../types/auth";
-import { postDeviceToken } from "../Notification/API";
+import { postDeviceToken } from "../device/API";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
