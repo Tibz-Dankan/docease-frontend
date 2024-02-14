@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   hideCardNotification,
   showCardNotification,
-} from "../store/actions/notification";
+} from "../../store/actions/notification";
 import { useMutation } from "@tanstack/react-query";
-import { TAuthState } from "../types/auth";
-import { postDevice } from "../device/API";
+import { TAuthState } from "../../types/auth";
+import { postDevice } from "../API";
+import { Button } from "../../shared/UI/Button";
+import { Loader } from "../../shared/UI/Loader";
 // import dotenv from "dotenv";
 
 // dotenv.config();
@@ -47,42 +49,26 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-export const useGetDeviceToken = () => {
-  const [platform, setPlatform] = useState<string>("");
+export const PostDevice = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deviceToken, setDeviceToken] = useState<string>("");
 
   const dispatch: any = useDispatch();
-  //   const messaging = firebase.messaging();
   const auth = useSelector((state: TAuthState) => state.auth);
 
-  //   const { isLoading, mutate } = useMutation({
   const { mutate } = useMutation({
     mutationFn: postDevice,
     onSuccess: (response: any) => {
       console.log("response->", response);
     },
     onError: (error: any) => {
+      setIsLoading(() => false);
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
     },
   });
-
-  const postDeviceTokenHandler = () => {
-    const userId = auth.user?.userId as string;
-    const accessToken = auth.accessToken as string;
-    if (!userId || !accessToken || !platform || !deviceToken) {
-      return;
-    }
-
-    mutate({
-      userId: userId,
-      deviceToken: deviceToken,
-      platform: platform,
-      accessToken: accessToken,
-    });
-  };
 
   const isPermissionGranted = async (): Promise<boolean> => {
     const permission = await Notification.requestPermission();
@@ -108,20 +94,15 @@ export const useGetDeviceToken = () => {
         "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
     })
       .then((token) => {
-        if (token) {
-          console.log("device Token->", token);
-          setDeviceToken(() => token);
-          return token;
-        } else {
-          // Show permission request UI
-          console.log(
-            "No registration token available. Request permission to generate one."
-          );
-          // ...
+        if (!token) {
+          console.log("No registration token available");
+          return;
         }
+        console.log("device Token->", token);
+        setDeviceToken(() => token);
       })
       .catch((error: any) => {
-        console.error("Error obtaining token:", error);
+        setIsLoading(() => false);
         dispatch(
           showCardNotification({ type: "error", message: error.message })
         );
@@ -150,18 +131,55 @@ export const useGetDeviceToken = () => {
     }
   };
 
-  useEffect(() => {
-    // TODO: logic to check if the user has device for this device
+  const postDeviceTokenHandler = async () => {
+    setIsLoading(() => true);
     const userAgent = window.navigator.userAgent;
-    const platformString = parseUserAgent(userAgent);
-    console.log("platform->", platformString);
-    setPlatform(() => platformString);
+    const platform = parseUserAgent(userAgent);
+    console.log("platform->", platform);
 
-    const deviceToken = getDeviceToken();
+    await getDeviceToken();
 
-    if (!deviceToken && !platformString) return;
-    postDeviceTokenHandler();
-  }, []);
+    if (!deviceToken && !platform) return;
+    const userId = auth.user?.userId as string;
+    const accessToken = auth.accessToken as string;
+    if (!userId || !accessToken || !platform || !deviceToken) {
+      return;
+    }
 
-  return {};
+    mutate({
+      userId: userId,
+      deviceToken: deviceToken,
+      platform: platform,
+      accessToken: accessToken,
+    });
+    setIsLoading(() => false);
+  };
+
+  return (
+    <Fragment>
+      <div
+        className="full border-[1px] border-gray-300 rounded-md 
+         p-4 relative h-28 text-gray-800"
+      >
+        <p>Turn on push notifications for this device</p>
+        {!isLoading && (
+          <Button
+            type="button"
+            label="Turn on"
+            onClick={() => postDeviceTokenHandler()}
+            className="absolute bottom-2 right-2 w-24"
+          />
+        )}
+        {isLoading && (
+          <div
+            className="bg-primary text-gray-50 flex items-center
+             justify-center rounded absolute bottom-2 right-2 w-24 
+             py-1 px-2"
+          >
+            <Loader className="w-8 h-8" />
+          </div>
+        )}
+      </div>
+    </Fragment>
+  );
 };
