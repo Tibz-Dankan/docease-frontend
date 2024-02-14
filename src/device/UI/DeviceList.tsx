@@ -44,18 +44,92 @@ export const DeviceList: React.FC = () => {
 
   const devices = data?.data?.devices as TDevice[];
 
+  // const devices: TDevice[] = [
+  //   {
+  //     deviceId: "1",
+  //     userId: "user1",
+  //     devicePlatform: "windows",
+  //     deviceToken: "token1",
+  //     isDisable: true,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  //   {
+  //     deviceId: "2",
+  //     userId: "user2",
+  //     devicePlatform: "linux",
+  //     deviceToken: "token2",
+  //     isDisable: false,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  //   {
+  //     deviceId: "3",
+  //     userId: "user3",
+  //     devicePlatform: "android",
+  //     deviceToken: "token3",
+  //     isDisable: true,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  //   {
+  //     deviceId: "4",
+  //     userId: "user4",
+  //     devicePlatform: "ios",
+  //     deviceToken: "token4",
+  //     isDisable: false,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  //   {
+  //     deviceId: "5",
+  //     userId: "user5",
+  //     devicePlatform: "macOS",
+  //     deviceToken: "token5",
+  //     isDisable: true,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  //   {
+  //     deviceId: "6",
+  //     userId: "user6",
+  //     devicePlatform: "web",
+  //     deviceToken: "token6",
+  //     isDisable: false,
+  //     createdAt: "2024-02-14",
+  //     updatedAt: "2024-02-14",
+  //   },
+  // ];
+
+  console.log(devices);
+
   return (
     <Fragment>
-      <div>
+      <div className="space-y-2">
+        <div
+          className="w-full text-start text-gray-700 
+           text-xl font-semibold"
+        >
+          {/* <p>Your devices that currently receive push notifications</p> */}
+          <p>Your devices </p>
+        </div>
         {devices?.map((device, index) => (
-          <div key={index} className="flex items-center justify-center gap-4">
-            <span>{device.devicePlatform}</span>
-            <span>
-              {new AppDate(device.createdAt).dayMonthYear()}{" "}
-              {new AppDate(device.createdAt).time()}
+          <div
+            key={index}
+            className="flex items-center justify-between 
+             gap-4 text-gray-800"
+          >
+            <span className="first-letter:uppercase">
+              {device.devicePlatform}
             </span>
-            {device.isDisable && <EnableDevice />}
-            {!device.isDisable && <DisableDevice />}
+            <span className="text-sm flex items-center justify-start gap-2">
+              <span>{new AppDate(device.createdAt).dayMonthYear()}</span>
+              <span className="hidden sm:block">
+                {new AppDate(device.createdAt).time()}
+              </span>
+            </span>
+            {device.isDisable && <EnableDevice deviceId={device.deviceId} />}
+            {!device.isDisable && <DisableDevice deviceId={device.deviceId} />}
           </div>
         ))}
       </div>

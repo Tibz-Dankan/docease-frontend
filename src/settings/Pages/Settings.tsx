@@ -11,11 +11,9 @@ export const Settings: React.FC = () => {
         <div>
           <UploadProfilePicture />
         </div>
-        <div className="flex flex-col items-centers justify-starts bg-green-500s">
+        <div className="flex flex-col gap-4">
           <UpdateProfile />
           <ChangePassword />
-        </div>
-        <div>
           <DeviceLayout />
         </div>
       </div>

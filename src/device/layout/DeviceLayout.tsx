@@ -5,7 +5,7 @@ import { DeviceList } from "../UI/DeviceList";
 export const DeviceLayout: React.FC = () => {
   return (
     <Fragment>
-      <div className="bg-white p-4 rounded-md shadow-md">
+      <div className="bg-white p-4 sm:p-8 rounded-md shadow-md space-y-4">
         <div className="bg-white p-4 rounded">
           <p
             className="text-gray-700 text-xl font-semibold
