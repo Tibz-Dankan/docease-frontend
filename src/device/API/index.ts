@@ -3,12 +3,12 @@ import { url } from "../../store";
 export const postDevice = async ({
   userId,
   deviceToken,
-  platform,
+  devicePlatform,
   accessToken,
 }: {
   userId: string;
   deviceToken: string;
-  platform: string;
+  devicePlatform: string;
   accessToken: string;
 }) => {
   const response = await fetch(`${url}/devices/post`, {
@@ -16,7 +16,7 @@ export const postDevice = async ({
     body: JSON.stringify({
       userId,
       deviceToken,
-      platform,
+      devicePlatform,
     }),
     headers: {
       "Content-type": "application/json",

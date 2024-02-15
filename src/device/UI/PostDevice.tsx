@@ -47,20 +47,25 @@ const firebaseConfig = {
   measurementId: "G-TF2C92VX7R",
 };
 
-// const firebaseApp = initializeApp(firebaseConfig);
 initializeApp(firebaseConfig);
+
+const messaging = getMessaging();
 
 export const PostDevice = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [deviceToken, setDeviceToken] = useState<string>("");
-
   const dispatch: any = useDispatch();
   const auth = useSelector((state: TAuthState) => state.auth);
 
   const { mutate } = useMutation({
     mutationFn: postDevice,
     onSuccess: (response: any) => {
-      console.log("response->", response);
+      setIsLoading(() => false);
+      dispatch(
+        showCardNotification({ type: "success", message: response.message })
+      );
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
     },
     onError: (error: any) => {
       setIsLoading(() => false);
@@ -73,24 +78,21 @@ export const PostDevice = () => {
 
   const isPermissionGranted = async (): Promise<boolean> => {
     const permission = await Notification.requestPermission();
-    console.log("permission->", permission);
     if (permission === "granted") return true;
     return false;
   };
 
-  const getDeviceToken = async () => {
+  const getDeviceToken = async (): Promise<string | null> => {
     const userId = auth.user?.userId as string;
     const accessToken = auth.accessToken as string;
     if (!userId || !accessToken) {
-      return;
+      return null;
     }
 
     if (!(await isPermissionGranted())) {
       console.log("Not granted permission");
-      return;
+      return null;
     }
-    // const messaging = getMessaging(firebaseApp);
-    const messaging = getMessaging();
 
     try {
       const token = await getToken(messaging, {
@@ -98,8 +100,8 @@ export const PostDevice = () => {
           "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
       });
 
-      console.log("device token->", token);
-      setDeviceToken(() => token);
+      console.log("device token", token);
+      return token;
     } catch (error: any) {
       setIsLoading(() => false);
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -107,28 +109,6 @@ export const PostDevice = () => {
         dispatch(hideCardNotification());
       }, 5000);
     }
-
-    // getToken(messaging, {
-    //   vapidKey:
-    //     "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
-    // })
-    //   .then((token) => {
-    //     if (!token) {
-    //       console.log("No registration token available");
-    //       return;
-    //     }
-    //     console.log("device Token->", token);
-    //     setDeviceToken(() => token);
-    //   })
-    //   .catch((error: any) => {
-    //     setIsLoading(() => false);
-    //     dispatch(
-    //       showCardNotification({ type: "error", message: error.message })
-    //     );
-    //     setTimeout(() => {
-    //       dispatch(hideCardNotification());
-    //     }, 5000);
-    //   });
     return null;
   };
 
@@ -154,21 +134,19 @@ export const PostDevice = () => {
     setIsLoading(() => true);
     const userAgent = window.navigator.userAgent;
     const platform = parseUserAgent(userAgent);
-    console.log("platform->", platform);
 
-    await getDeviceToken();
-
-    if (!deviceToken && !platform) return;
+    const token = await getDeviceToken();
     const userId = auth.user?.userId as string;
     const accessToken = auth.accessToken as string;
-    if (!userId || !accessToken || !platform || !deviceToken) {
+
+    if (!userId || !accessToken || !platform || !token) {
       return;
     }
 
     mutate({
       userId: userId,
-      deviceToken: deviceToken,
-      platform: platform,
+      deviceToken: token,
+      devicePlatform: platform,
       accessToken: accessToken,
     });
     setIsLoading(() => false);
