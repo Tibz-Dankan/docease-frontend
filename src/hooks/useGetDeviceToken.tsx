@@ -79,7 +79,7 @@ export const useGetDeviceToken = () => {
     mutate({
       userId: userId,
       deviceToken: deviceToken,
-      platform: platform,
+      devicePlatform: platform,
       accessToken: accessToken,
     });
   };
