@@ -47,7 +47,8 @@ const firebaseConfig = {
   measurementId: "G-TF2C92VX7R",
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+// const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export const PostDevice = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -88,28 +89,46 @@ export const PostDevice = () => {
       console.log("Not granted permission");
       return;
     }
-    const messaging = getMessaging(firebaseApp);
-    getToken(messaging, {
-      vapidKey:
-        "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
-    })
-      .then((token) => {
-        if (!token) {
-          console.log("No registration token available");
-          return;
-        }
-        console.log("device Token->", token);
-        setDeviceToken(() => token);
-      })
-      .catch((error: any) => {
-        setIsLoading(() => false);
-        dispatch(
-          showCardNotification({ type: "error", message: error.message })
-        );
-        setTimeout(() => {
-          dispatch(hideCardNotification());
-        }, 5000);
+    // const messaging = getMessaging(firebaseApp);
+    const messaging = getMessaging();
+
+    try {
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
       });
+
+      console.log("device token->", token);
+      setDeviceToken(() => token);
+    } catch (error: any) {
+      setIsLoading(() => false);
+      dispatch(showCardNotification({ type: "error", message: error.message }));
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
+    }
+
+    // getToken(messaging, {
+    //   vapidKey:
+    //     "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
+    // })
+    //   .then((token) => {
+    //     if (!token) {
+    //       console.log("No registration token available");
+    //       return;
+    //     }
+    //     console.log("device Token->", token);
+    //     setDeviceToken(() => token);
+    //   })
+    //   .catch((error: any) => {
+    //     setIsLoading(() => false);
+    //     dispatch(
+    //       showCardNotification({ type: "error", message: error.message })
+    //     );
+    //     setTimeout(() => {
+    //       dispatch(hideCardNotification());
+    //     }, 5000);
+    //   });
     return null;
   };
 
