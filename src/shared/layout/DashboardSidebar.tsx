@@ -107,7 +107,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           )}
           {pages.map(({ icon, name, path }) => (
             <li key={name}>
-              <NavLink to={`/${title}/${path}`}>
+              <NavLink
+                to={`/${title}/${path}`}
+                className={`${path === "video-conferencing" && "hidden"}`}
+              >
                 {({ isActive }) => (
                   <Button
                     className={`flex items-center gap-4 bg-inherit px-4 

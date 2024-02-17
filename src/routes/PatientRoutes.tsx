@@ -17,6 +17,7 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 import { LiaBrainSolid } from "react-icons/lia";
+import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 
 type TChildPath = {
   path: string;
@@ -141,6 +142,18 @@ export const PatientRoutes: React.FC = () => {
         ),
         path: "settings",
         element: <Settings />,
+      },
+      {
+        name: "Video Call",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
+              <SlSettings />
+            </IconContext.Provider>
+          </span>
+        ),
+        path: "video-conferencing",
+        element: <VideoConferencePage />,
       },
     ],
   };

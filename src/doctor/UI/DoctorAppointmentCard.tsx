@@ -5,6 +5,7 @@ import { Button } from "../../shared/UI/Button";
 import { Modal } from "../../shared/UI/Modal";
 import { PostAppointment } from "../../appointment/UI/PostAppointment";
 import { elapsedTime } from "../../utils/elapsedTime";
+import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
 
 interface CardProps {
   userId: string;
@@ -75,7 +76,10 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
           </div>
         </div>
 
-        <div>
+        <div className="space-y-2">
+          <div className="flex justify-center">
+            <GetVideoConference attendeeId={doctorId} />
+          </div>
           <Modal
             openModalElement={
               <Button
