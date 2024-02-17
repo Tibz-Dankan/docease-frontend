@@ -38,6 +38,10 @@ export const useLiveNotification = async () => {
       if (parsedUserId !== userId) return;
 
       dispatch(updateLiveNotification(parsedData));
+      dispatch(showCardNotification({ type: "info", message: message }));
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
     };
 
     const onerror = async (error: any) => {
