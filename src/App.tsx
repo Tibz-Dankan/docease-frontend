@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { notificationActions } from "./store";
+import io from "socket.io-client";
+import { notificationActions, socketUrl } from "./store";
 import { authenticate } from "./store/actions/auth";
 import { Notification } from "./shared/UI/Notification";
 import { TAuthState, TAuth } from "./types/auth";
@@ -13,8 +14,10 @@ import { DoctorRoutes } from "./routes/DoctorRoutes";
 import { useLiveNotification } from "./hooks/useLiveNotification";
 import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
+import { useLiveConfNotification } from "./hooks/useLiveConfNotification";
 
 export const App: React.FC = () => {
+  const socket = io(socketUrl);
   const auth = useSelector((state: TAuthState) => state.auth);
   const isLoggedIn = auth.isLoggedIn;
   const isPatient = auth.user?.role === "patient";
@@ -43,6 +46,7 @@ export const App: React.FC = () => {
 
   // useGetDeviceToken();
   useLiveNotification();
+  useLiveConfNotification();
   useGetOnlineStatus();
   useUpdateOnlineStatus();
 
@@ -117,7 +121,10 @@ export const App: React.FC = () => {
                 />
               )}
               <Routes>
-                <Route path="/patient/*" element={<PatientRoutes />} />
+                <Route
+                  path="/patient/*"
+                  element={<PatientRoutes socket={socket} />}
+                />
                 <Route
                   path="*"
                   element={<Navigate to="/patient/dashboard" replace />}

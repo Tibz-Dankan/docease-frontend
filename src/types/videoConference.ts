@@ -13,3 +13,8 @@ export type TVideoConference = {
 export type TVideoConferenceState = {
   videoConference: TVideoConference;
 };
+
+export type TVideoConferenceExtended = TVideoConference & {
+  userPeerId: string;
+  userId: string;
+};

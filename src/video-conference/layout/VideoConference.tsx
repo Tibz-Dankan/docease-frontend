@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from "react";
 import io, { Socket } from "socket.io-client";
 import Peer from "peerjs";
 import { useSelector } from "react-redux";
-import { TVideoConferenceState } from "../../types/videoConference";
+import {
+  TVideoConferenceExtended,
+  TVideoConferenceState,
+} from "../../types/videoConference";
 import { TAuthState } from "../../types/auth";
 import { socketUrl } from "../../store";
 import { IoVideocam, IoVideocamOff } from "react-icons/io5";
@@ -10,8 +13,12 @@ import { AiFillAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { MdCallEnd } from "react-icons/md";
 import { IconContext } from "react-icons";
 
-export const VideoConference: React.FC = () => {
-  const socket = useRef<Socket>();
+interface VideoConferenceProps {
+  socket: Socket;
+}
+
+export const VideoConference: React.FC<VideoConferenceProps> = (props) => {
+  const socket = useRef<Socket>(props.socket);
   const myVideoRef = useRef<HTMLVideoElement>(null);
   const videoGridRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLInputElement>(null);
@@ -27,7 +34,7 @@ export const VideoConference: React.FC = () => {
   console.log("videoConference->", videoConference);
 
   useEffect(() => {
-    socket.current = io(socketUrl);
+    // socket.current = io(socketUrl);
 
     const roomId = videoConference.videoConferenceId;
     if (!roomId) return;
@@ -105,8 +112,13 @@ export const VideoConference: React.FC = () => {
 
         // current user joins the call
         peerRef.current.on("open", (id) => {
-          console.log("my id is " + id);
-          socket.current!.emit("join-room", roomId, id, userId);
+          console.log("my peerId " + id);
+          const videoConf = videoConference as TVideoConferenceExtended;
+          videoConf.userId = userId;
+          videoConf.userPeerId = id;
+          // socket.current!.emit("join-room", roomId, id, userId);
+          console.log("Joining room! with videoConf->", videoConf);
+          socket.current!.emit("join-room", videoConf);
         });
 
         // current user is being called

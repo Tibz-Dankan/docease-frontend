@@ -18,6 +18,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 import { LiaBrainSolid } from "react-icons/lia";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
+import { Socket } from "socket.io-client";
 
 type TChildPath = {
   path: string;
@@ -37,7 +38,11 @@ type TRoute = {
   pages: TPage[];
 };
 
-export const PatientRoutes: React.FC = () => {
+interface PatientRoutesProps {
+  socket: Socket;
+}
+
+export const PatientRoutes: React.FC<PatientRoutesProps> = (props) => {
   const routes: TRoute = {
     title: "patient",
     pages: [
@@ -153,7 +158,7 @@ export const PatientRoutes: React.FC = () => {
           </span>
         ),
         path: "video-conferencing",
-        element: <VideoConferencePage />,
+        element: <VideoConferencePage socket={props.socket} />,
       },
     ],
   };
