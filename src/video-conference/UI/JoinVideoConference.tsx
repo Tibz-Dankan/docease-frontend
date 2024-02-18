@@ -32,7 +32,7 @@ export const JoinVideoConference: React.FC<JoinVideoConferenceProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: joinVideoConference,
     onSuccess: (response: any) => {
-      console.log("response->", response);
+      console.log("response: ", response);
       hasJoinedVideoConference();
     },
     onError: (error: any) => {
@@ -60,32 +60,17 @@ export const JoinVideoConference: React.FC<JoinVideoConferenceProps> = (
       <div>
         {!isLoading && (
           <div>
-            {/* <span
-              className="w-10 h-10 rounded-[50%] flex items-center 
-               justify-center bg-white border-[1px] border-gray-100
-               shadow-lg cursor-pointer"
-              onClick={() => getVideoConferenceHandler()}
-            >
-              <IconContext.Provider
-                value={{
-                  size: "1.0rem",
-                  color: "#42968D",
-                }}
-              >
-                <FaVideo />
-              </IconContext.Provider>
-            </span> */}
             <Button
               type="button"
               label="Join"
               onClick={() => joinVideoConferenceHandler()}
-              className="w-10 h-10"
+              className="w-20"
             />
           </div>
         )}
         {isLoading && (
           <div
-            className="w-10 py-2  rounded flex items-center 
+            className="w-20 py-2  rounded flex items-center 
              justify-center bg-primary"
           >
             <Loader className="w-6 h-6 stroke-gray-50" />
