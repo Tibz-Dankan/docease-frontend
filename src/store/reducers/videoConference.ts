@@ -28,7 +28,6 @@ export const videoConferenceSlice = createSlice({
       state.Host = action.payload.Host;
       state.Attendee = action.payload.Attendee;
     },
-
     updateConnected(state) {
       state.hasConnected = true;
     },

@@ -127,17 +127,11 @@ export const VideoConference: React.FC = () => {
       .catch((error) => console.error("Error accessing media devices:", error));
 
     return () => {
-      // socket.current!.disconnect();
       // peerRef && peerRef?.current!.disconnect();
     };
   }, [userId]);
 
-  const handleSend = () => {
-    if (textRef.current && textRef.current.value.length !== 0) {
-      socket.current!.emit("message", textRef.current.value);
-      textRef.current.value = "";
-    }
-  };
+  //  TODO: send chat message handler here
 
   // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
   //   if (
