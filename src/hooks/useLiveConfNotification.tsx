@@ -9,6 +9,7 @@ import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { TLiveNotification } from "../types/liveNotification";
 import { updateLiveNotification } from "../store/actions/liveNotification";
+import { updateVideoConferenceConnected } from "../store/actions/videoConference";
 
 export const useLiveConfNotification = async () => {
   const accessToken = useSelector(
@@ -35,6 +36,12 @@ export const useLiveConfNotification = async () => {
       const message = parsedData.message;
       const parsedUserId = parsedData.userId;
       if (message === "heartbeat" || message === "warmup") return;
+      // dispatch connect conf action
+      if (message === "confconnected") {
+        dispatch(updateVideoConferenceConnected());
+        return;
+      }
+
       if (parsedUserId !== userId) return;
 
       dispatch(updateLiveNotification(parsedData));

@@ -7,6 +7,12 @@ export const updateVideoConference = (videoConference: TVideoConference) => {
   };
 };
 
+export const updateVideoConferenceConnected = () => {
+  return async (dispatch: any) => {
+    await dispatch(videoConferenceActions.updateConnected());
+  };
+};
+
 export const clearVideoConference = () => {
   return async (dispatch: any) => {
     await dispatch(videoConferenceActions.clear());

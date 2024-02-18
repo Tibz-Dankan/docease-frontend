@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import io, { Socket } from "socket.io-client";
 import Peer from "peerjs";
 import { useSelector } from "react-redux";
 import {
@@ -7,20 +6,14 @@ import {
   TVideoConferenceState,
 } from "../../types/videoConference";
 import { TAuthState } from "../../types/auth";
-import { socketUrl } from "../../store";
 import { IoVideocam, IoVideocamOff } from "react-icons/io5";
 import { AiFillAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { MdCallEnd } from "react-icons/md";
 import { IconContext } from "react-icons";
 
-interface VideoConferenceProps {
-  socket: Socket;
-}
-
-export const VideoConference: React.FC<VideoConferenceProps> = (props) => {
-  const socket = useRef<Socket>(props.socket);
-  const myVideoRef = useRef<HTMLVideoElement>(null);
-  const videoGridRef = useRef<HTMLDivElement>(null);
+export const VideoConference: React.FC = () => {
+  // const myVideoRef = useRef<HTMLVideoElement>(null);
+  // const videoGridRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLInputElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
   const myVideoStreamRef = useRef<MediaStream>();
@@ -43,29 +36,17 @@ export const VideoConference: React.FC<VideoConferenceProps> = (props) => {
     const connectToNewUser = (userId: string, stream: MediaStream) => {
       console.log("I call someone " + userId);
       const call = peerRef.current!.call(userId, stream);
-      // const video = document.createElement("video");
       const videoElement = document.getElementById("host") as HTMLVideoElement;
-      // video.setAttribute("id", "host");
 
       call.on("stream", (userVideoStream) => {
-        // addVideoStream(video, userVideoStream);
         addVideoStream(videoElement, userVideoStream);
       });
     };
 
     const addVideoStream = (video: HTMLVideoElement, stream: MediaStream) => {
-      // if (videoGridRef.current && myVideoStreamRef.current) {
-      //   video.srcObject = stream;
-      //   video.addEventListener("loadedmetadata", () => {
-      //     video.play();
-      //     videoGridRef.current!.append(video);
-      //   });
-      // }
-
       video.srcObject = stream;
       video.addEventListener("loadedmetadata", () => {
         video.play();
-        // videoGridRef.current!.append(video);
       });
     };
 
@@ -76,7 +57,6 @@ export const VideoConference: React.FC<VideoConferenceProps> = (props) => {
         const videoElement = document.getElementById(
           "host"
         ) as HTMLVideoElement;
-        // addVideoStream(myVideoRef.current!, stream);
         addVideoStream(videoElement, stream);
 
         peerRef.current = new Peer({
@@ -119,41 +99,30 @@ export const VideoConference: React.FC<VideoConferenceProps> = (props) => {
           // socket.current!.emit("join-room", roomId, id, userId);
           console.log("Joining room! with videoConf->", videoConf);
           socket.current!.emit("join-room", videoConf);
+          // Sending an http request to save user in the conf map
         });
 
         // current user is being called
         peerRef.current.on("call", (call) => {
           console.log("someone call me");
           call.answer(stream);
-          // const video = document.createElement("video");
           const videoElement = document.getElementById(
             "attendee"
           ) as HTMLVideoElement;
-          // video.setAttribute("id", "attendee");
 
           call.on("stream", (userVideoStream) => {
             addVideoStream(videoElement, userVideoStream);
           });
         });
 
+        // listen for joining user and them connect them to the call
         socket.current!.on("user-connected", (userId: string) => {
           connectToNewUser(userId, stream);
         });
 
         // consider saving chat messages in the state(useState) on client side
-        socket.current!.on(
-          "createMessage",
-          (message: string, userId: string) => {
-            if (messagesRef.current) {
-              messagesRef.current.innerHTML += `<div class="message">
-                <b><i class="far fa-user-circle"></i> <span> ${
-                  userId === userId ? "me" : userId
-                }</span> </b>
-                <span>${message}</span>
-              </div>`;
-            }
-          }
-        );
+
+        // listen for chat messages heres
       })
       .catch((error) => console.error("Error accessing media devices:", error));
 

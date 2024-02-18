@@ -18,3 +18,7 @@ export type TVideoConferenceExtended = TVideoConference & {
   userPeerId: string;
   userId: string;
 };
+
+export type TVideoConferenceConnected = TVideoConference & {
+  hasConnected: boolean;
+};

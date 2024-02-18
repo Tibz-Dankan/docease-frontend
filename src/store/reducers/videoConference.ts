@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TVideoConference } from "../../types/videoConference";
+import {
+  TVideoConference,
+  TVideoConferenceConnected,
+} from "../../types/videoConference";
 
-const initialState: TVideoConference = {
+const initialState: TVideoConferenceConnected = {
   videoConferenceId: "",
   hostId: "",
   attendeeId: "",
@@ -9,6 +12,7 @@ const initialState: TVideoConference = {
   updatedAt: "",
   Host: null,
   Attendee: null,
+  hasConnected: false,
 };
 
 export const videoConferenceSlice = createSlice({
@@ -23,6 +27,10 @@ export const videoConferenceSlice = createSlice({
       state.updatedAt = action.payload.updatedAt;
       state.Host = action.payload.Host;
       state.Attendee = action.payload.Attendee;
+    },
+
+    updateConnected(state) {
+      state.hasConnected = true;
     },
     clear(state) {
       state = initialState;
