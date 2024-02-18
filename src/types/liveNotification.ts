@@ -10,3 +10,8 @@ export type TLiveNotificationList = {
 export type TLiveNotificationState = {
   liveNotification: TLiveNotificationList;
 };
+
+export type TLiveConfNotification = TLiveNotification & {
+  videoConferenceId?: string;
+  peerId?: string;
+};

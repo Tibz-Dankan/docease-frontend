@@ -13,6 +13,7 @@ const initialState: TVideoConferenceConnected = {
   Host: null,
   Attendee: null,
   hasConnected: false,
+  connectPeerId: "",
 };
 
 export const videoConferenceSlice = createSlice({
@@ -28,8 +29,9 @@ export const videoConferenceSlice = createSlice({
       state.Host = action.payload.Host;
       state.Attendee = action.payload.Attendee;
     },
-    updateConnected(state) {
+    updateConnected(state, action: PayloadAction<{ connectPeerId: string }>) {
       state.hasConnected = true;
+      state.connectPeerId = action.payload.connectPeerId;
     },
     clear(state) {
       state = initialState;

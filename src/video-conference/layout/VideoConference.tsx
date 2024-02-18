@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Peer from "peerjs";
 import { useSelector } from "react-redux";
 import {
-  TVideoConferenceExtended,
+  TVideoConferenceConnected,
   TVideoConferenceState,
 } from "../../types/videoConference";
 import { TAuthState } from "../../types/auth";
@@ -10,25 +10,40 @@ import { IoVideocam, IoVideocamOff } from "react-icons/io5";
 import { AiFillAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { MdCallEnd } from "react-icons/md";
 import { IconContext } from "react-icons";
+import { JoinVideoConference } from "../UI/JoinVideoConference";
 
 export const VideoConference: React.FC = () => {
-  // const myVideoRef = useRef<HTMLVideoElement>(null);
-  // const videoGridRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLInputElement>(null);
-  const messagesRef = useRef<HTMLDivElement>(null);
   const myVideoStreamRef = useRef<MediaStream>();
   const peerRef = useRef<Peer>();
+  const [peerId, setPeerId] = useState<string>("");
+  const [hasJoinedConference, setHasJoinedConference] =
+    useState<boolean>(false);
+  const [hasMutedVideo, setHasMutedVideo] = useState<boolean>(false);
+  const [hasMutedAudio, setHasMutedAudio] = useState<boolean>(false);
+
+  const joinedConferenceHandler = (hasJoined: boolean) => {
+    setHasJoinedConference(() => hasJoined);
+  };
+
+  const videoMuteHandler = () => {
+    // TODO: add actual functionality for muting and un muting
+    setHasMutedVideo(() => !hasMutedVideo);
+  };
+
+  const audioMuteHandler = () => {
+    // TODO: add actual functionality for muting and un muting
+    setHasMutedAudio(() => !hasMutedAudio);
+  };
 
   const videoConference = useSelector(
     (state: TVideoConferenceState) => state.videoConference
-  );
+  ) as TVideoConferenceConnected;
+
   const userId = useSelector((state: TAuthState) => state.auth.user?.userId)!;
 
-  console.log("videoConference->", videoConference);
+  console.log("videoConference: ", videoConference);
 
   useEffect(() => {
-    // socket.current = io(socketUrl);
-
     const roomId = videoConference.videoConferenceId;
     if (!roomId) return;
 
@@ -92,14 +107,10 @@ export const VideoConference: React.FC = () => {
 
         // current user joins the call
         peerRef.current.on("open", (id) => {
+          setPeerId(() => id);
           console.log("my peerId " + id);
-          const videoConf = videoConference as TVideoConferenceExtended;
-          videoConf.userId = userId;
-          videoConf.userPeerId = id;
-          // socket.current!.emit("join-room", roomId, id, userId);
-          console.log("Joining room! with videoConf->", videoConf);
-          socket.current!.emit("join-room", videoConf);
-          // Sending an http request to save user in the conf map
+
+          // socket.current!.emit("join-room", videoConf);
         });
 
         // current user is being called
@@ -115,14 +126,13 @@ export const VideoConference: React.FC = () => {
           });
         });
 
-        // listen for joining user and them connect them to the call
-        socket.current!.on("user-connected", (userId: string) => {
-          connectToNewUser(userId, stream);
-        });
-
-        // consider saving chat messages in the state(useState) on client side
-
-        // listen for chat messages heres
+        // // listen for joining user and them connect them to the call
+        // socket.current!.on("user-connected", (userId: string) => {
+        //   connectToNewUser(userId, stream);
+        // });
+        if (videoConference.hasConnected) {
+          connectToNewUser(videoConference.connectPeerId, stream);
+        }
       })
       .catch((error) => console.error("Error accessing media devices:", error));
 
@@ -130,19 +140,6 @@ export const VideoConference: React.FC = () => {
       // peerRef && peerRef?.current!.disconnect();
     };
   }, [userId]);
-
-  //  TODO: send chat message handler here
-
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (
-  //     e.key === "Enter" &&
-  //     textRef.current &&
-  //     textRef.current.value.length !== 0
-  //   ) {
-  //     socket.current!.emit("message", textRef.current.value);
-  //     textRef.current.value = "";
-  //   }
-  // };
 
   return (
     <div className="w-full bg-green-500 min-h-[80vh]">
@@ -160,30 +157,54 @@ export const VideoConference: React.FC = () => {
         </div>
         <div className="px-4 py-4 flex items-center justify-between bg-blue-600">
           <div className="flex items-center justify-center gap-4">
-            <span className="flex items-center justify-center">
-              <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
-                <IoVideocam />
-              </IconContext.Provider>
-            </span>
-            {/* <span className="flex items-center justify-center">
-              <IconContext.Provider
-                value={{ size: "1.5rem", color: "#42968D" }}
+            {!hasJoinedConference && (
+              <JoinVideoConference
+                videoConferenceId={videoConference.videoConferenceId}
+                peerId={peerId}
+                onJoin={joinedConferenceHandler}
+              />
+            )}
+            {/* TODO: to a counter when the conference starts */}
+            {!hasMutedVideo && (
+              <span
+                className="flex items-center justify-center"
+                onClick={() => videoMuteHandler()}
               >
-                <IoVideocamOff />
-              </IconContext.Provider>
-            </span> */}
-            <span className="flex items-center justify-center">
-              <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
-                <AiFillAudio />
-              </IconContext.Provider>
-            </span>{" "}
-            {/* <span className="flex items-center justify-center">
-              <IconContext.Provider
-                value={{ size: "1.5rem", color: "#42968D" }}
+                <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
+                  <IoVideocam />
+                </IconContext.Provider>
+              </span>
+            )}
+            {hasMutedVideo && (
+              <span
+                className="flex items-center justify-center"
+                onClick={() => videoMuteHandler()}
               >
-                <AiOutlineAudioMuted />
-              </IconContext.Provider>
-            </span> */}
+                <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
+                  <IoVideocamOff />
+                </IconContext.Provider>
+              </span>
+            )}
+            {!hasMutedAudio && (
+              <span
+                className="flex items-center justify-center"
+                onClick={() => audioMuteHandler()}
+              >
+                <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
+                  <AiFillAudio />
+                </IconContext.Provider>
+              </span>
+            )}
+            {hasMutedAudio && (
+              <span
+                className="flex items-center justify-center"
+                onClick={() => audioMuteHandler()}
+              >
+                <IconContext.Provider value={{ size: "1.5rem", color: "#fff" }}>
+                  <AiOutlineAudioMuted />
+                </IconContext.Provider>
+              </span>
+            )}
           </div>
           <div>
             <span

@@ -7,9 +7,11 @@ export const updateVideoConference = (videoConference: TVideoConference) => {
   };
 };
 
-export const updateVideoConferenceConnected = () => {
+export const updateVideoConferenceConnected = (peerId: string) => {
   return async (dispatch: any) => {
-    await dispatch(videoConferenceActions.updateConnected());
+    await dispatch(
+      videoConferenceActions.updateConnected({ connectPeerId: peerId })
+    );
   };
 };
 

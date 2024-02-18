@@ -7,7 +7,7 @@ import {
 import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { TLiveNotification } from "../types/liveNotification";
+import { TLiveConfNotification } from "../types/liveNotification";
 import { updateLiveNotification } from "../store/actions/liveNotification";
 import { updateVideoConferenceConnected } from "../store/actions/videoConference";
 
@@ -32,13 +32,13 @@ export const useLiveConfNotification = async () => {
 
     const onmessage = async (event: any) => {
       console.log("event data", event);
-      const parsedData = JSON.parse(event.data) as TLiveNotification;
+      const parsedData = JSON.parse(event.data) as TLiveConfNotification;
       const message = parsedData.message;
       const parsedUserId = parsedData.userId;
       if (message === "heartbeat" || message === "warmup") return;
       // dispatch connect conf action
       if (message === "confconnected") {
-        dispatch(updateVideoConferenceConnected());
+        dispatch(updateVideoConferenceConnected(parsedData.peerId!));
         return;
       }
 
