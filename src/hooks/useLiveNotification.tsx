@@ -7,8 +7,12 @@ import {
 import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { TLiveNotification } from "../types/liveNotification";
+import { TLiveConfNotification } from "../types/liveNotification";
 import { updateLiveNotification } from "../store/actions/liveNotification";
+import {
+  updateRequestConnectVideoConference,
+  updateVideoConferenceConnected,
+} from "../store/actions/videoConference";
 
 export const useLiveNotification = async () => {
   const accessToken = useSelector(
@@ -31,11 +35,30 @@ export const useLiveNotification = async () => {
 
     const onmessage = async (event: any) => {
       console.log("event data", event);
-      const parsedData = JSON.parse(event.data) as TLiveNotification;
+      const parsedData = JSON.parse(event.data) as TLiveConfNotification;
       const message = parsedData.message;
       const parsedUserId = parsedData.userId;
       if (message === "heartbeat" || message === "warmup") return;
       if (parsedUserId !== userId) return;
+      if (message === "confconnected") {
+        dispatch(updateVideoConferenceConnected(parsedData.peerId!));
+        return;
+      }
+
+      if (parsedUserId !== userId) return;
+
+      const videoConferenceId: string = parsedData.videoConferenceId!;
+      const requestConnectMessage: string = parsedData.message;
+
+      if (videoConferenceId && requestConnectMessage) {
+        dispatch(
+          updateRequestConnectVideoConference(
+            videoConferenceId,
+            requestConnectMessage
+          )
+        );
+        return;
+      }
 
       dispatch(updateLiveNotification(parsedData));
       dispatch(showCardNotification({ type: "info", message: message }));

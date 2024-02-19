@@ -22,4 +22,10 @@ export type TVideoConferenceExtended = TVideoConference & {
 export type TVideoConferenceConnected = TVideoConference & {
   hasConnected: boolean;
   connectPeerId: string;
+  requestConnectVideoConferenceId: string;
+  requestConnectMessage: string;
+};
+
+export type TVideoConferenceConnectedState = {
+  videoConference: TVideoConferenceConnected;
 };

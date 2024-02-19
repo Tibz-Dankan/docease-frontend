@@ -14,6 +14,8 @@ const initialState: TVideoConferenceConnected = {
   Attendee: null,
   hasConnected: false,
   connectPeerId: "",
+  requestConnectVideoConferenceId: "",
+  requestConnectMessage: "",
 };
 
 export const videoConferenceSlice = createSlice({
@@ -32,6 +34,20 @@ export const videoConferenceSlice = createSlice({
     updateConnected(state, action: PayloadAction<{ connectPeerId: string }>) {
       state.hasConnected = true;
       state.connectPeerId = action.payload.connectPeerId;
+    },
+    updateRequestConnectVideoConference(
+      state,
+      action: PayloadAction<{
+        requestConnectVideoConferenceId: string;
+        requestConnectMessage: string;
+      }>
+    ) {
+      state.requestConnectVideoConferenceId =
+        action.payload.requestConnectVideoConferenceId;
+      state.requestConnectMessage = action.payload.requestConnectMessage;
+    },
+    clearRequestConnectVideoConference(state) {
+      state.requestConnectVideoConferenceId = "";
     },
     clear(state) {
       state = initialState;

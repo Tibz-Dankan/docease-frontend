@@ -15,6 +15,26 @@ export const updateVideoConferenceConnected = (peerId: string) => {
   };
 };
 
+export const updateRequestConnectVideoConference = (
+  requestConnectVideoConferenceId: string,
+  requestConnectMessage: string
+) => {
+  return async (dispatch: any) => {
+    await dispatch(
+      videoConferenceActions.updateRequestConnectVideoConference({
+        requestConnectVideoConferenceId: requestConnectVideoConferenceId,
+        requestConnectMessage: requestConnectMessage,
+      })
+    );
+  };
+};
+
+export const clearRequestConnectVideoConference = () => {
+  return async (dispatch: any) => {
+    await dispatch(videoConferenceActions.clearRequestConnectVideoConference());
+  };
+};
+
 export const clearVideoConference = () => {
   return async (dispatch: any) => {
     await dispatch(videoConferenceActions.clear());
