@@ -3,14 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
-import { Messages } from "../shared/pages/Messages";
 import { DoctorAppointments } from "../doctor/pages/DoctorAppointments";
 import { MyPatients } from "../doctor/pages/MyPatients";
 import { Settings } from "../settings/Pages/Settings";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { PiChatsCircleLight } from "react-icons/pi";
+// import { PiChatsCircleLight } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
@@ -36,7 +35,7 @@ export const DoctorRoutes: React.FC = () => {
         name: "Dashboard",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
               <AiOutlineDashboard />
             </IconContext.Provider>
           </span>
@@ -48,7 +47,7 @@ export const DoctorRoutes: React.FC = () => {
         name: "My Patients",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.4rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.4rem", color: "#495057" }}>
               <RiGroupLine />
             </IconContext.Provider>
           </span>
@@ -60,7 +59,7 @@ export const DoctorRoutes: React.FC = () => {
         name: "Notifications",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
               <IoMdNotificationsOutline />
             </IconContext.Provider>
           </span>
@@ -72,7 +71,7 @@ export const DoctorRoutes: React.FC = () => {
         name: "Appointments",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
               <MdOutlineCalendarMonth />
             </IconContext.Provider>
           </span>
@@ -81,22 +80,10 @@ export const DoctorRoutes: React.FC = () => {
         element: <DoctorAppointments />,
       },
       {
-        name: "Messages",
-        icon: (
-          <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#42968D" }}>
-              <PiChatsCircleLight />
-            </IconContext.Provider>
-          </span>
-        ),
-        path: "messages",
-        element: <Messages />,
-      },
-      {
         name: "Settings",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
               <SlSettings />
             </IconContext.Provider>
           </span>
@@ -108,7 +95,7 @@ export const DoctorRoutes: React.FC = () => {
         name: "Video Call",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.5rem", color: "#42968D" }}>
+            <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
               <SlSettings />
             </IconContext.Provider>
           </span>

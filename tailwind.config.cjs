@@ -13,10 +13,10 @@ module.exports = withMT({
     },
     extend: {
       colors: {
-        primary: "#42968D",
-        primaryLight: "#63e6be",
-        primaryDark: "#087f5b",
-        secondary: "#1c7ed6",
+        primary: "#1c7ed6",
+        primaryLight: "#a5d8ff",
+        primaryDark: "#1864ab",
+        secondary: "#37b24d",
         "gray-opacity": "rgba(0, 0, 0, 0.15)",
         info: " #5BC0DE",
         warning: "#F0AD4E",

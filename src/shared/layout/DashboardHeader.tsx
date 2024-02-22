@@ -2,13 +2,9 @@ import { openSidebarHandler } from "../../store/actions/sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosMenu } from "react-icons/io";
-import { PiChatsCircleLight } from "react-icons/pi";
 import { IoPerson } from "react-icons/io5";
-import { GoTriangleDown } from "react-icons/go";
 import { IconContext } from "react-icons";
-import { SearchApp } from "../UI/SearchApp";
 import { NavDropdown } from "../UI/NavDropdown";
-import logo from "../../assets/images/logo.jpeg";
 import { TAuthState } from "../../types/auth";
 import { Link } from "react-router-dom";
 import {
@@ -24,7 +20,10 @@ export const DashboardHeader = () => {
     dispatch(openSidebarHandler());
   };
 
-  const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
+  const user = useSelector((state: TAuthState) => state.auth.user!);
+  // const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
+  const userRole = user.role;
+  const username = `${user.firstName} ${user.lastName}`;
 
   const notifications: TLiveNotification[] = useSelector(
     (state: TLiveNotificationState) => state.liveNotification.notifications
@@ -55,51 +54,30 @@ export const DashboardHeader = () => {
 
   return (
     <header
-      className="transition-all fixed w-full top-0 left-0
-       z-40 py-3 h-16 bg-primary px-4"
+      className="transition-all sticky w-full top-0
+       z-40 py-3 h-16 bg-gray-100 border-b-[1px] 
+      border-gray-300 px-6"
     >
       <div
         className="flex flex-col-reverses justify-between 
          gap-4 sm:gap-6 md:flex-row md:items-center"
       >
-        <div
-          className="flex items-center gap-0 relative 
-          w-12 sm:w-64"
-        >
-          <img
-            src={logo}
-            alt="logo"
-            className="w-12 absolute top-0 sm:-top-1 left-0 fill-white"
-          />
-          <span
-            className="text-gray-50 ml-11 text-2xl uppercase
-            font-semibold hidden sm:block"
-          >
-            Docease
-          </span>
-        </div>
-
-        <div
-          className="flex items-center justify-center absolute top-20 
-           left-0 sm:static w-full"
-        >
-          <SearchApp />
-        </div>
-
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 w-12 sm:w-64">
           <span
             onClick={() => handleOpenSidebar()}
             className="inline-block xl:hidden cursor-pointer"
           >
-            <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
+            <IconContext.Provider value={{ size: "1.8rem", color: "#343a40" }}>
               <IoIosMenu />
             </IconContext.Provider>
           </span>
-          <Link to={`/${userRole}/messages`}>
-            <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
-              <PiChatsCircleLight />
-            </IconContext.Provider>
-          </Link>
+          <span className="text-gray-800">
+            {/* TO Dynamically get page route name */}
+            {"Messages"}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4">
           <Link to={`/${userRole}/notifications`} className="relative">
             <span
               className="absolute -top-4 -right-1 text-[12px] 
@@ -110,27 +88,23 @@ export const DashboardHeader = () => {
             >
               {notificationCount}
             </span>
-            <IconContext.Provider value={{ size: "1.8rem", color: "#fff" }}>
+            <IconContext.Provider value={{ size: "1.8rem", color: "#343a40" }}>
               <IoMdNotificationsOutline />
             </IconContext.Provider>
           </Link>
           <NavDropdown>
-            <div className="flex items-center">
+            <div className="flex items-center gap-2 cursor-pointer">
               <span
                 className="cursor-pointer grid place-items-center  bg-gray-300 p-1
-              w-10 h-10 rounded-[50%]"
+                w-10 h-10 rounded-[50%] "
               >
                 <IconContext.Provider
-                  value={{ size: "1.4rem", color: "#495057" }}
+                  value={{ size: "1.2rem", color: "#495057" }}
                 >
                   <IoPerson />
                 </IconContext.Provider>
               </span>
-              <span className="inline-block cursor-pointer">
-                <IconContext.Provider value={{ size: "1.2rem", color: "#fff" }}>
-                  <GoTriangleDown />
-                </IconContext.Provider>
-              </span>
+              <span className="text-gray-800 hidden sm:block">{username}</span>
             </div>
           </NavDropdown>
         </div>
