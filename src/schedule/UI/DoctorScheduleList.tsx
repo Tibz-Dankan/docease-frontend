@@ -11,9 +11,10 @@ import { Loader } from "../../shared/UI/Loader";
 import { getScheduleByUser } from "../API";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Schedule } from "../../types/schedule";
-
+import { convertTo12HourFormat } from "../../utils/convertTo12HourFormat";
 interface DoctorScheduleListProps {
   doctorId: string;
+  doctorName: string;
 }
 
 export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
@@ -65,6 +66,12 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
       <div>
         <div className="text-sm text-gray-800">
           <div
+            className="text-lg border-b-[1px] border-gray-300 pb-2
+            text-primary font-semibold"
+          >
+            <p>{"Dr. " + props.doctorName + " Appointment Schedule"}</p>
+          </div>
+          <div
             className=" border-b-[1px] border-gray-300
             text-primary space-y-4 py-4 h-auto"
           >
@@ -82,7 +89,8 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
                           className="bg-gray-300 rounded p-2 text-center
                           text-[12px] font-semibold"
                         >
-                          {timeSlot.start} - {timeSlot.end}
+                          {convertTo12HourFormat(timeSlot.start)} -{" "}
+                          {convertTo12HourFormat(timeSlot.end)}
                         </span>
                       ))}
                     </p>
