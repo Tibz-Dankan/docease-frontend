@@ -60,7 +60,7 @@ export const AssessmentHistoryPage: React.FC = () => {
               <Button
                 label="Take Assessment"
                 type="button"
-                className="py-1 px-4 text-sm font-bold"
+                className="py-2 px-4 text-sm font-bold"
               />
             </Link>
           </div>
