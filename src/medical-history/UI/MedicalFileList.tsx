@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { FileItem } from "./FileItem";
-import records from "../data/records.json";
 import { useDispatch, useSelector } from "react-redux";
 import { getMedicalFilesByUser } from "../API";
 import { TAuthState } from "../../types/auth";
@@ -11,6 +10,7 @@ import {
 } from "../../store/actions/notification";
 import { Loader } from "../../shared/UI/Loader";
 import { TMedicalFile } from "../../types/medication";
+import { DocumentViewerLayout } from "../layout/DocumentViewerLayout";
 
 export const MedicalFileList: React.FC = () => {
   const userId = useSelector(
@@ -45,25 +45,36 @@ export const MedicalFileList: React.FC = () => {
 
   if (!data) return;
 
-  console.log("data from api<medical records>");
-
   const medication = data?.data?.medicalRecords as TMedicalFile[];
 
-  console.log("records->", records);
   return (
     <Fragment>
       <div className="w-full space-y-4">
         <div
           className=" w-full text-gray-800s text-center
-          bg-gray-300 rounded-md p-4 text-primary"
+          bg-gray-300 rounded-md p-4 text-primary
+          "
         >
           <p>Uploaded Files</p>
         </div>
-        {medication.map((record, index: number) => (
-          <div key={index}>
-            <FileItem filename={record.name} createdAt={record.createdAt} />
-          </div>
-        ))}
+        <div className=" max-h-[50vh] overflow-x-hidden pb-8 px-4">
+          {medication.map((record, index: number) => (
+            <div key={index}>
+              <DocumentViewerLayout
+                openModalElement={
+                  <div className="cursor-pointer">
+                    <FileItem
+                      filename={record.name}
+                      createdAt={record.createdAt}
+                    />
+                  </div>
+                }
+                documentName={record.name}
+                documentUrl={record.url}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </Fragment>
   );

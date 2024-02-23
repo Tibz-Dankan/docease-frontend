@@ -6,6 +6,17 @@ interface MedicalLayoutProps {
 }
 
 export const MedicalLayout: React.FC<MedicalLayoutProps> = (props) => {
+  const getLastWordFromUrl = (): string => {
+    const url = window.location.pathname;
+    const segments = url.split("/");
+    console.log("segments->", segments);
+    return segments[segments.length - 1];
+  };
+
+  const lastWord = getLastWordFromUrl();
+  const isFormMedicalHistoryRoute = lastWord === "form";
+  // const isFormMedicalHistoryRoute = lastWord === "files";
+
   return (
     <Fragment>
       <div className="p-8 bg-white rounded-md">
@@ -20,19 +31,43 @@ export const MedicalLayout: React.FC<MedicalLayoutProps> = (props) => {
           <div
             className="flex items-center justify-center 
              border-b-[1px] border-gray-300 p-2 gap-8
-             text-gray-700 -mt-4 text-sm"
+             text-gray-700 -mt-4 text-sm bg-green-500s"
           >
-            <span>
-              <Link
-                to="/patient/medical-history/files"
-                className="text-primary"
+            <div
+              className="inline-block px-6 py-3 space-x-8
+              bg-gray-300 rounded-md my-2"
+            >
+              <span
+                className={`${
+                  !isFormMedicalHistoryRoute &&
+                  "bg-white px-4 py-1 text-center rounded-md"
+                }`}
               >
-                Files
-              </Link>
-            </span>
-            <span>
-              <Link to="/patient/medical-history/form">Form</Link>
-            </span>
+                <Link
+                  to="/patient/medical-history/files"
+                  className={`${
+                    !isFormMedicalHistoryRoute && "text-primary font-semibold"
+                  }`}
+                >
+                  Files
+                </Link>
+              </span>
+              <span
+                className={`${
+                  isFormMedicalHistoryRoute &&
+                  "bg-white px-4 py-1 text-center rounded-md"
+                }`}
+              >
+                <Link
+                  to="/patient/medical-history/form"
+                  className={`${
+                    isFormMedicalHistoryRoute && "text-primary font-semibold"
+                  }`}
+                >
+                  Form
+                </Link>
+              </span>
+            </div>
           </div>
         </div>
         <div>{props.children}</div>
