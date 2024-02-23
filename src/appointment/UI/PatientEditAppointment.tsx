@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import { Button } from "../../shared/UI/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import schedules from "../data/schedule.json";
 import { AppDate } from "../../utils/appDate";
 import {
   showCardNotification,
@@ -14,6 +13,9 @@ import { updateAppointment } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { TAppointment } from "../../types/appointments";
+import { DoctorScheduleList } from "../../schedule/UI/DoctorScheduleList";
+import { Schedule, ScheduleTime } from "../../types/schedule";
+import { AppointmentScheduleTimeSelect } from "./AppointmentScheduleTimeSelect";
 
 interface TileContentProps {
   date: any;
@@ -45,12 +47,35 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
   );
   const doctorName = `${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`;
 
-  //   TODO: to get appointment schedules from the api
-  const appointmentAvailabilitySchedule = schedules.schedule;
+  const [doctorSchedules, setDoctorSchedules] = useState<Schedule[]>([]);
+  const [selectedScheduleTime, setSelectedScheduleTime] = useState<
+    ScheduleTime[]
+  >([]);
+
+  const onScheduleFetchHandler = (schedules: Schedule[]) => {
+    setDoctorSchedules(() => schedules);
+  };
+
+  const onSelectScheduleTimeHandler = (scheduleTime: ScheduleTime) => {
+    setAppointmentStartTime(() => scheduleTime.start);
+    setAppointmentEndTime(() => scheduleTime.end);
+  };
+
+  const getWeekDaySchedules = (weekday: string): ScheduleTime[] => {
+    const weekDaySchedules = doctorSchedules.find(
+      (schedule) => schedule.weekday === weekday
+    )!;
+
+    return weekDaySchedules.scheduleTime;
+  };
 
   const appointmentDateChangeHandler = (date: any) => {
     setAppointmentDate(() => date);
     setSelectedAppointmentDate(() => date);
+
+    const weekday = new AppDate(date).getWeekday();
+
+    setSelectedScheduleTime(() => getWeekDaySchedules(weekday));
   };
 
   const auth = useSelector((state: TAuthState) => state.auth);
@@ -129,6 +154,21 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
     return null;
   };
 
+  const hasScheduleTme: boolean = !!selectedScheduleTime[0];
+
+  // useEffect(() => {
+  //   const setDefaultDefaultScheduleTime = () => {
+  //     if (doctorSchedules[0]) return;
+  //     if (hasScheduleTme) return;
+  //     const weekday = new AppDate(appointment.startsAt).getWeekday();
+  //     if (!weekday) return;
+  //     const weekDaySchedules = getWeekDaySchedules(weekday);
+  //     if (weekDaySchedules == undefined) return;
+  //     setSelectedScheduleTime(() => getWeekDaySchedules(weekday));
+  //   };
+  //   setDefaultDefaultScheduleTime();
+  // }, []);
+
   return (
     <Fragment>
       <div
@@ -136,33 +176,11 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
          md:h-[70vh] overflow-x-hidden flex flex-col gap-4"
       >
         <div className="text-sm text-gray-800">
-          <div
-            className="text-lg border-b-[1px] border-gray-300 pb-2
-            text-primary font-semibold"
-          >
-            <p>{"Dr. " + doctorName + " Appointment Schedule"}</p>
-          </div>
-          <div
-            className=" border-b-[1px] border-gray-300
-            text-primary space-y-4 py-4 h-auto"
-          >
-            {appointmentAvailabilitySchedule.map((schedule, index) => (
-              <div key={index} className="flex items-center gap-4">
-                <p className="w-20 text-start">{schedule.day}</p>
-                <p className="space-x-2">
-                  {schedule.timeSlots.map((timeSlot, index) => (
-                    <span
-                      key={index}
-                      className="bg-gray-300 rounded p-2 text-center
-                       text-[12px] font-semibold"
-                    >
-                      {timeSlot.start} - {timeSlot.end}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            ))}
-          </div>
+          <DoctorScheduleList
+            doctorId={appointment.doctorId}
+            doctorName={doctorName}
+            onFetch={onScheduleFetchHandler}
+          />
         </div>
         <div
           className="text-base border-b-[1px] border-gray-300
@@ -197,29 +215,45 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
                 <label htmlFor="start-time" className="text-gray-800 text-sm">
                   Start Time
                 </label>
-                <input
-                  type="time"
-                  value={appointmentStartTime}
-                  onChange={(event) =>
-                    setAppointmentStartTime(event.target.value)
-                  }
-                  className="bg-gray-300 outline-none focus:border-[2px]
-                  border-primary rounded p-2 text-primary"
-                />
+                {!hasScheduleTme && (
+                  <span
+                    className="bg-gray-300 outline-none focus:border-[2px]
+                    border-primary rounded p-2 text-primary text-sm"
+                  >
+                    No Time Slot
+                  </span>
+                )}
+                {hasScheduleTme && (
+                  <AppointmentScheduleTimeSelect
+                    scheduleTimes={selectedScheduleTime}
+                    onSelectScheduleTime={onSelectScheduleTimeHandler}
+                    isStartTime={true}
+                    startTimeValue={appointmentStartTime}
+                    endTimeValue={appointmentEndTime}
+                  />
+                )}
               </div>
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="start-time" className="text-gray-800 text-sm">
                   End Time
                 </label>
-                <input
-                  type="time"
-                  value={appointmentEndTime}
-                  onChange={(event) =>
-                    setAppointmentEndTime(event.target.value)
-                  }
-                  className="bg-gray-300 outline-none focus:border-[2px]
-                  border-primary rounded p-2 text-primary"
-                />
+                {!hasScheduleTme && (
+                  <span
+                    className="bg-gray-300 outline-none focus:border-[2px]
+                    border-primary rounded p-2 text-primary text-sm"
+                  >
+                    No Time Slot
+                  </span>
+                )}
+                {hasScheduleTme && (
+                  <AppointmentScheduleTimeSelect
+                    scheduleTimes={selectedScheduleTime}
+                    onSelectScheduleTime={onSelectScheduleTimeHandler}
+                    isEndTime={true}
+                    startTimeValue={appointmentStartTime}
+                    endTimeValue={appointmentEndTime}
+                  />
+                )}
               </div>
               <div className="w-full space-y-2">
                 <label htmlFor="subject" className="text-gray-800 text-sm">

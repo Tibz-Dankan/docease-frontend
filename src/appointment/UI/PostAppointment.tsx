@@ -193,7 +193,7 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
                 {!hasScheduleTme && (
                   <span
                     className="bg-gray-300 outline-none focus:border-[2px]
-                    border-primary rounded p-2 text-primary"
+                    border-primary rounded p-2 text-primary text-sm"
                   >
                     No Time Slot
                   </span>
@@ -215,7 +215,7 @@ export const PostAppointment: React.FC<PostAppointmentProps> = (props) => {
                 {!hasScheduleTme && (
                   <span
                     className="bg-gray-300 outline-none focus:border-[2px]
-                    border-primary rounded p-2 text-primary"
+                    border-primary rounded p-2 text-primary text-sm"
                   >
                     No Time Slot
                   </span>
