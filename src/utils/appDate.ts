@@ -65,4 +65,19 @@ export class AppDate {
 
     return resultDate.toISOString();
   }
+
+  getWeekday() {
+    const date: Date = this.date;
+    const weekdays: string[] = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
+    const weekdayIndex: number = date.getDay();
+    return weekdays[weekdayIndex];
+  }
 }
