@@ -7,7 +7,7 @@ import { PatientAppointments } from "../patient/pages/PatientAppointments";
 import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
 import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
 import { Settings } from "../settings/Pages/Settings";
-import { MentalHealth } from "../mental-health/Pages/MentalHealth";
+import { PostMentalHealthAssessmentPage } from "../mental-health/Pages/PostMentalHealthAssessmentPage";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -17,6 +17,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 import { LiaBrainSolid } from "react-icons/lia";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
+import { AssessmentHistoryPage } from "../mental-health/Pages/AssessmentHistoryPage";
 
 type TChildPath = {
   path: string;
@@ -106,6 +107,18 @@ export const PatientRoutes: React.FC = () => {
           },
         ],
       },
+      // {
+      //   name: "Mental health",
+      //   icon: (
+      //     <span className="inline-block cursor-pointer">
+      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+      //         <LiaBrainSolid />
+      //       </IconContext.Provider>
+      //     </span>
+      //   ),
+      //   path: "mental-health",
+      //   element: <PostMentalHealthAssessmentPage />,
+      // },
       {
         name: "Mental health",
         icon: (
@@ -115,8 +128,26 @@ export const PatientRoutes: React.FC = () => {
             </IconContext.Provider>
           </span>
         ),
-        path: "mental-health",
-        element: <MentalHealth />,
+        path: "mental-health/assessment",
+        element: (
+          <div className="w-full">
+            <Outlet />
+          </div>
+        ),
+        childrenPath: [
+          {
+            path: "",
+            element: <PostMentalHealthAssessmentPage />,
+          },
+          {
+            path: "post",
+            element: <PostMentalHealthAssessmentPage />,
+          },
+          {
+            path: "history/:mentalHealthId",
+            element: <AssessmentHistoryPage />,
+          },
+        ],
       },
       {
         name: "Settings",
