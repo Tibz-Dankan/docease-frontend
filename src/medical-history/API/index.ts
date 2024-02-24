@@ -104,3 +104,28 @@ export const getMedicalRecordByUser = async ({
 
   return await response.json();
 };
+
+export const deleteMedicalFile = async ({
+  medicalFileId,
+  accessToken,
+}: {
+  medicalFileId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/medical-records/delete-file/${medicalFileId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    }
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};

@@ -10,7 +10,7 @@ import {
 } from "../../store/actions/notification";
 import { Loader } from "../../shared/UI/Loader";
 import { TMedicalFile } from "../../types/medication";
-import { DocumentViewerLayout } from "../layout/DocumentViewerLayout";
+// import { DocumentViewerLayout } from "../layout/DocumentViewerLayout";
 
 export const MedicalFileList: React.FC = () => {
   const userId = useSelector(
@@ -60,18 +60,16 @@ export const MedicalFileList: React.FC = () => {
         <div className=" max-h-[50vh] overflow-x-hidden pb-8 px-4">
           {medication.map((record, index: number) => (
             <div key={index}>
-              <DocumentViewerLayout
+              {/* <DocumentViewerLayout
                 openModalElement={
                   <div className="cursor-pointer">
-                    <FileItem
-                      filename={record.name}
-                      createdAt={record.createdAt}
-                    />
+                    <FileItem medicalFile={record} />
                   </div>
                 }
                 documentName={record.name}
                 documentUrl={record.url}
-              />
+              /> */}
+              <FileItem medicalFile={record} />
             </div>
           ))}
         </div>

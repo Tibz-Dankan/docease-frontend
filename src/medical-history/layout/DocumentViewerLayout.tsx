@@ -1,14 +1,15 @@
-import React, { Fragment, ReactNode } from "react";
+import React, { Fragment } from "react";
 import { getFileExtension } from "../../utils/getFileExtension";
 // import { DocumentWordViewer } from "../UI/DocumentWordViewer";
 // import { DocumentPDFViewer } from "../UI/DocumentPDFViewer";
 import { DocumentImageViewer } from "../UI/DocumentImageViewer";
 import { Modal } from "../../shared/UI/Modal";
+import { IconContext } from "react-icons";
+import { IoEyeOutline } from "react-icons/io5";
 
 interface DocumentViewerLayoutProps {
   documentName: string;
   documentUrl: string;
-  openModalElement: ReactNode;
 }
 
 export const DocumentViewerLayout: React.FC<DocumentViewerLayoutProps> = (
@@ -28,7 +29,21 @@ export const DocumentViewerLayout: React.FC<DocumentViewerLayoutProps> = (
 
   return (
     <Fragment>
-      <Modal openModalElement={props.openModalElement} className="">
+      <Modal
+        openModalElement={
+          <span className="cursor-pointer">
+            <IconContext.Provider
+              value={{
+                size: "1.4rem",
+                color: "#495057",
+              }}
+            >
+              <IoEyeOutline />
+            </IconContext.Provider>
+          </span>
+        }
+        className=""
+      >
         <div
           className="w-full sm:max-w-[600px] sm:max-h-[70vh]
           lg:max-w-[800px]
