@@ -69,7 +69,7 @@ export const PatientAppointmentList: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="w-full relative bg-green-500">
+      <div className="w-full relative">
         <div
           className="absolute -top-10 right-0 flex items-center
           justify-center bg-yellow-800 rounded text-white
