@@ -14,6 +14,7 @@ import { useLiveNotification } from "./hooks/useLiveNotification";
 import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
 import { useLiveConfNotification } from "./hooks/useLiveConfNotification";
+import { LandingPage } from "./common/pages/LandingPage";
 
 export const App: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
@@ -93,7 +94,7 @@ export const App: React.FC = () => {
                 />
               )}
               <Routes>
-                <Route path="/" element={<div>Landing page</div>} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/auth/*" element={<AuthRoutes />} />
                 <Route path="/home" element={<Navigate to="/" replace />} />
                 <Route
