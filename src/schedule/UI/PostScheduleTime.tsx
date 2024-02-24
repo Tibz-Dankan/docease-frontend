@@ -5,7 +5,7 @@ import {
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import { startScheduleReload } from "../../store/actions/reload";
+import { clearReload, updateReload } from "../../store/actions/reload";
 import { postScheduleTime } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
@@ -29,7 +29,11 @@ export const PostScheduleTime: React.FC<PostScheduleTimeProps> = (props) => {
     mutationFn: postScheduleTime,
     onSuccess: (response: any) => {
       console.log("response", response);
-      dispatch(startScheduleReload());
+      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
+      setTimeout(() => {
+        dispatch(clearReload());
+      }, 1000);
+
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Modal } from "../../shared/UI/Modal";
 import { Button } from "../../shared/UI/Button";
@@ -7,66 +7,68 @@ import { IconContext } from "react-icons";
 import { IoMdCheckmark } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteSchedule } from "../UI/DeleteSchedule";
-import { useQuery } from "@tanstack/react-query";
 import {
   showCardNotification,
   hideCardNotification,
 } from "../../store/reducers/notification";
-import { stopScheduleReload } from "../../store/actions/reload";
 import { getScheduleByUser } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
 import { EditScheduleTime } from "../UI/EditScheduleTime";
 import { DeleteScheduleTime } from "../UI/DeleteScheduleTime";
 import { PostScheduleTime } from "../UI/PostScheduleTime";
+import { Schedule } from "../../types/schedule";
+import { clearReload } from "../../store/actions/reload";
 
 export const ScheduleLayout: React.FC = () => {
   const dispatch: any = useDispatch();
+  const [scheduleList, setScheduleList] = useState<Schedule[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = useSelector(
     (state: TAuthState) => state.auth.accessToken
   ) as string;
 
   const user = useSelector((state: TAuthState) => state.auth.user);
-  const isScheduleReload: boolean = useSelector(
-    (state: any) => state.reload.isScheduleReload
-  );
 
-  const [isReload, _] = useState(isScheduleReload);
-  console.log("isScheduleReload-->", isReload);
+  const getScheduleByUserHandler = async () => {
+    try {
+      setIsLoading(() => true);
+      const data: any = await getScheduleByUser({
+        userId: user?.userId!,
+        token: token,
+      });
 
-  const { isLoading, data } = useQuery({
-    queryKey: [`schedules-${user?.userId}`],
-    queryFn: () => getScheduleByUser({ userId: user?.userId!, token: token }),
-    onSuccess(_) {
-      dispatch(stopScheduleReload());
-    },
-    onError: (error: any) => {
-      dispatch(stopScheduleReload());
+      const scheduleList = buildScheduleList(data?.data?.schedules);
+      setScheduleList(() => {
+        return scheduleList;
+      });
+      setIsLoading(() => false);
+      dispatch(clearReload());
+    } catch (error: any) {
+      console.log("error->", error.message);
+      setIsLoading(() => false);
+      dispatch(clearReload());
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
-    },
-  });
+    }
+  };
 
-  if (isLoading)
-    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+  useEffect(() => {
+    getScheduleByUserHandler();
 
-  console.log("API response data for schedules ->", data);
-
-  // const scheduleList = buildScheduleList(ScheduleMockData.schedules);
-  const scheduleList = buildScheduleList(data.data?.schedules);
+    return () => {
+      setScheduleList(() => {
+        return [];
+      });
+    };
+  }, [scheduleList, setScheduleList]);
 
   console.log("scheduleList", scheduleList);
 
-  // const hasSchedule = !!ScheduleMockData.schedules[0];
-  const hasSchedule = !!data.data?.schedules[0];
-
-  // useEffect(() => {
-  //   console.log("reloading schedule layout...");
-  //   // }, [isScheduleReload]);
-  // }, []);
+  const hasSchedule = !!scheduleList[0];
 
   return (
     <Fragment>
@@ -78,8 +80,26 @@ export const ScheduleLayout: React.FC = () => {
             className="w-32 text-sm"
           />
         }
-        className="p-8"
+        className="p-8 pt-12 relative"
       >
+        {isLoading && (
+          <div className="absolute top-3 left-12">
+            <Loader className="w-6 h-6 stroke-gray-600 px-2" />
+          </div>
+        )}
+        <div
+          className="absolute top-3 right-12 flex items-center
+          justify-center bg-yellow-800 rounded text-white
+          px-2"
+          onClick={() => getScheduleByUserHandler()}
+        >
+          {isLoading && <Loader className="w-4 h-4 stroke-yellow-800s ml-2" />}
+          <Button
+            label="Reload"
+            type="button"
+            className="bg-yellow-800 text-sm text-white py-1"
+          />
+        </div>
         <div
           className="flex items-start justify-center gap-4
           w-[92%] sm:w-[600px] sm:h-[70vh]"

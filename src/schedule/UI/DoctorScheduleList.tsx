@@ -12,6 +12,7 @@ import { getScheduleByUser } from "../API";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Schedule } from "../../types/schedule";
 import { convertTo12HourFormat } from "../../utils/convertTo12HourFormat";
+import { useReload } from "../../hooks/useReload";
 interface DoctorScheduleListProps {
   doctorId: string;
   doctorName: string;
@@ -29,7 +30,7 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
 
   const doctorId = props.doctorId;
 
-  const { isLoading, data } = useQuery({
+  const { isLoading: isLoadingSchedules, data: serverData } = useQuery({
     queryKey: [`doctor-schedule-${doctorId}`],
     queryFn: () => getScheduleByUser({ userId: doctorId, token: token }),
     onSuccess: (response: any) => {
@@ -44,13 +45,25 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
     },
   });
 
-  if (isLoading) {
+  let isLoadingData: boolean = isLoadingSchedules;
+  let serverResponseData: any = serverData;
+
+  const { isLoading, data } = useReload(
+    () => getScheduleByUser({ userId: doctorId, token: token }),
+    `doctor-schedule-${doctorId}`,
+    "schedules"
+  );
+
+  isLoadingData = isLoading;
+  serverResponseData = data;
+
+  if (isLoadingData) {
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
   }
 
   if (!data) return;
 
-  const scheduleList = buildScheduleList(data.data?.schedules);
+  const scheduleList = buildScheduleList(serverResponseData?.data?.schedules);
 
   const showScheduleItem = (schedule: Schedule): boolean => {
     let showSchedule: boolean = !!(

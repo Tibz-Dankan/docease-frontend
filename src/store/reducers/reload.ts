@@ -1,26 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { TReload } from "../../types/reload";
 
-type InitialState = {
-  isScheduleReload: boolean;
-  isAppointmentReload: boolean;
-};
-
-const initialState: InitialState = {
-  isScheduleReload: false,
-  isAppointmentReload: false,
+const initialState: TReload = {
+  entity: "",
+  isReloading: false,
 };
 
 export const reloadSlice = createSlice({
   name: "reload",
   initialState,
   reducers: {
-    startScheduleReload(state) {
-      state.isScheduleReload = true;
+    updateReload(state, action: PayloadAction<TReload>) {
+      state.entity = action.payload.entity;
+      state.isReloading = action.payload.isReloading;
     },
-    stopScheduleReload(state) {
-      state.isScheduleReload = false;
+    clearReload(state) {
+      state = initialState;
     },
   },
 });
-
-export default reloadSlice.reducer;
