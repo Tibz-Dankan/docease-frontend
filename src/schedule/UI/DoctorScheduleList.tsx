@@ -12,7 +12,7 @@ import { getScheduleByUser } from "../API";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Schedule } from "../../types/schedule";
 import { convertTo12HourFormat } from "../../utils/convertTo12HourFormat";
-import { useReload } from "../../hooks/useReload";
+// import { useReload } from "../../hooks/useReload";
 interface DoctorScheduleListProps {
   doctorId: string;
   doctorName: string;
@@ -30,7 +30,7 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
 
   const doctorId = props.doctorId;
 
-  const { isLoading: isLoadingSchedules, data: serverData } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: [`doctor-schedule-${doctorId}`],
     queryFn: () => getScheduleByUser({ userId: doctorId, token: token }),
     onSuccess: (response: any) => {
@@ -45,25 +45,13 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
     },
   });
 
-  let isLoadingData: boolean = isLoadingSchedules;
-  let serverResponseData: any = serverData;
-
-  const { isLoading, data } = useReload(
-    () => getScheduleByUser({ userId: doctorId, token: token }),
-    `doctor-schedule-${doctorId}`,
-    "schedules"
-  );
-
-  isLoadingData = isLoading;
-  serverResponseData = data;
-
-  if (isLoadingData) {
+  if (isLoading) {
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
   }
 
   if (!data) return;
 
-  const scheduleList = buildScheduleList(serverResponseData?.data?.schedules);
+  const scheduleList = buildScheduleList(data?.data?.schedules);
 
   const showScheduleItem = (schedule: Schedule): boolean => {
     let showSchedule: boolean = !!(
@@ -74,6 +62,8 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
     return false;
   };
 
+  console.log("scheduleList :", scheduleList);
+
   return (
     <Fragment>
       <div>
@@ -82,7 +72,7 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
             className="text-lg border-b-[1px] border-gray-300 pb-2
             text-gray-800 font-semibold"
           >
-            <p>{"Dr. " + props.doctorName + " Appointment Schedule"}</p>
+            <p>{props.doctorName + " Appointment Schedule"}</p>
           </div>
           <div
             className="border-b-[1px] border-gray-300

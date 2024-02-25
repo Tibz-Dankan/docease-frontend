@@ -45,7 +45,7 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
   const [selectedAppointmentDate, setSelectedAppointmentDate] = useState(
     new Date(appointment.startsAt)
   );
-  const doctorName = `${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`;
+  const doctorName = `"Dr. ${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`;
 
   const [doctorSchedules, setDoctorSchedules] = useState<Schedule[]>([]);
   const [selectedScheduleTime, setSelectedScheduleTime] = useState<
@@ -156,19 +156,6 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
 
   const hasScheduleTme: boolean = !!selectedScheduleTime[0];
 
-  // useEffect(() => {
-  //   const setDefaultDefaultScheduleTime = () => {
-  //     if (doctorSchedules[0]) return;
-  //     if (hasScheduleTme) return;
-  //     const weekday = new AppDate(appointment.startsAt).getWeekday();
-  //     if (!weekday) return;
-  //     const weekDaySchedules = getWeekDaySchedules(weekday);
-  //     if (weekDaySchedules == undefined) return;
-  //     setSelectedScheduleTime(() => getWeekDaySchedules(weekday));
-  //   };
-  //   setDefaultDefaultScheduleTime();
-  // }, []);
-
   return (
     <Fragment>
       <div
@@ -186,7 +173,7 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
           className="text-base border-b-[1px] border-gray-300
            py-2 -mt-4"
         >
-          <p className="text-start text-primary font-semibold">
+          <p className="text-start text-gray-800 font-semibold">
             Select Date and Time
           </p>
         </div>
