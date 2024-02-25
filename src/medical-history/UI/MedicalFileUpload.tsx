@@ -115,7 +115,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
         {/* File uploader */}
         <div
           className="flex w-full items-center justify-center gap-4
-           md:gap-8 -mt-4 sm:py-8 sm:bg-gray-300 rounded-md"
+           md:gap-8 -mt-4s sm:py-8 sm:bg-gray-300 rounded-md mt-2"
         >
           <MedicalFilePicker onSave={onSelectHandler} isLoading={isLoading} />
           {file.content && !isLoading && (

@@ -11,9 +11,12 @@ import { Loader } from "../../shared/UI/Loader";
 import { getScheduleByUser } from "../API";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Schedule } from "../../types/schedule";
-
+import { convertTo12HourFormat } from "../../utils/convertTo12HourFormat";
+// import { useReload } from "../../hooks/useReload";
 interface DoctorScheduleListProps {
   doctorId: string;
+  doctorName: string;
+  onFetch: (schedules: Schedule[]) => void;
 }
 
 export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
@@ -30,8 +33,9 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
   const { isLoading, data } = useQuery({
     queryKey: [`doctor-schedule-${doctorId}`],
     queryFn: () => getScheduleByUser({ userId: doctorId, token: token }),
-    onSuccess: () => {
-      //TODO: dispatch an action to store schedules in the redux store
+    onSuccess: (response: any) => {
+      const scheduleList = buildScheduleList(response.data?.schedules);
+      props.onFetch(scheduleList);
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -47,9 +51,7 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
 
   if (!data) return;
 
-  const scheduleList = buildScheduleList(data.data?.schedules);
-
-  console.log("data scheduleList=>", scheduleList);
+  const scheduleList = buildScheduleList(data?.data?.schedules);
 
   const showScheduleItem = (schedule: Schedule): boolean => {
     let showSchedule: boolean = !!(
@@ -60,19 +62,30 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
     return false;
   };
 
+  console.log("scheduleList :", scheduleList);
+
   return (
     <Fragment>
       <div>
         <div className="text-sm text-gray-800">
           <div
-            className=" border-b-[1px] border-gray-300
+            className="text-lg border-b-[1px] border-gray-300 pb-2
+            text-gray-800 font-semibold"
+          >
+            <p>{props.doctorName + " Appointment Schedule"}</p>
+          </div>
+          <div
+            className="border-b-[1px] border-gray-300
             text-primary space-y-4 py-4 h-auto"
           >
             {scheduleList.map((schedule, index) => {
               if (showScheduleItem(schedule)) {
                 return (
                   <div key={index} className="flex items-center gap-4">
-                    <p className="w-20 text-start first-letter:uppercase">
+                    <p
+                      className="w-20 text-start first-letter:uppercase
+                    text-gray-800"
+                    >
                       {schedule.weekday}
                     </p>
                     <p className="space-x-2">
@@ -82,7 +95,8 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
                           className="bg-gray-300 rounded p-2 text-center
                           text-[12px] font-semibold"
                         >
-                          {timeSlot.start} - {timeSlot.end}
+                          {convertTo12HourFormat(timeSlot.start)} -{" "}
+                          {convertTo12HourFormat(timeSlot.end)}
                         </span>
                       ))}
                     </p>

@@ -10,7 +10,7 @@ import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
 import { IconContext } from "react-icons";
 import { MdDeleteOutline } from "react-icons/md";
-import { startScheduleReload } from "../../store/actions/reload";
+import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface DeleteScheduleProps {
   scheduleId: string;
@@ -27,7 +27,11 @@ export const DeleteSchedule: React.FC<DeleteScheduleProps> = (props) => {
     mutationFn: deleteSchedule,
     onSuccess: (response: any) => {
       console.log("response", response);
-      dispatch(startScheduleReload());
+      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
+      setTimeout(() => {
+        dispatch(clearReload());
+      }, 1000);
+
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

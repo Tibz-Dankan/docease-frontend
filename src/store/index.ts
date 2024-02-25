@@ -5,12 +5,14 @@ import { sidebarSlice } from "./reducers/sidebar";
 import { modalSlice } from "./reducers/modal";
 import { reloadSlice } from "./reducers/reload";
 import { liveNotificationSlice } from "./reducers/liveNotification";
+import { videoConferenceSlice } from "./reducers/videoConference";
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     notification: notificationSlice.reducer,
     liveNotification: liveNotificationSlice.reducer,
+    videoConference: videoConferenceSlice.reducer,
     sidebar: sidebarSlice.reducer,
     modal: modalSlice.reducer,
     reload: reloadSlice.reducer,
@@ -18,10 +20,13 @@ export const store = configureStore({
 });
 
 let url: string;
+let socketUrl: string;
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   url = "http://localhost:8000/api/v1";
+  socketUrl = "http://localhost:8000";
 } else {
   url = "https://docease-backend-v2.onrender.com/api/v1";
+  socketUrl = "https://docease-backend-v2.onrender.com";
 }
 
 // let url: string;
@@ -31,10 +36,11 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
 //   url = "https://docease-backend-v2.onrender.com/api/v1";
 // }
 
-export { url };
+export { url, socketUrl };
 export const authActions = authSlice.actions;
 export const notificationActions = notificationSlice.actions;
 export const liveNotificationActions = liveNotificationSlice.actions;
+export const videoConferenceActions = videoConferenceSlice.actions;
 export const sidebarActions = sidebarSlice.actions;
 export const modalActions = modalSlice.actions;
 export const reloadActions = reloadSlice.actions;

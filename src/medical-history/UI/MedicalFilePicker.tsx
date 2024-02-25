@@ -30,12 +30,12 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
 
   const { openFilePicker, filesContent } = useFilePicker({
     readAs: "ArrayBuffer",
-    accept: "image/*",
+    accept: [".jpeg", ".jpg", ".png", ".webp", ".pdf", ".docx", "doc"],
     multiple: false,
 
     validators: [
       new FileAmountLimitValidator({ max: 1 }),
-      new FileTypeValidator(["jpeg", "jpg", "png", "pdf"]),
+      new FileTypeValidator(["jpeg", "jpg", "png", "pdf", "docx"]),
       new FileSizeValidator({ maxFileSize: 50 * 1024 * 1024 /* 50 MB */ }),
     ],
   });

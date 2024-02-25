@@ -10,7 +10,7 @@ import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
 import { MdDeleteOutline } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { startScheduleReload } from "../../store/actions/reload";
+import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface DeleteScheduleTimeProps {
   scheduleTimeId: string;
@@ -29,7 +29,11 @@ export const DeleteScheduleTime: React.FC<DeleteScheduleTimeProps> = (
     mutationFn: deleteScheduleTime,
     onSuccess: (response: any) => {
       console.log("response", response);
-      dispatch(startScheduleReload());
+      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
+      setTimeout(() => {
+        dispatch(clearReload());
+      }, 1000);
+
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

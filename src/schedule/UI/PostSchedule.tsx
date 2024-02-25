@@ -9,7 +9,7 @@ import { postSchedule } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import { TAuthState } from "../../types/auth";
-import { startScheduleReload } from "../../store/actions/reload";
+import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface PostScheduleProps {
   weekday: string;
@@ -27,7 +27,11 @@ export const PostSchedule: React.FC<PostScheduleProps> = (props) => {
     mutationFn: postSchedule,
     onSuccess: (response: any) => {
       console.log("response", response);
-      dispatch(startScheduleReload());
+      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
+      setTimeout(() => {
+        dispatch(clearReload());
+      }, 1000);
+
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

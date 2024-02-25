@@ -43,6 +43,9 @@ export const getScheduleByUser = async ({
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     }
   );
