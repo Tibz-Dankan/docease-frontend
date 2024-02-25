@@ -32,7 +32,7 @@ export const ShowChatRecipientList: React.FC = () => {
   };
 
   const showChatOperationHandler = () => {
-    if (showChatRecipientListValue) {
+    if (!showChatRecipientListValue) {
       showChatRecipientListHandler();
     } else {
       hideRecipientListHandler(), hideChatHandler();
@@ -43,8 +43,9 @@ export const ShowChatRecipientList: React.FC = () => {
     <Fragment>
       <div
         className="flex items-center justify-center gap-3 
-         w-auto bg-green-500 py-2 px-4 rounded-t-md  fixed 
-         bottom-[1vh] right-[5vh] shadow-2xl z-[500] cursor-pointer"
+         w-auto bg-whites py-2 px-4 rounded-t-md  fixed 
+         bottom-[1vh] right-[5vh] shadow-2xl z-[500] cursor-pointer
+         border-gray-300 border-2 bg-white "
         onClick={() => showChatOperationHandler()}
       >
         {/* {!showChatRecipientListValue && (

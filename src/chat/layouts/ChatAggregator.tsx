@@ -22,6 +22,7 @@ interface ChatAggregatorProps {
 
 export const ChatAggregator: React.FC<ChatAggregatorProps> = (props) => {
   const [chatMessage, setChatMessage] = useState<string>("");
+  const [isSocketConnected, setIsSocketConnected] = useState<boolean>(true); // Track socket connection status
 
   const onSubmitHandler = (message: string) => {
     setChatMessage(message);
@@ -87,11 +88,26 @@ export const ChatAggregator: React.FC<ChatAggregatorProps> = (props) => {
       props.socket.on("receiveChatMessage", (message: IChatMessage) => {
         dispatch(addToMessageList(message));
       });
+      setIsSocketConnected(true); // Set socket connection status to true when socket is connected
       return () => {
         effectRan.current = true;
       };
     }
   }, [props.socket]);
+
+  useEffect(() => {
+    const handleWindowBeforeUnload = () => {
+      if (isSocketConnected) {
+        props.socket.close(); // Close socket connection only if it's connected
+      }
+    };
+
+    window.addEventListener("beforeunload", handleWindowBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleWindowBeforeUnload);
+    };
+  }, [isSocketConnected, props.socket]);
 
   const messageList: IChatMessage[] = useSelector(
     (state: any) => state.chat.messageList

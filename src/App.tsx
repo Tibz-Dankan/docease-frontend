@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { notificationActions, socketUrl } from "./store";
+import { notificationActions } from "./store";
 import { authenticate } from "./store/actions/auth";
 import { Notification } from "./shared/UI/Notification";
 import { TAuthState, TAuth } from "./types/auth";
@@ -15,16 +15,15 @@ import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
 import { useLiveConfNotification } from "./hooks/useLiveConfNotification";
 import { LandingPage } from "./common/pages/LandingPage";
-import { Chat } from "./chat/pages/Chat";
-// import io, { Socket } from "socket.io-client";
-import { io, Socket } from "socket.io-client";
+// import { Chat } from "./chat/pages/Chat";
+// import { io, Socket } from "socket.io-client";
 
 export const App: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
   const isLoggedIn = auth.isLoggedIn;
   const isPatient = auth.user?.role === "patient";
   const isDoctor = auth.user?.role === "doctor";
-  const socket: Socket = io(socketUrl);
+  // const socket: Socket = io(socketUrl);
   // const isAdmin = auth.user?.role === "admin";
 
   const isLoggedInPatient = isLoggedIn && isPatient;
@@ -116,7 +115,7 @@ export const App: React.FC = () => {
 
           {isLoggedInPatient && (
             <>
-              <Chat socket={socket} />
+              {/* <Chat socket={socket} /> */}
               <Fragment>
                 {notification.showCardNotification && (
                   <Notification
@@ -138,7 +137,7 @@ export const App: React.FC = () => {
 
           {isLoggedInDoctor && (
             <>
-              <Chat socket={socket} />
+              {/* <Chat socket={socket} /> */}
               <Fragment>
                 {notification.showCardNotification && (
                   <Notification

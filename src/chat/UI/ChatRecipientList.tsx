@@ -34,7 +34,9 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
   const accessToken: string = useSelector(
     (state: any) => state.auth.accessToken
   );
-  const sellerRecipient: TUser = useSelector((state: any) => state.user.seller);
+  const sellerRecipient: TUser = useSelector(
+    (state: any) => state.user?.seller
+  );
 
   const dispatch: any = useDispatch();
   const [recipientList, setRecipientList] = useState<TUser[]>([]);
