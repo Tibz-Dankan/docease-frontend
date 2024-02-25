@@ -6,6 +6,7 @@ import { modalSlice } from "./reducers/modal";
 import { reloadSlice } from "./reducers/reload";
 import { liveNotificationSlice } from "./reducers/liveNotification";
 import { videoConferenceSlice } from "./reducers/videoConference";
+import { chatSlice } from "./reducers/chat";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     notification: notificationSlice.reducer,
     liveNotification: liveNotificationSlice.reducer,
     videoConference: videoConferenceSlice.reducer,
+    chat: chatSlice.reducer,
     sidebar: sidebarSlice.reducer,
     modal: modalSlice.reducer,
     reload: reloadSlice.reducer,
@@ -40,6 +42,7 @@ export { url, socketUrl };
 export const authActions = authSlice.actions;
 export const notificationActions = notificationSlice.actions;
 export const liveNotificationActions = liveNotificationSlice.actions;
+export const chatActions = chatSlice.actions;
 export const videoConferenceActions = videoConferenceSlice.actions;
 export const sidebarActions = sidebarSlice.actions;
 export const modalActions = modalSlice.actions;
