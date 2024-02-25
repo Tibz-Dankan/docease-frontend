@@ -15,7 +15,7 @@ export const reloadSlice = createSlice({
       state.isReloading = action.payload.isReloading;
     },
     clearReload(state) {
-      state = initialState;
+      (state.entity = ""), (state.isReloading = false);
     },
   },
 });

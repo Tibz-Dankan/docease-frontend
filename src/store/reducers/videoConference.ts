@@ -50,7 +50,17 @@ export const videoConferenceSlice = createSlice({
       state.requestConnectVideoConferenceId = "";
     },
     clear(state) {
-      state = initialState;
+      (state.videoConferenceId = ""),
+        (state.hostId = ""),
+        (state.attendeeId = ""),
+        (state.createdAt = ""),
+        (state.updatedAt = ""),
+        (state.Host = null),
+        (state.Attendee = null),
+        (state.hasConnected = false),
+        (state.connectPeerId = ""),
+        (state.requestConnectVideoConferenceId = ""),
+        (state.requestConnectMessage = "");
     },
   },
 });
