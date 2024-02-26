@@ -22,7 +22,7 @@ export const DashboardHeader = () => {
 
   const user = useSelector((state: TAuthState) => state.auth.user!);
   // const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
-  const userRole = user.role;
+  // const userRole = user.role;
   const username = `${user.firstName} ${user.lastName}`;
 
   const notifications: TLiveNotification[] = useSelector(
@@ -73,12 +73,13 @@ export const DashboardHeader = () => {
           </span>
           <span className="text-gray-800">
             {/* TO Dynamically get page route name */}
-            {"Messages"}
+            {/* {"Messages"} */}
           </span>
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to={`/${userRole}/notifications`} className="relative">
+          {/* <Link to={`/${userRole}/notifications`} className="relative"> */}
+          <Link to={`/`} className="relative">
             <span
               className="absolute -top-4 -right-1 text-[12px] 
                   font-semibold text-gray-50 bg-red-700 rounded-[50%] 

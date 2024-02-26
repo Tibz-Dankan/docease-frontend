@@ -1,8 +1,8 @@
 import React, { Fragment, ReactNode } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { PatientDashboard } from "../patient/pages/PatientDashboard";
+// import { PatientDashboard } from "../patient/pages/PatientDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
-import { NotificationsPage } from "../shared/pages/NotificationsPage";
+// import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { PatientAppointments } from "../patient/pages/PatientAppointments";
 import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
 import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
@@ -10,10 +10,10 @@ import { Settings } from "../settings/Pages/Settings";
 import { PostMentalHealthAssessmentPage } from "../mental-health/Pages/PostMentalHealthAssessmentPage";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
-import { IoMdNotificationsOutline } from "react-icons/io";
+// import { IoMdNotificationsOutline } from "react-icons/io";
 // import { PiChatsCircleLight } from "react-icons/pi";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { AiOutlineDashboard } from "react-icons/ai";
+// import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 import { LiaBrainSolid } from "react-icons/lia";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
@@ -41,30 +41,30 @@ export const PatientRoutes: React.FC = () => {
   const routes: TRoute = {
     title: "patient",
     pages: [
-      {
-        name: "Dashboard",
-        icon: (
-          <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-              <AiOutlineDashboard />
-            </IconContext.Provider>
-          </span>
-        ),
-        path: "dashboard",
-        element: <PatientDashboard />,
-      },
-      {
-        name: "Notifications",
-        icon: (
-          <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-              <IoMdNotificationsOutline />
-            </IconContext.Provider>
-          </span>
-        ),
-        path: "notifications",
-        element: <NotificationsPage />,
-      },
+      // {
+      //   name: "Dashboard",
+      //   icon: (
+      //     <span className="inline-block cursor-pointer">
+      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+      //         <AiOutlineDashboard />
+      //       </IconContext.Provider>
+      //     </span>
+      //   ),
+      //   path: "dashboard",
+      //   element: <PatientDashboard />,
+      // },
+      // {
+      //   name: "Notifications",
+      //   icon: (
+      //     <span className="inline-block cursor-pointer">
+      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+      //         <IoMdNotificationsOutline />
+      //       </IconContext.Provider>
+      //     </span>
+      //   ),
+      //   path: "notifications",
+      //   element: <NotificationsPage />,
+      // },
       {
         name: "Appointments",
         icon: (
