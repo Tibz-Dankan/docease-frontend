@@ -72,12 +72,15 @@ export const MyPatients: React.FC = () => {
 
   return (
     <Fragment>
-      <div>
+      <div className=" w-full flex flex-col items-center justify-center">
         <div className="text-lg text-gray-800">
           {hasPatients && <span>My patients</span>}
           {!hasPatients && <span>You have no patients yet!</span>}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-16">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+           gap-4 mt-16 place-items-center"
+        >
           {patients.map((patient, index) => (
             <div key={index}>
               <PatientProfileCard
