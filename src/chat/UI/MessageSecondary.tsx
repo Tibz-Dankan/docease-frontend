@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { IOrganizedChatMessage } from "../../../types/chat.ts";
+import { IOrganizedChatMessage } from "../../types/chat";
 
 export const MessageSecondary = (props: any) => {
   const msg: IOrganizedChatMessage = props.msg;
