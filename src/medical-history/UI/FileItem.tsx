@@ -4,6 +4,8 @@ import { TMedicalFile } from "../../types/medication";
 import { DocumentViewerLayout } from "../layout/DocumentViewerLayout";
 import { DeleteMedicalFile } from "./DeleteMedicalFile";
 import { DownloadMedicalFile } from "./DownloadMedicalFile";
+import { useSelector } from "react-redux";
+import { TAuthState } from "../../types/auth";
 
 interface FileItemProps {
   medicalFile: TMedicalFile;
@@ -12,6 +14,9 @@ interface FileItemProps {
 export const FileItem: React.FC<FileItemProps> = (props) => {
   const createdAt = new AppDate(props.medicalFile.createdAt).dayMonthYear();
   const filename = props.medicalFile.name;
+  const user = useSelector((state: TAuthState) => state.auth.user!);
+
+  const isPatient = user.role === "patient";
 
   return (
     <Fragment>
@@ -26,7 +31,11 @@ export const FileItem: React.FC<FileItemProps> = (props) => {
             documentUrl={props.medicalFile.url}
           />
           <DownloadMedicalFile fileUrl={props.medicalFile.url} />
-          <DeleteMedicalFile medicalFileId={props.medicalFile.medicalFileId} />
+          {isPatient && (
+            <DeleteMedicalFile
+              medicalFileId={props.medicalFile.medicalFileId}
+            />
+          )}
           <span className="ml-2">{createdAt}</span>
         </div>
       </div>

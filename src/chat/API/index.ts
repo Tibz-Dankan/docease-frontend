@@ -1,11 +1,17 @@
-import { url } from "../../store/index";
+import { url } from "../../store";
 
-export const getAllDoctors = async (token: string) => {
-  const response = await fetch(`${url}/users/get-user-by-role?role=doctor`, {
+export const getChatRecipients = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(`${url}/chat/get-chat-recipients/${userId}`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -13,19 +19,18 @@ export const getAllDoctors = async (token: string) => {
     const error = await response.json();
     throw new Error(error.message);
   }
-
   return await response.json();
 };
 
-export const getDoctorsPatients = async ({
-  doctorId,
-  accessToken,
+export const getChatMessages = async ({
+  chatRoomId: chatRoomId,
+  accessToken: accessToken,
 }: {
-  doctorId: string;
+  chatRoomId: string;
   accessToken: string;
 }) => {
   const response = await fetch(
-    `${url}/doctors-patient/get-by-doctor?doctorId=${doctorId}`,
+    `${url}/chat/get-chat-messages?chatRoomId=${chatRoomId}`,
     {
       method: "GET",
       headers: {
@@ -34,11 +39,9 @@ export const getDoctorsPatients = async ({
       },
     }
   );
-
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message);
   }
-
   return await response.json();
 };

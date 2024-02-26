@@ -1,5 +1,5 @@
 import React, { Fragment, ReactNode } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
 import { NotificationsPage } from "../shared/pages/NotificationsPage";
@@ -14,12 +14,21 @@ import { RiGroupLine } from "react-icons/ri";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
+import { DisplayMedicalHistoryToDoctor } from "../medical-history/pages/DisplayMedicalHistoryToDoctor";
+import { DisplayAssessmentViewInitiator } from "../mental-health/Pages/DisplayAssessmentViewInitiator";
+import { DisplayAssessmentHistoryPage } from "../mental-health/Pages/DisplayAssessmentHistoryPage";
+
+type TChildPath = {
+  path: string;
+  element: ReactNode;
+};
 
 type TPage = {
   name: string;
   icon: ReactNode;
   path: string;
   element: ReactNode;
+  childrenPath?: TChildPath[];
 };
 
 type TRoute = {
@@ -53,7 +62,29 @@ export const DoctorRoutes: React.FC = () => {
           </span>
         ),
         path: "my-patients",
-        element: <MyPatients />,
+        element: (
+          <div className="w-full flex items-center justify-center">
+            <Outlet />
+          </div>
+        ),
+        childrenPath: [
+          {
+            path: "",
+            element: <MyPatients />,
+          },
+          {
+            path: "patient-medical-history/:patientId",
+            element: <DisplayMedicalHistoryToDoctor />,
+          },
+          {
+            path: "patient-health-assessment/:patientId",
+            element: <DisplayAssessmentViewInitiator />,
+          },
+          {
+            path: "patient-health-assessment/:patientId/:mentalHealthId",
+            element: <DisplayAssessmentHistoryPage />,
+          },
+        ],
       },
       {
         name: "Notifications",
@@ -106,16 +137,29 @@ export const DoctorRoutes: React.FC = () => {
     ],
   };
 
-  //TODO: check for role("doctor")
-
   return (
     <Fragment>
       <div>
         <DashboardLayout routes={routes}>
           <Routes>
-            {routes.pages.map((page, index) => (
-              <Route key={index} path={page.path} element={page.element} />
-            ))}
+            {routes.pages.map((page, index) => {
+              if (page.childrenPath) {
+                return (
+                  <Route key={index} path={page.path} element={page.element}>
+                    {page.childrenPath.map((child, index) => (
+                      <Route
+                        key={index}
+                        path={child.path}
+                        element={child.element}
+                      />
+                    ))}
+                  </Route>
+                );
+              }
+              return (
+                <Route key={index} path={page.path} element={page.element} />
+              );
+            })}
           </Routes>
         </DashboardLayout>
       </div>

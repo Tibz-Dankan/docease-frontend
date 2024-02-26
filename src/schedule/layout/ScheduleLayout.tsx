@@ -64,7 +64,7 @@ export const ScheduleLayout: React.FC = () => {
         return [];
       });
     };
-  }, [scheduleList, setScheduleList]);
+  }, []);
 
   console.log("scheduleList", scheduleList);
 
@@ -77,10 +77,10 @@ export const ScheduleLayout: React.FC = () => {
           <Button
             type="button"
             label={hasSchedule ? "Update Schedule" : "Add Schedule"}
-            className="w-32 text-sm"
+            className="w-32 text-sm mt-8"
           />
         }
-        className="p-8 pt-12 relative"
+        className="p-8 pt-12 relative text-end"
       >
         {isLoading && (
           <div className="absolute top-3 left-12">

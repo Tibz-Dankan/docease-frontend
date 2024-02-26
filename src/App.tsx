@@ -15,12 +15,15 @@ import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
 import { useLiveConfNotification } from "./hooks/useLiveConfNotification";
 import { LandingPage } from "./common/pages/LandingPage";
+// import { Chat } from "./chat/pages/Chat";
+// import { io, Socket } from "socket.io-client";
 
 export const App: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
   const isLoggedIn = auth.isLoggedIn;
   const isPatient = auth.user?.role === "patient";
   const isDoctor = auth.user?.role === "doctor";
+  // const socket: Socket = io(socketUrl);
   // const isAdmin = auth.user?.role === "admin";
 
   const isLoggedInPatient = isLoggedIn && isPatient;
@@ -111,41 +114,47 @@ export const App: React.FC = () => {
           )}
 
           {isLoggedInPatient && (
-            <Fragment>
-              {notification.showCardNotification && (
-                <Notification
-                  type={notification.cardNotificationType}
-                  message={notification.cardMessage}
-                  onClose={closeCardHandler}
-                />
-              )}
-              <Routes>
-                <Route path="/patient/*" element={<PatientRoutes />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/patient/dashboard" replace />}
-                />
-              </Routes>
-            </Fragment>
+            <>
+              {/* <Chat socket={socket} /> */}
+              <Fragment>
+                {notification.showCardNotification && (
+                  <Notification
+                    type={notification.cardNotificationType}
+                    message={notification.cardMessage}
+                    onClose={closeCardHandler}
+                  />
+                )}
+                <Routes>
+                  <Route path="/patient/*" element={<PatientRoutes />} />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/patient/dashboard" replace />}
+                  />
+                </Routes>
+              </Fragment>
+            </>
           )}
 
           {isLoggedInDoctor && (
-            <Fragment>
-              {notification.showCardNotification && (
-                <Notification
-                  type={notification.cardNotificationType}
-                  message={notification.cardMessage}
-                  onClose={closeCardHandler}
-                />
-              )}
-              <Routes>
-                <Route path="/doctor/*" element={<DoctorRoutes />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/doctor/dashboard" replace />}
-                />
-              </Routes>
-            </Fragment>
+            <>
+              {/* <Chat socket={socket} /> */}
+              <Fragment>
+                {notification.showCardNotification && (
+                  <Notification
+                    type={notification.cardNotificationType}
+                    message={notification.cardMessage}
+                    onClose={closeCardHandler}
+                  />
+                )}
+                <Routes>
+                  <Route path="/doctor/*" element={<DoctorRoutes />} />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/doctor/dashboard" replace />}
+                  />
+                </Routes>
+              </Fragment>
+            </>
           )}
         </BrowserRouter>
       </div>
