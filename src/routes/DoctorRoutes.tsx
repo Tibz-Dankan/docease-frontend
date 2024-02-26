@@ -15,6 +15,8 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 import { DisplayMedicalHistoryToDoctor } from "../medical-history/pages/DisplayMedicalHistoryToDoctor";
+import { DisplayAssessmentViewInitiator } from "../mental-health/Pages/DisplayAssessmentViewInitiator";
+import { DisplayAssessmentHistoryPage } from "../mental-health/Pages/DisplayAssessmentHistoryPage";
 
 type TChildPath = {
   path: string;
@@ -76,7 +78,11 @@ export const DoctorRoutes: React.FC = () => {
           },
           {
             path: "patient-health-assessment/:patientId",
-            element: <div>Patient health assessment</div>,
+            element: <DisplayAssessmentViewInitiator />,
+          },
+          {
+            path: "patient-health-assessment/:patientId/:mentalHealthId",
+            element: <DisplayAssessmentHistoryPage />,
           },
         ],
       },
