@@ -1,7 +1,7 @@
 import React, { Fragment, ReactNode } from "react";
 import { DashboardHeader } from "./DashboardHeader";
 import { DashboardSidebar } from "./DashboardSidebar";
-import { Footer } from "./Footer";
+// import { Footer } from "./Footer";
 import { useSelector } from "react-redux";
 import { TVideoConferenceConnectedState } from "../../types/videoConference";
 import { VCNotificationBanner } from "../../video-conference/layout/VCNotificationBanner";
@@ -53,7 +53,7 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
             className="text-blue-gray-600 flex items-center 
              justify-center mt-12"
           >
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       </div>

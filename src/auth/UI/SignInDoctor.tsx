@@ -99,12 +99,12 @@ export const SignInDoctor: React.FC = () => {
             <p className="text-center hover:underline hover:text-blue-500 cursor-pointer">
               <Link to="/auth/forgot-password">Forgot password?</Link>
             </p>
-            <p className="hover:underline hover:text-blue-500 cursor-pointer">
+            {/* <p className="hover:underline hover:text-blue-500 cursor-pointer">
               Don't have an account?{" "}
               <Link to="/auth/doctor/signup" className="underline">
                 sign Up
               </Link>
-            </p>
+            </p> */}
           </div>
         </form>
       </div>
