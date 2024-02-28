@@ -46,7 +46,7 @@ export const DoctorsList: React.FC = () => {
   if (isLoading)
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
 
-  const doctors = data?.data.doctors as Doctor[];
+  const doctors = data?.data.users as Doctor[];
 
   return (
     <Fragment>
