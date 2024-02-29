@@ -12,6 +12,7 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { PiChatsCircleLight } from "react-icons/pi";
 import maleDoctor from "../../assets/images/male-doctor.jpeg";
 import femaleDoctor from "../../assets/images/female-doctor.jpeg";
+import { SquareDots } from "../UI/SquareDots";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -21,7 +22,7 @@ export const LandingPage: React.FC = () => {
         <header className="flex flex-col justify-center items-center w-full">
           <nav
             className="flex items-center justify-between w-full 
-            px-4 sm:px-16 lg:px-28 py-2 sm:py-0"
+            px-4 sm:px-16 lg:px-28 py-2 sm:py-0 z-20 bg-white"
           >
             <div className="flex items-center justify-center">
               <img
@@ -45,21 +46,46 @@ export const LandingPage: React.FC = () => {
                   <span className="cursor-pointer">Sign In</span>
                 </AuthLinkDropdown>
               </li>
-              <li className="bg-primary py-2 px-4 rounded-md text-white font-semibold">
+              <li
+                className="py-1 px-4 rounded-3xl text-gray-800 
+                border-2 border-primary"
+              >
                 <Link to="/auth/patient/signup">Sign Up</Link>
               </li>
             </ul>
           </nav>
           <div
-            className="w-full flex flex-col sm:flex-row items-center
-            justify-center bg-blue-100  px-4 sm:px-16 
-            lg:px-28 gap-4 py-4"
+            className="w-full flex flex-col sm:flex-row items-center sm:items-start
+            justify-start sm:justify-center bg-blue-100s bg-gray-300s bg-transparent  px-[16px] sm:px-16 
+            lg:px-28 gap-4 pb-4 pt-4 md:pt-16s lg:pt-20 relative"
           >
+            <SquareDots
+              className="absolute top-24 left-12 md:left-20
+              z-[1] opacity-[60%] hidden sm:grid grid-cols-5"
+              size={"w-2 h-2"}
+              bgColor={"bg-gray-200"}
+              gap={"gap-[6px]"}
+              filled={true}
+            />
+            <SquareDots
+              className="absolute top-28 right-2 sm:right-6 md:right-12
+              xl:right-32 z-[1] hidden sm:grid grid-cols-5"
+              size={"w-5 h-5"}
+              bgColor={""}
+              borderColor={"border-gray-200"}
+              gap={"gap-3"}
+              filled={false}
+              applyShadow={true}
+            />
             <div
-              className="h-[60vh] w-full text-primaryDark  bg-green-500s
-             flex flex-col justify-center gap-3"
+              className="bg-blue-100 w-fulls w-[130vw] h-fulls h-[100vh] 
+              absolute -top-72 -left-20 rounded-bl-[35%] -rotate-[20deg] z-0"
+            />
+            <div
+              className="h-[60vh] w-full md:w-[400px] text-primaryDark
+              flex flex-col justify-start pt-8 sm:pt-12 gap-3 z-10"
             >
-              <h1 className="text-3xl">
+              <h1 className="text-2xl sm:text-3xl">
                 We're Being <span className="font-semibold">Determined</span>{" "}
                 for your <span className="font-semibold">better life.</span>
               </h1>
@@ -72,13 +98,19 @@ export const LandingPage: React.FC = () => {
                   <Button
                     label="Make appointment"
                     type="button"
-                    className="px-4 w-44"
+                    className="px-4 w-44 rounded-3xl"
                   />
                 </Link>
               </p>
             </div>
-            <div className="w-full">
-              <Image src={femaleDoctor} />
+            <div
+              className="w-full md:w-[500px] rounded-t-[60%] rounded-b-[50%] 
+               z-10 hidden sm:block"
+            >
+              <Image
+                src={femaleDoctor}
+                className="rounded-t-[60%] rounded-b-[50%]"
+              />
             </div>
           </div>
         </header>
