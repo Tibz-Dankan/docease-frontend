@@ -33,6 +33,10 @@ module.exports = withMT({
           "100%": { opacity: "1", transform: "translateY(0px)" },
         },
       },
+      spacing: {
+        "left-height": "calc(50vh - 2rem)",
+        "right-height": "calc(50vh + 2rem)",
+      },
     },
   },
   plugins: [],

@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect } from "react";
-import { Socket } from "socket.io-client";
+// import { Socket } from "socket.io-client";
 import { ChatRecipientList } from "../UI/ChatRecipientList";
 import { useSelector, useDispatch } from "react-redux";
 import { ChatAggregator } from "./ChatAggregator";
 import { hideChatRecipientList } from "../../store/actions/chat";
 
-interface ChatLayoutProps {
-  socket: Socket;
-}
+// interface ChatLayoutProps {
+//   socket: Socket;
+// }
 
-export const ChatLayout: React.FC<ChatLayoutProps> = (props) => {
+// export const ChatLayout: React.FC<ChatLayoutProps> = (props) => {
+export const ChatLayout: React.FC = () => {
   const showChatValue: boolean = useSelector(
     (state: any) => state.chat.showChat
   );
@@ -42,9 +43,11 @@ export const ChatLayout: React.FC<ChatLayoutProps> = (props) => {
          transition-all"
       >
         {showChatRecipientListValue && (
-          <ChatRecipientList socket={props.socket} />
+          // <ChatRecipientList socket={props.socket} />
+          <ChatRecipientList />
         )}
-        {showChatValue && <ChatAggregator socket={props.socket} />}
+        {/* {showChatValue && <ChatAggregator socket={props.socket} />} */}
+        {showChatValue && <ChatAggregator />}
       </div>
     </Fragment>
   );

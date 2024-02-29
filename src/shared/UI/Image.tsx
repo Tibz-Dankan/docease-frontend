@@ -4,22 +4,20 @@ import { twMerge } from "tailwind-merge";
 interface ImageProps {
   src: string;
   className?: string;
+  alt?: string;
 }
 
 export const Image: React.FC<ImageProps> = (props) => {
   return (
     <Fragment>
-      <div
+      <img
         className={twMerge(
-          `w-full h-auto aspect-[4/3] rounded bg-gray-300`,
+          `w-full h-auto aspect-[4/3] rounded bg-gray-300 
+           object-cover`,
           props.className
         )}
-        style={{
-          backgroundImage: `url(${props.src})`,
-          backgroundSize: "cover",
-          objectFit: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
+        src={props.src}
+        alt={props.alt}
       />
     </Fragment>
   );

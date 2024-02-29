@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-import { MessageBadge } from "./MessageBadge";
-import { Socket } from "socket.io-client";
+// import { MessageBadge } from "./MessageBadge";
+// import { Socket } from "socket.io-client";
 import { TAuthState, TUser } from "../../types/auth";
 import {
   clearMessageList,
@@ -14,29 +14,32 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { generateChatRoomId } from "../../utils/generateChatRoomId";
-import { getChatRecipients } from "../API";
+// import { generateChatRoomId } from "../../utils/generateChatRoomId";
+// import { getAllDoctors, getChatRecipients } from "../API";
+import { getChatRecipientByRole } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
 
-interface ChatRecipientListProps {
-  socket: Socket;
-}
+// interface ChatRecipientListProps {
+//   socket: Socket;
+// }
 
-export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
-  const currentUserId: string = useSelector(
-    (state: TAuthState) => state.auth.user?.userId!
-  );
-  const currentUser = useSelector((state: TAuthState) => state.auth.user);
+// export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
+export const ChatRecipientList: React.FC = () => {
+  // const currentUserId: string = useSelector(
+  //   (state: TAuthState) => state.auth.user?.userId!
+  // );
+  const currentUser = useSelector((state: TAuthState) => state.auth.user!);
+
   const recipient: TUser = useSelector(
     (state: any) => state.chat.currentRecipient
   );
   const accessToken: string = useSelector(
     (state: any) => state.auth.accessToken
   );
-  const sellerRecipient: TUser = useSelector(
-    (state: any) => state.user?.seller
-  );
+  // const sellerRecipient: TUser = useSelector(
+  //   (state: any) => state.user?.seller
+  // );
 
   const dispatch: any = useDispatch();
   const [recipientList, setRecipientList] = useState<TUser[]>([]);
@@ -53,14 +56,12 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
   const { isLoading, data } = useQuery(
     ["chatRecipientList"],
     () => {
-      return getChatRecipients({
-        userId: currentUserId,
-        accessToken: accessToken,
-      });
+      return getChatRecipientByRole(accessToken, currentUser.role);
     },
     {
-      onSuccess: (data: any) => {
-        setRecipientList(() => data.data.recipients);
+      onSuccess: (response: any) => {
+        console.log("chat recipient response: ", response);
+        setRecipientList(() => response.data.users);
       },
       onError: (error: any) => {
         dispatch(
@@ -79,12 +80,12 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
   if (!data) return <p>No data fetched(Recipient)</p>;
 
   const joinChatRoom = async (recipient: TUser) => {
-    const chatRoomId = generateChatRoomId(currentUser!, recipient);
+    // const chatRoomId = generateChatRoomId(currentUser!, recipient);
     dispatch(updateCurrentRecipient(recipient));
-    props.socket.emit("joinRoom", {
-      chatRoomId: chatRoomId,
-      userId: currentUserId,
-    });
+    // props.socket.emit("joinRoom", {
+    //   chatRoomId: chatRoomId,
+    //   userId: currentUserId,
+    // });
     setActiveRecipient(recipient);
   };
 
@@ -100,14 +101,14 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
     }
   };
 
-  // Remove sellerRecipient if exits in the fetched recipients
-  const filteredRecipients: TUser[] = recipientList.filter((recipient) => {
-    return recipient.userId !== sellerRecipient.userId;
-  });
-  //  Add seller at start of recipients array
-  sellerRecipient.userId && filteredRecipients.unshift(sellerRecipient);
+  // // Remove sellerRecipient if exits in the fetched recipients
+  // const filteredRecipients: TUser[] = recipientList.filter((recipient) => {
+  //   return recipient.userId !== sellerRecipient.userId;
+  // });
+  // //  Add seller at start of recipients array
+  // sellerRecipient.userId && filteredRecipients.unshift(sellerRecipient);
 
-  const sellerRecipientStyles = `border-[1px] border-primary`;
+  // const sellerRecipientStyles = `border-[1px] border-primary`;
 
   return (
     <Fragment>
@@ -135,7 +136,8 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
           </svg>
         </div>
         <div>
-          {filteredRecipients.map((recipient: TUser, index: number) => {
+          {/* {filteredRecipients.map((recipient: TUser, index: number) => { */}
+          {recipientList.map((recipient: TUser, index: number) => {
             return (
               <div
                 className={`relative p-4 flex items-center justify-start border-b-[1px]
@@ -143,10 +145,9 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
                       recipient.userId == activeRecipient?.userId
                         ? "bg-gray-200"
                         : "bg-gray-50"
-                    } ${
-                  recipient.userId === sellerRecipient.userId &&
-                  sellerRecipientStyles
-                }`}
+                    }
+                
+                `}
                 key={index + 1}
                 onClick={() => onJoinChatRoomHandler(recipient)}
               >
@@ -185,11 +186,11 @@ export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
                   {/* {"recipient.chatMessageDate"} */}
                   {/* {"Last date"} */}
                 </span>
-                {recipient.userId === sellerRecipient.userId && (
+                {/* {recipient.userId === sellerRecipient.userId && (
                   <div className="absolute bottom-0 right-0">
                     <MessageBadge />
                   </div>
-                )}
+                )} */}
               </div>
             );
           })}
