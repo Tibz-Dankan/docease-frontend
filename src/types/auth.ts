@@ -47,3 +47,32 @@ export type TAuthToken = {
   iat: number;
   userId: number;
 };
+
+export type TCreateTwoFA = {
+  userId: string;
+  platform: string;
+  browser: string;
+  browserVersion: string;
+};
+
+export type TCreateTwoFAExtended = TCreateTwoFA & {
+  accessToken: string;
+};
+
+export type TAuthDevices = {
+  sessionDeviceId: string;
+  userId: string;
+  platform: string;
+  browser: string;
+  browserVersion: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TTwoFA = {
+  twofaId: string;
+  userId: string;
+  isEnabled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};

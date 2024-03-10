@@ -3,6 +3,7 @@ import { UploadProfilePicture } from "../UI/UploadProfilePicture";
 import { UpdateProfile } from "../UI/UpdateProfile";
 import { ChangePassword } from "../UI/ChangePassword";
 import { DeviceLayout } from "../../device/layout/DeviceLayout";
+import { AuthDeviceLayout } from "../../auth/layout/AuthDeviceLayout";
 
 export const Settings: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ export const Settings: React.FC = () => {
           <UpdateProfile />
           <ChangePassword />
           <DeviceLayout />
+          <AuthDeviceLayout />
         </div>
       </div>
     </Fragment>
