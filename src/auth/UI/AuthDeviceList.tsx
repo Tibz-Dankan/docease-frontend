@@ -10,6 +10,9 @@ import { Loader } from "../../shared/UI/Loader";
 import { AppDate } from "../../utils/appDate";
 import { getSessionDevicesByUser } from "../API";
 import { DeleteAuthDevice } from "./DeleteAuthDevice";
+import { EnableTwoFA } from "./EnableTwoFA";
+import { DisableTwoFA } from "./DisableTwoFA";
+import { ConfirmTwoFA } from "./ConfirmTwoFA";
 
 export const AuthDeviceList: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -50,9 +53,22 @@ export const AuthDeviceList: React.FC = () => {
     return `${device.browser} ${device.browserVersion} (${device.platform})`;
   };
 
+  const showEnable2FA = !twoFA || (!twoFA?.isEnabled && !twoFA?.isVerified);
+  const showDisable2FA = twoFA?.isEnabled && twoFA?.isVerified;
+  const showConfirm2FA = twoFA?.isEnabled && !twoFA?.isVerified;
+
   return (
     <Fragment>
-      <div className="space-y-2">
+      <div className="bg-white p-4 sm:p-8 rounded-md shadow-md space-y-4">
+        <p
+          className="text-gray-700 text-xl font-semibold
+            text-center"
+        >
+          Two Factor Authentication(2FA)
+        </p>
+        {showEnable2FA && <EnableTwoFA />}
+        {showDisable2FA && <DisableTwoFA twofaId={twoFA.twofaId} />}
+        {showConfirm2FA && <ConfirmTwoFA />}
         <div
           className="w-full text-start text-gray-700 
            text-xl font-semibold"

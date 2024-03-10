@@ -316,15 +316,17 @@ export const disableTwoFA = async ({
 };
 
 export const confirmTwoFA = async ({
-  twofaId,
+  token,
   accessToken,
 }: {
-  twofaId: string;
+  token: string;
   accessToken: string;
 }) => {
-  const response = await fetch(`${url}/2fa/confirm/${twofaId}`, {
+  const response = await fetch(`${url}/2fa/confirm`, {
     method: "PATCH",
-    body: JSON.stringify({}),
+    body: JSON.stringify({
+      token,
+    }),
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`,
@@ -343,10 +345,17 @@ export const verifyTwoFAToken = async ({
 }: {
   twoFAToken: string;
 }) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/2fa/verify`, {
     method: "POST",
     body: JSON.stringify({
       token: twoFAToken,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",

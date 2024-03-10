@@ -22,6 +22,8 @@ type TTWoFAToken = {
 export const VerifyTwoFAToken: React.FC = () => {
   const dispatch: any = useDispatch();
 
+  // TODO: to read fa token from the url
+
   const { isLoading, mutate } = useMutation({
     mutationFn: verifyTwoFAToken,
     onSuccess: (auth: any) => {

@@ -11,12 +11,15 @@ import { confirmTwoFA } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { Modal } from "../../shared/UI/Modal";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { InputField } from "../../shared/UI/InputField";
 
-interface ConfirmTwoFAProps {
-  twofaId: string;
-}
+type TConfirmTwoFAToken = {
+  token: string;
+};
 
-export const ConfirmTwoFA: React.FC<ConfirmTwoFAProps> = (props) => {
+export const ConfirmTwoFA: React.FC = () => {
   const auth = useSelector((state: TAuthState) => state.auth);
   const dispatch: any = useDispatch();
 
@@ -42,28 +45,60 @@ export const ConfirmTwoFA: React.FC<ConfirmTwoFAProps> = (props) => {
     },
   });
 
-  const confirmTwoFAHandler = () => {
-    const twofaId = props.twofaId;
-    const accessToken = auth.accessToken as string;
-
-    if (!twofaId) return;
-
-    mutate({
-      twofaId: twofaId,
-      accessToken: accessToken,
-    });
+  const initialValues: TConfirmTwoFAToken = {
+    token: "",
   };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: Yup.object({
+      token: Yup.string().max(255).required("Confirmation token is required"),
+    }),
+
+    onSubmit: async (values, helpers) => {
+      try {
+        const token = values.token;
+        const accessToken = auth.accessToken as string;
+
+        mutate({ token: token.toString(), accessToken: accessToken });
+      } catch (err: any) {
+        helpers.setStatus({ success: false });
+        helpers.setSubmitting(false);
+        dispatch(showCardNotification({ type: "error", message: err.message }));
+        setTimeout(() => {
+          dispatch(hideCardNotification());
+        }, 5000);
+      }
+    },
+  });
+
   return (
     <Fragment>
       <Modal
         openModalElement={
-          <div className="flex items-center justify-center">
-            <Button
-              label="Confirm 2FA"
-              type="button"
-              onClick={() => confirmTwoFAHandler()}
-              className="bg-primary text-white"
-            />
+          <div
+            className="full border-[1px] border-gray-300 rounded-md 
+            p-4 relative h-28 text-gray-800"
+          >
+            <p>
+              Please confirm Two Factor Authentication to secure your account
+            </p>
+            {!isLoading && (
+              <Button
+                label="Confirm 2FA"
+                type="button"
+                className="bg-primary text-white absolute bottom-2 right-2 w-28"
+              />
+            )}
+            {isLoading && (
+              <div
+                className="bg-primary text-gray-50 flex items-center
+                 justify-center rounded absolute bottom-2 right-2 w-24 
+                 py-1 px-2"
+              >
+                <Loader className="w-8 h-8" />
+              </div>
+            )}
           </div>
         }
         className=""
@@ -81,10 +116,7 @@ export const ConfirmTwoFA: React.FC<ConfirmTwoFAProps> = (props) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <p
-              className="space-x-2 text-center border-b-[1px]
-              border-gray-300 pb-4"
-            >
+            <p className="space-x-2 text-center">
               <span>
                 Provide token sent to either telephone number or email to
                 complete setting up{" "}
@@ -94,24 +126,34 @@ export const ConfirmTwoFA: React.FC<ConfirmTwoFAProps> = (props) => {
                 for your account
               </span>
             </p>
-            <div className="mt-2">
-              {!isLoading && (
-                <Button
-                  label="Confirm"
-                  type="button"
-                  onClick={() => confirmTwoFAHandler()}
-                  className="bg-primary text-white"
-                />
-              )}
-              {isLoading && (
-                <div
-                  className="bg-primary text-primary flex 
-                   items-center justify-center p-1 w-full rounded"
-                >
-                  <Loader className="w-8 h-8 text-white" />
-                </div>
-              )}
-            </div>
+            <form
+              onSubmit={formik.handleSubmit}
+              className="flex flex-col gap-0 items-center"
+            >
+              <InputField
+                type="number"
+                label="Enter Confirmation Code"
+                name="token"
+                formik={formik}
+              />
+              <div className="mt-6 w-full">
+                {!isLoading && (
+                  <Button
+                    label="Confirm"
+                    type="submit"
+                    className="bg-primary text-white w-full"
+                  />
+                )}
+                {isLoading && (
+                  <div
+                    className="bg-primary text-primary flex 
+                    items-center justify-center p-1 w-full rounded"
+                  >
+                    <Loader className="w-8 h-8 text-white" />
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </Modal>

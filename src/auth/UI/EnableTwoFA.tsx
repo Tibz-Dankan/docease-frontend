@@ -25,7 +25,7 @@ export const EnableTwoFA: React.FC = () => {
     mutationFn: enableTwoFA,
     onSuccess: (response: any) => {
       dispatch(
-        showCardNotification({ type: "error", message: response.message })
+        showCardNotification({ type: "success", message: response.message })
       );
       setTimeout(() => {
         dispatch(hideCardNotification());
@@ -50,21 +50,26 @@ export const EnableTwoFA: React.FC = () => {
 
   return (
     <Fragment>
-      <div>
+      <div
+        className="full border-[1px] border-gray-300 rounded-md 
+         p-4 relative h-28 text-gray-800"
+      >
+        <p>Turn on Two Factor Authentication to secure your account</p>
         {!isLoading && (
           <Button
             type="button"
             label="Turn on 2FA"
             onClick={() => enableTwoFAHandler()}
-            className="text-[12px] w-14 p-1"
+            className="absolute bottom-2 right-2 w-28"
           />
         )}
         {isLoading && (
           <div
             className="bg-primary text-gray-50 flex items-center
-            justify-center rounded w-14 px-1 py-[6px]"
+             justify-center rounded absolute bottom-2 right-2 w-24 
+             py-1 px-2"
           >
-            <Loader className="w-5 h-5" />
+            <Loader className="w-8 h-8" />
           </div>
         )}
       </div>

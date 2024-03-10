@@ -73,6 +73,7 @@ export type TTwoFA = {
   twofaId: string;
   userId: string;
   isEnabled: boolean;
+  isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
 };

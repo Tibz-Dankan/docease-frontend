@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import {
   showCardNotification,
@@ -18,10 +18,22 @@ import { authenticate } from "../../store/actions/auth";
 
 export const SignIn: React.FC = () => {
   const dispatch: any = useDispatch();
+  const navigate = useNavigate();
 
   const { isLoading, mutate } = useMutation({
     mutationFn: signIn,
     onSuccess: (auth: any) => {
+      if (auth.redirectTo) {
+        navigate("/auth/2fa-verification", { replace: true });
+        dispatch(
+          showCardNotification({ type: "success", message: auth.message })
+        );
+        setTimeout(() => {
+          dispatch(hideCardNotification());
+        }, 10000);
+        return;
+      }
+
       dispatch(authenticate(auth));
     },
     onError: (error: any) => {
