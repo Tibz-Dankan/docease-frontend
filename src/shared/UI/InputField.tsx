@@ -4,7 +4,7 @@ interface InputFieldProps extends React.HTMLAttributes<HTMLInputElement> {
   formik?: any;
   label: string;
   name: string;
-  type: "text" | "password" | "email" | "date" | "time";
+  type: "text" | "password" | "email" | "number" | "date" | "time";
 }
 
 export const InputField: React.FC<InputFieldProps> = (props) => {

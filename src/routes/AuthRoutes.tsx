@@ -7,6 +7,7 @@ import { SignInDoctor } from "../auth/UI/SignInDoctor";
 import { SignInPatient } from "../auth/UI/SignInPatient";
 import { ForgotPassword } from "../auth/UI/ForgotPassword";
 import { ResetPassword } from "../auth/UI/ResetPassword";
+import { VerifyTwoFAToken } from "../auth/UI/VerifyTwoFAToken";
 
 type TPage = {
   name: string;
@@ -65,6 +66,12 @@ export const AuthRoutes: React.FC = () => {
         icon: "icon",
         path: "/reset-password/:resetToken",
         element: <ResetPassword />,
+      },
+      {
+        name: "Verify 2FA",
+        icon: "icon",
+        path: "/2fa-verification",
+        element: <VerifyTwoFAToken />,
       },
     ],
   };
