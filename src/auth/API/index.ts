@@ -1,12 +1,20 @@
 import { url } from "../../store/index";
 import { TSigninInPut, TSignupInput } from "../../types/auth";
+import { getDeviceInfo } from "../../utils/getDeviceInfo";
 
 export const signIn = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",
@@ -22,11 +30,18 @@ export const signIn = async ({ email, password }: TSigninInPut) => {
 };
 
 export const signInDoctor = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/doctor/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",
@@ -42,11 +57,18 @@ export const signInDoctor = async ({ email, password }: TSigninInPut) => {
 };
 
 export const signInPatient = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/patient/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",

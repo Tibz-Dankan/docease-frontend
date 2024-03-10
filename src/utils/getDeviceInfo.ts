@@ -72,9 +72,6 @@ export const getDeviceInfo = (): TDeviceInfo => {
   const browser = parseBrowserType(userAgent);
   const browserVersion = parseBrowserVersion(userAgent);
 
-  console.log("Platform:::", platform);
-  console.log("browser :::", browser);
-  console.log("browserVersion :::", browserVersion);
   return {
     platform: platform,
     browser: browser,
