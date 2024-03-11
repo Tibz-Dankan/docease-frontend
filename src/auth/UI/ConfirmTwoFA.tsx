@@ -83,22 +83,11 @@ export const ConfirmTwoFA: React.FC = () => {
             <p>
               Please confirm Two Factor Authentication to secure your account
             </p>
-            {!isLoading && (
-              <Button
-                label="Confirm 2FA"
-                type="button"
-                className="bg-primary text-white absolute bottom-2 right-2 w-28"
-              />
-            )}
-            {isLoading && (
-              <div
-                className="bg-primary text-gray-50 flex items-center
-                 justify-center rounded absolute bottom-2 right-2 w-24 
-                 py-1 px-2"
-              >
-                <Loader className="w-8 h-8" />
-              </div>
-            )}
+            <Button
+              label="Confirm 2FA"
+              type="button"
+              className="bg-primary text-white absolute bottom-2 right-2 w-28"
+            />
           </div>
         }
         className=""

@@ -29,7 +29,7 @@ export const EnableTwoFA: React.FC = () => {
       );
       setTimeout(() => {
         dispatch(hideCardNotification());
-      }, 5000);
+      }, 10000);
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
