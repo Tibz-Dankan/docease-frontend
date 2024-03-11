@@ -82,7 +82,7 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
         <DashboardSidebar routes={props.routes} />
         <div
           className={`w-full fixed top-0 right-0 left-0 xl:left-72
-          z-[100] xl:w-[calc(100vw-288px)] ${headerHeight}`}
+          z-[100] xl:w-[calc(100vw-300px)] ${headerHeight}`}
         >
           <DashboardHeader />
           {hasRequestVideoConferenceId && <VCNotificationBanner />}
