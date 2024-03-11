@@ -19,7 +19,7 @@ export const TwoFABanner: React.FC<TwoFABannerProps> = (props) => {
       <BannerCard onClose={props.onClose}>
         <div
           className="flex items-center justify-between w-full h-full
-          text-white"
+          text-white z-[110]"
         >
           <div className="flex items-center justify-center gap-2">
             <span>
