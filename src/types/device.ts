@@ -7,3 +7,9 @@ export type TDevice = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TDeviceInfo = {
+  platform: string;
+  browser: string;
+  browserVersion: string;
+};

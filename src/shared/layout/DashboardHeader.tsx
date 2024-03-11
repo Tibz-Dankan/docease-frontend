@@ -54,9 +54,8 @@ export const DashboardHeader = () => {
 
   return (
     <header
-      className="transition-all sticky w-full top-0
-       z-40 py-3 h-16 bg-gray-100 border-b-[1px] 
-      border-gray-300 px-6"
+      className="transition-all w-full z-[110] py-3 h-16
+      bg-gray-100 border-b-[1px] border-gray-300 px-6"
     >
       <div
         className="flex flex-col-reverses justify-between 

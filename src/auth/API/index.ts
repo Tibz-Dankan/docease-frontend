@@ -1,12 +1,20 @@
 import { url } from "../../store/index";
 import { TSigninInPut, TSignupInput } from "../../types/auth";
+import { getDeviceInfo } from "../../utils/getDeviceInfo";
 
 export const signIn = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",
@@ -22,11 +30,18 @@ export const signIn = async ({ email, password }: TSigninInPut) => {
 };
 
 export const signInDoctor = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/doctor/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",
@@ -42,11 +57,18 @@ export const signInDoctor = async ({ email, password }: TSigninInPut) => {
 };
 
 export const signInPatient = async ({ email, password }: TSigninInPut) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
   const response = await fetch(`${url}/users/patient/signin`, {
     method: "POST",
     body: JSON.stringify({
       email,
       password,
+      platform,
+      browser,
+      browserVersion,
     }),
     headers: {
       "Content-type": "application/json",
@@ -235,5 +257,164 @@ export const updateUserImage = async (
     throw new Error(error.message);
   }
 
+  return await response.json();
+};
+
+export const enableTwoFA = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
+  const response = await fetch(`${url}/2fa/enable`, {
+    method: "POST",
+    body: JSON.stringify({
+      userId,
+      platform,
+      browser,
+      browserVersion,
+    }),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+export const disableTwoFA = async ({
+  twofaId,
+  accessToken,
+}: {
+  twofaId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(`${url}/2fa/disable/${twofaId}`, {
+    method: "PATCH",
+    body: JSON.stringify({}),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+export const confirmTwoFA = async ({
+  token,
+  accessToken,
+}: {
+  token: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(`${url}/2fa/confirm`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      token,
+    }),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+export const verifyTwoFAToken = async ({
+  twoFAToken,
+}: {
+  twoFAToken: string;
+}) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
+  const response = await fetch(`${url}/2fa/verify`, {
+    method: "POST",
+    body: JSON.stringify({
+      token: twoFAToken,
+      platform,
+      browser,
+      browserVersion,
+    }),
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+export const getSessionDevicesByUser = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/session-devices/get-by-user?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+export const deleteSessionDevice = async ({
+  sessionDeviceId,
+  accessToken,
+}: {
+  sessionDeviceId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/session-devices/delete/${sessionDeviceId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
   return await response.json();
 };

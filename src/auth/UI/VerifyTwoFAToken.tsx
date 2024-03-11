@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import {
   showCardNotification,
@@ -9,30 +9,24 @@ import {
 import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
-import { signInPatient } from "../API";
-import { TSigninInPut } from "../../types/auth";
+import { verifyTwoFAToken } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import logo from "../../assets/images/logo.jpeg";
 import { authenticate } from "../../store/actions/auth";
 
-export const SignInPatient: React.FC = () => {
+type TTWoFAToken = {
+  token: string;
+};
+
+export const VerifyTwoFAToken: React.FC = () => {
   const dispatch: any = useDispatch();
-  const navigate = useNavigate();
+
+  // TODO: to read fa token from the url
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: signInPatient,
+    mutationFn: verifyTwoFAToken,
     onSuccess: (auth: any) => {
-      if (auth.redirectTo) {
-        navigate("/auth/2fa-verification", { replace: true });
-        dispatch(
-          showCardNotification({ type: "success", message: auth.message })
-        );
-        setTimeout(() => {
-          dispatch(hideCardNotification());
-        }, 10000);
-        return;
-      }
       dispatch(authenticate(auth));
     },
     onError: (error: any) => {
@@ -43,25 +37,20 @@ export const SignInPatient: React.FC = () => {
     },
   });
 
-  const initialValues: TSigninInPut = {
-    email: "",
-    password: "",
+  const initialValues: TTWoFAToken = {
+    token: "",
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object({
-      email: Yup.string().max(255).required("email is required"),
-      password: Yup.string()
-        .max(255)
-        .min(5)
-        .max(30)
-        .required("password is required"),
+      token: Yup.string().max(255).required("Verification token is required"),
     }),
 
     onSubmit: async (values, helpers) => {
       try {
-        mutate(values);
+        const token = values.token;
+        mutate({ twoFAToken: token.toString() });
       } catch (err: any) {
         helpers.setStatus({ success: false });
         helpers.setSubmitting(false);
@@ -79,25 +68,26 @@ export const SignInPatient: React.FC = () => {
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
-          bg-blue-500s shadow-2xl p-8 rounded-2xl"
+          bg-blue-500s shadow-2xl p-8 rounded-2xl text-gray-800"
         >
           <img src={logo} alt="logo" className="w-28" />
-          <p
-            className="text-center text-2xl font-semibold
-          text-gray-800"
-          >
-            Log in as Patient
+          <p className="text-start text-2xl font-semibold">
+            We need some security information
           </p>
-          <InputField type="email" label="Email" name="email" formik={formik} />
+          <p className="text-center font-semibold my-2">Account Verification</p>
+          <p className="">
+            If we patterns that seem unusual for your account, we will need to
+            verify your identity
+          </p>
           <InputField
-            type="password"
-            label="Password"
-            name="password"
+            type="number"
+            label="Enter Verification Code"
+            name="token"
             formik={formik}
           />
           {!isLoading && (
             <Button
-              label="Log in"
+              label="Verify"
               type="submit"
               aria-disabled={isLoading}
               className="mt-6 font-semibold"
@@ -111,17 +101,14 @@ export const SignInPatient: React.FC = () => {
               <Loader className="w-8 h-8" />
             </div>
           )}
-          <div className="mt-4 space-y-4">
-            <p className="text-center hover:underline hover:text-blue-500 cursor-pointer">
-              <Link to="/auth/forgot-password">Forgot password?</Link>
-            </p>
+          {/* <div className="mt-4 space-y-4">
             <p className="hover:underline hover:text-blue-500 cursor-pointer">
-              Don't have an account?{" "}
-              <Link to="/auth/patient/signup" className="underline">
-                sign Up
+              Didn't receive a code?{" "}
+              <Link to="/auth/resend" className="underline">
+                Resend
               </Link>
             </p>
-          </div>
+          </div> */}
         </form>
       </div>
     </Fragment>
