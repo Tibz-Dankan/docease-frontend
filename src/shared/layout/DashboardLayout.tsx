@@ -35,8 +35,9 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
     !!videoConference.requestConnectVideoConferenceId;
 
   const hasTwoFAFullySetUp: boolean = twoFA?.isEnabled && twoFA?.isVerified;
-  const [showTwoFABanner, setShowTwoFABanner] =
-    useState<boolean>(hasTwoFAFullySetUp);
+  const [showTwoFABanner, setShowTwoFABanner] = useState<boolean>(
+    !hasTwoFAFullySetUp
+  );
 
   const closeTwoFABannerHandler = (showBanner: boolean) => {
     setShowTwoFABanner(() => showBanner);
@@ -53,9 +54,7 @@ export const DashboardLayout: React.FC<DashLayoutProps> = (props) => {
         <div className="xl:ml-72">
           {hasRequestVideoConferenceId && <VCNotificationBanner />}
           <DashboardHeader />
-          {!showTwoFABanner && (
-            <TwoFABanner onClose={closeTwoFABannerHandler} />
-          )}
+          {showTwoFABanner && <TwoFABanner onClose={closeTwoFABannerHandler} />}
         </div>
         <div className="p-4 pt-0 xl:ml-72 relative">
           <main
