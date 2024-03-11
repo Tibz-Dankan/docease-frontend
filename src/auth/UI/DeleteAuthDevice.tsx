@@ -25,7 +25,7 @@ export const DeleteAuthDevice: React.FC<DisableDeviceProps> = (props) => {
     mutationFn: deleteSessionDevice,
     onSuccess: (response: any) => {
       dispatch(
-        showCardNotification({ type: "error", message: response.message })
+        showCardNotification({ type: "success", message: response.message })
       );
       setTimeout(() => {
         dispatch(hideCardNotification());
