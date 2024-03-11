@@ -14,6 +14,7 @@ import { Modal } from "../../shared/UI/Modal";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { InputField } from "../../shared/UI/InputField";
+import { ResendEnableTwo } from "./ResendEnableTwo";
 
 type TConfirmTwoFAToken = {
   token: string;
@@ -74,78 +75,84 @@ export const ConfirmTwoFA: React.FC = () => {
 
   return (
     <Fragment>
-      <Modal
-        openModalElement={
-          <div
-            className="full border-[1px] border-gray-300 rounded-md 
-            p-4 relative h-28 text-gray-800"
-          >
-            <p>
-              Please confirm Two Factor Authentication to secure your account
-            </p>
+      <div
+        className="full border-[1px] border-gray-300 rounded-md 
+         p-4 relative h-40 text-gray-800"
+      >
+        <p>Please confirm Two Factor Authentication to secure your account</p>
+        <div
+          className="w-full flex items-center justify-end
+           absolute bottom-3 right-0"
+        >
+          <ResendEnableTwo />
+        </div>
+
+        <Modal
+          openModalElement={
             <Button
               label="Confirm 2FA"
               type="button"
-              className="bg-primary text-white absolute bottom-2 right-2 w-28"
+              className="bg-primary text-white absolute 
+              bottom-16 right-4 w-28"
             />
-          </div>
-        }
-        className=""
-      >
-        <div
-          className="p-8  w-[90%] sm:w-[400px] h-[90vh]
-          md:h-auto flex-col gap-4 text-gray-800 
-          space-y-4"
+          }
+          className=""
         >
           <div
-            className="w-full flex items-center justify-center
-            border-b-[1px] border-gray-300 pb-4"
+            className="p-8  w-[90%] sm:w-[400px] h-[90vh]
+          md:h-auto flex-col gap-4 text-gray-800 
+          space-y-4"
           >
-            <p className="text-primary text-xl text-center">Confirm 2FA</p>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <p className="space-x-2 text-center">
-              <span>
-                Provide token sent to either telephone number or email to
-                complete setting up{" "}
-                <span className="font-semibold">
-                  Two(2) Factor Authentication
-                </span>{" "}
-                for your account
-              </span>
-            </p>
-            <form
-              onSubmit={formik.handleSubmit}
-              className="flex flex-col gap-0 items-center"
+            <div
+              className="w-full flex items-center justify-center
+            border-b-[1px] border-gray-300 pb-4"
             >
-              <InputField
-                type="number"
-                label="Enter Confirmation Code"
-                name="token"
-                formik={formik}
-              />
-              <div className="mt-6 w-full">
-                {!isLoading && (
-                  <Button
-                    label="Confirm"
-                    type="submit"
-                    className="bg-primary text-white w-full"
-                  />
-                )}
-                {isLoading && (
-                  <div
-                    className="bg-primary text-primary flex 
-                    items-center justify-center p-1 w-full rounded"
-                  >
-                    <Loader className="w-8 h-8 text-white" />
-                  </div>
-                )}
-              </div>
-            </form>
+              <p className="text-primary text-xl text-center">Confirm 2FA</p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <p className="space-x-2 text-center">
+                <span>
+                  Provide token sent to either telephone number or email to
+                  complete setting up{" "}
+                  <span className="font-semibold">
+                    Two(2) Factor Authentication
+                  </span>{" "}
+                  for your account
+                </span>
+              </p>
+              <form
+                onSubmit={formik.handleSubmit}
+                className="flex flex-col gap-0 items-center"
+              >
+                <InputField
+                  type="number"
+                  label="Enter Confirmation Code"
+                  name="token"
+                  formik={formik}
+                />
+                <div className="mt-6 w-full">
+                  {!isLoading && (
+                    <Button
+                      label="Confirm"
+                      type="submit"
+                      className="bg-primary text-white w-full"
+                    />
+                  )}
+                  {isLoading && (
+                    <div
+                      className="bg-primary text-primary flex 
+                      items-center justify-center p-1 w-full rounded"
+                    >
+                      <Loader className="w-8 h-8 text-white" />
+                    </div>
+                  )}
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </Fragment>
   );
 };
