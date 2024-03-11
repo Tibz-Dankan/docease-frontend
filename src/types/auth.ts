@@ -8,6 +8,7 @@ export type TUser = {
   imageUrl: string | null;
   createdAt: string;
   updatedAt: string;
+  twoFA?: TTwoFA;
 };
 
 export type TAuth = {
