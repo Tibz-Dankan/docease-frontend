@@ -53,7 +53,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
 
   return (
     <aside
-      className={`bg-white fixed inset-0 top-0 z-50 h-[100vh] w-72
+      className={`bg-white fixed inset-0 top-0 z-[120] h-[100vh] w-72
        transition-transform duration-300 xl:translate-x-0
        ${isOpenSidebar ? "translate-x-0" : "-translate-x-80"}
        shadow shadow-slate-900/20 shadow-b-2 shadow-r-[3px] -shadow-spread-2`}
