@@ -315,6 +315,38 @@ export const disableTwoFA = async ({
   return await response.json();
 };
 
+export const resendEnableTwoFA = async ({
+  userId,
+  accessToken,
+}: {
+  userId: string;
+  accessToken: string;
+}) => {
+  const platform = getDeviceInfo().platform;
+  const browser = getDeviceInfo().browser;
+  const browserVersion = getDeviceInfo().browserVersion;
+
+  const response = await fetch(`${url}/2fa/resend-enable`, {
+    method: "POST",
+    body: JSON.stringify({
+      userId,
+      platform,
+      browser,
+      browserVersion,
+    }),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
 export const confirmTwoFA = async ({
   token,
   accessToken,
