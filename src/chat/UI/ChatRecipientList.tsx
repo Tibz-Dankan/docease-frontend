@@ -56,7 +56,7 @@ export const ChatRecipientList: React.FC = () => {
     {
       onSuccess: (response: any) => {
         console.log("chat recipient response: ", response);
-        setRecipientList(() => response.data.users);
+        setRecipientList(() => response.data.recipients);
       },
       onError: (error: any) => {
         dispatch(
