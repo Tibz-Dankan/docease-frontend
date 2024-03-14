@@ -1,8 +1,18 @@
 import { Fragment } from "react";
-import { IOrganizedChatMessage } from "../../types/chat";
+import { IOrganizedChatMessage, TChatState } from "../../types/chat";
+import { DotsLoader } from "../../shared/UI/Loader/DotsLoader";
+import { useSelector } from "react-redux";
 
 export const MessageSecondary = (props: any) => {
   const msg: IOrganizedChatMessage = props.msg;
+  const postingMessage = useSelector(
+    (state: TChatState) => state.chat.postMessaging
+  );
+
+  const isPosting = postingMessage.isPosting;
+  const isSameMessage = postingMessage.message === msg.message;
+  const isSameMessageDate = postingMessage.createdAt === msg.createdAt;
+  const isPostingMessage = isPosting && isSameMessage && isSameMessageDate;
 
   return (
     <Fragment>
@@ -17,6 +27,15 @@ export const MessageSecondary = (props: any) => {
             relative w-auto max-w-full min-h-8`}
           >
             {msg.message}
+            {isPostingMessage && (
+              <div className="absolute -bottom-[5px] right-4">
+                <DotsLoader
+                  className={`w-8 h-8 ${
+                    msg.currentUserIsSender ? "text-gray-50" : "text-gray-600"
+                  }`}
+                />
+              </div>
+            )}
           </p>
         </div>
       </div>

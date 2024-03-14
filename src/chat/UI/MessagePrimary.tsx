@@ -1,13 +1,23 @@
 import { Fragment } from "react";
 import sprite from "../../assets/icons/sprite.svg";
 import { AppDate } from "../../utils/appDate";
-import { IOrganizedChatMessage } from "../../types/chat";
+import { IOrganizedChatMessage, TChatState } from "../../types/chat";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
+import { DotsLoader } from "../../shared/UI/Loader/DotsLoader";
+import { useSelector } from "react-redux";
 
 export const MessagePrimary = (props: any) => {
   const time = () => new AppDate(msg.createdAt).time();
   const msg: IOrganizedChatMessage = props.msg;
+  const postingMessage = useSelector(
+    (state: TChatState) => state.chat.postMessaging
+  );
+
+  const isPosting = postingMessage.isPosting;
+  const isSameMessage = postingMessage.message === msg.message;
+  const isSameMessageDate = postingMessage.createdAt === msg.createdAt;
+  const isPostingMessage = isPosting && isSameMessage && isSameMessageDate;
 
   return (
     <Fragment>
@@ -56,6 +66,15 @@ export const MessagePrimary = (props: any) => {
            before:rotate-[-32deg] w-auto max-w-full min-h-8 z-30`}
           >
             {msg.message}
+            {isPostingMessage && (
+              <div className="absolute -bottom-[5px] right-4">
+                <DotsLoader
+                  className={`w-8 h-8 ${
+                    msg.currentUserIsSender ? "text-gray-50" : "text-gray-600"
+                  }`}
+                />
+              </div>
+            )}
           </p>
         </div>
       </div>

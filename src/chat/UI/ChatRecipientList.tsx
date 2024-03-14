@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 // import { Socket } from "socket.io-client";
 import { TAuthState } from "../../types/auth";
 import {
-  clearMessageList,
   hideChatRecipientList,
   showChat,
   updateCurrentRecipient,
@@ -48,10 +47,6 @@ export const ChatRecipientList: React.FC = () => {
     dispatch(showChat());
   };
 
-  const clearMessageListHandler = () => {
-    dispatch(clearMessageList());
-  };
-
   const { isLoading, data } = useQuery(
     ["chatRecipientList"],
     () => {
@@ -91,7 +86,7 @@ export const ChatRecipientList: React.FC = () => {
   };
 
   const onJoinChatRoomHandler = (recipient: TChatRecipient) => {
-    joinChatRoom(recipient), clearMessageListHandler(), showChatHandler();
+    joinChatRoom(recipient), showChatHandler();
 
     if (window.innerWidth < 640) {
       hideRecipientListHandler();
@@ -111,11 +106,11 @@ export const ChatRecipientList: React.FC = () => {
     <Fragment>
       <div
         className="w-full sm:w-80 border-[1px] border-gray-300
-            sm:rounded-mds sm:rounded-t-md shadow-md animate-opacityZeroToFull"
+        sm:rounded-mds sm:rounded-t-md shadow-md animate-opacityZeroToFull"
       >
         <div
           className="flex items-center justify-between border-b-[1px] 
-            border-primary p-4 bg-primary rounded-tl-md rounded-tr-md"
+          border-primary p-4 bg-primary rounded-tl-md rounded-tr-md"
         >
           <span className="text-gray-50">Messaging</span>
           <svg

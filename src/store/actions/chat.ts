@@ -1,5 +1,9 @@
 import { chatActions } from "../index";
-import { IChatMessage, TChatRecipient } from "../../types/chat";
+import {
+  IChatMessage,
+  IPostingMessage,
+  TChatRecipient,
+} from "../../types/chat";
 
 export const updateChatRecipientList = (
   chatRecipientList: TChatRecipient[]
@@ -43,6 +47,22 @@ export const updateCurrentRecipientMessage = (message: IChatMessage) => {
   };
 };
 
+export const updatePostingMessage = (postMessaging: IPostingMessage) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.updatePostingMessage({
+        postMessaging: postMessaging,
+      })
+    );
+  };
+};
+
+export const clearPostingMessage = () => {
+  return (dispatch: any) => {
+    dispatch(chatActions.clearPostingMessage());
+  };
+};
+
 export const updateMessageList = (messageList: IChatMessage[]) => {
   return (dispatch: any) => {
     dispatch(
@@ -60,12 +80,6 @@ export const addToMessageList = (message: IChatMessage) => {
         message: message,
       })
     );
-  };
-};
-
-export const clearMessageList = () => {
-  return (dispatch: any) => {
-    dispatch(chatActions.clearMessageList());
   };
 };
 

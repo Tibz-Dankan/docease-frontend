@@ -4,6 +4,7 @@ import {
   TCurrentRecipientPayload,
   TMessageListPayload,
   TMessagePayload,
+  TPostingMessagePayload,
   TRecipientListPayload,
   TRecipientMessagePayload,
 } from "../../types/chat";
@@ -23,6 +24,16 @@ const initialState: TChat = {
     messages: [],
   },
   messageList: [],
+  postMessaging: {
+    chatRoomId: "",
+    senderId: "",
+    recipientId: "",
+    message: "",
+    isRead: false,
+    isDelivered: false,
+    createdAt: "",
+    isPosting: false,
+  },
   showChat: false,
   showChatRecipientList: false,
 };
@@ -62,6 +73,8 @@ export const chatSlice = createSlice({
     ) {
       state.currentRecipient = action.payload.currentRecipient;
     },
+
+    // updating messages from coming from backend(recipient user)
     updateCurrentRecipientMessage(
       state,
       action: PayloadAction<TRecipientMessagePayload>
@@ -72,14 +85,35 @@ export const chatSlice = createSlice({
       recipient.messages.push(action.payload.message);
       state.currentRecipient = recipient;
     },
+
+    // Adding messages from coming from device user
+    addToMessageList(state, action: PayloadAction<TMessagePayload>) {
+      const recipient = state.currentRecipient;
+      if (recipient.userId !== action.payload.message.recipientId) return;
+
+      recipient.messages.push(action.payload.message);
+      state.currentRecipient = recipient;
+    },
+
+    updatePostingMessage(state, action: PayloadAction<TPostingMessagePayload>) {
+      state.postMessaging = action.payload.postMessaging;
+    },
+
+    clearPostingMessage(state) {
+      state.postMessaging = {
+        chatRoomId: "",
+        senderId: "",
+        recipientId: "",
+        message: "",
+        isRead: false,
+        isDelivered: false,
+        createdAt: "",
+        isPosting: false,
+      };
+    },
+
     updateMessageList(state, action: PayloadAction<TMessageListPayload>) {
       state.messageList = action.payload.messageList;
-    },
-    addToMessageList(state, action: PayloadAction<TMessagePayload>) {
-      state.messageList = [...state.messageList, action.payload.message];
-    },
-    clearMessageList(state) {
-      state.messageList = [];
     },
     showChat(state) {
       state.showChat = true;

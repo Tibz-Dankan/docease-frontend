@@ -3,7 +3,11 @@ import React, { Fragment, useRef } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineSend } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { addToMessageList } from "../../store/actions/chat";
+import {
+  addToMessageList,
+  clearPostingMessage,
+  updatePostingMessage,
+} from "../../store/actions/chat";
 import { postChat } from "../API";
 import {
   hideCardNotification,
@@ -25,25 +29,13 @@ export const ChatForm: React.FC = () => {
 
   const chatRoomId = generateChatRoomId(currentUser, recipient);
 
-  // const newMessage: IChatMessage = {
-  //   senderId: currentUser.userId,
-  //   recipientId: recipient.userId,
-  //   chatRoomId: chatRoomId,
-  //   message: chatMessage,
-  //   isRead: false,
-  //   isDelivered: false,
-  //   createdAt: createdAt,
-  // };
-
-  // send chat message via http
-
   const dispatch: any = useDispatch();
 
   const { isLoading, mutate } = useMutation({
     mutationFn: postChat,
     onSuccess: (response: any) => {
-      // dispatch(authenticate(response));
       console.log("response chat: ", response);
+      dispatch(clearPostingMessage());
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -59,7 +51,7 @@ export const ChatForm: React.FC = () => {
     event.preventDefault();
 
     const createdAt = new Date().toISOString();
-    const message: string = messageRef.current;
+    const message: string = messageRef.current && messageRef.current?.value;
 
     if (!message) return;
 
@@ -86,6 +78,19 @@ export const ChatForm: React.FC = () => {
         createdAt: createdAt,
       })
     );
+    dispatch(
+      updatePostingMessage({
+        chatRoomId: chatRoomId,
+        senderId: currentUser.userId,
+        recipientId: recipient.userId,
+        message: message,
+        isRead: false,
+        isDelivered: false,
+        createdAt: createdAt,
+        isPosting: true,
+      })
+    );
+    messageRef.current.value = messageRef.current && "";
   };
   // const onSubmitMessageHandler = (event: React.FormEvent) => {
   //   event.preventDefault();
