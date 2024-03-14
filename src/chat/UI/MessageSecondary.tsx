@@ -11,8 +11,8 @@ export const MessageSecondary = (props: any) => {
           <p
             className={`text-sm ${
               msg.currentUserIsSender
-                ? "bg-primary text-gray-light-2"
-                : "bg-gray-light-3 text-gray-900"
+                ? "bg-primary text-gray-50 before:bg-primary"
+                : "bg-gray-300 text-gray-900 before:bg-gray-300"
             } p-4 rounded-xl 
             relative w-auto max-w-full min-h-8`}
           >

@@ -18,7 +18,10 @@ import {
 import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
-import { TChatRecipient, TChatState } from "../../types/chat";
+import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
+import recipients from "../data/chatRecipients.json";
+import { AppDate } from "../../utils/appDate";
+import { truncateString } from "../../utils/truncateString";
 
 export const ChatRecipientList: React.FC = () => {
   const currentUserId: string = useSelector(
@@ -31,6 +34,10 @@ export const ChatRecipientList: React.FC = () => {
   const accessToken: string = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
+
+  // console.log("chatRecipients==>", chatRecipients);
+
+  const chatRecipients = recipients as TChatRecipient[];
 
   const dispatch: any = useDispatch();
   const [recipientList, setRecipientList] = useState<TChatRecipient[]>([]);
@@ -91,11 +98,20 @@ export const ChatRecipientList: React.FC = () => {
     }
   };
 
+  const getLastMessageDate = (messages: IChatMessage[]) => {
+    const lastMessage = messages[messages.length - 1];
+    return new AppDate(lastMessage?.createdAt).timeOrDate();
+  };
+  const getLastMessage = (messages: IChatMessage[]) => {
+    const lastMessage = messages[messages.length - 1];
+    return truncateString(lastMessage?.message);
+  };
+
   return (
     <Fragment>
       <div
-        className="w-full sm:w-60 border-[1px] border-gray-ligh
-            sm:rounded-md rounded-tl-lgs shadow-2xl animate-opacityZeroToFull"
+        className="w-full sm:w-80 border-[1px] border-gray-300
+            sm:rounded-mds sm:rounded-t-md shadow-md animate-opacityZeroToFull"
       >
         <div
           className="flex items-center justify-between border-b-[1px] 
@@ -109,7 +125,7 @@ export const ChatRecipientList: React.FC = () => {
             <IconContext.Provider
               value={{
                 size: "1.4rem",
-                color: "#343a40",
+                color: "#fff",
               }}
             >
               <IoClose />
@@ -117,10 +133,11 @@ export const ChatRecipientList: React.FC = () => {
           </svg>
         </div>
         <div>
-          {recipientList.map((recipient: TChatRecipient, index: number) => {
+          {/* {recipientList.map((recipient: TChatRecipient, index: number) => { */}
+          {chatRecipients.map((recipient: TChatRecipient, index: number) => {
             return (
               <div
-                className={`relative p-4 flex items-center justify-start border-b-[1px]
+                className={`relative p-2 flex items-center justify-start border-b-[1px]
                     border-gray-light-3 cursor-pointer  ${
                       recipient.userId == activeRecipient?.userId
                         ? "bg-gray-200"
@@ -134,38 +151,46 @@ export const ChatRecipientList: React.FC = () => {
                 {recipient.imageUrl && (
                   <div
                     className="bg-gray-light-3 flex items-center justify-center 
-                        w-10 h-10 rounded-[50%]"
+                    w-14 h-14 rounded-[50%]"
                   >
                     <img
                       src={recipient.imageUrl}
                       alt={recipient.firstName}
-                      className="w-full  h-full rounded-[50%]"
+                      className="w-full  h-full rounded-[50%] bg-gray-400"
                     />
                   </div>
                 )}
                 {!recipient.imageUrl && (
                   <span
-                    className="cursor-pointer grid place-items-center  bg-gray-300
-                  w-10 h-10 rounded-[50%]"
+                    className="cursor-pointer grid place-items-center  bg-gray-400
+                    w-14 h-14 rounded-[50%]"
                   >
                     <IconContext.Provider
-                      value={{ size: "1.2rem", color: "#495057" }}
+                      value={{ size: "1.6rem", color: "#495057" }}
                     >
                       <IoPerson />
                     </IconContext.Provider>
                   </span>
                 )}
-                <div className="px-2 text-sm text-gray-800">
-                  <p className="font-bold">
-                    {recipient.firstName} {recipient.lastName}
-                  </p>
-                  {/* <p className="text-gray-500">{"recipient.lastChatMessage"}</p> */}
-                  {/* <p className="text-gray-500">{"Last message"}</p> */}
+                <div
+                  className="flex-1 flex flex-col items-between justify-center
+                   gap-1 px-2 text-sm text-gray-800"
+                >
+                  <div>
+                    <p className="font-bold">
+                      {truncateString(
+                        `${recipient.firstName} ${recipient.lastName}`,
+                        16
+                      )}
+                    </p>
+                    <span className="text-gray-600 absolute top-3 right-2 text-sm">
+                      {getLastMessageDate(recipient.messages)}
+                    </span>
+                  </div>
+                  <div className="text-gray-600">
+                    <p>{getLastMessage(recipient.messages)}</p>
+                  </div>
                 </div>
-                <span className="absolute top-4 right-4 text-[12px]">
-                  {/* {"recipient.chatMessageDate"} */}
-                  {/* {"Last date"} */}
-                </span>
                 {/* {recipient.userId === sellerRecipient.userId && (
                   <div className="absolute bottom-0 right-0">
                     <MessageBadge />

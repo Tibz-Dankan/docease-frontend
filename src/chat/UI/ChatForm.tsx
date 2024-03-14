@@ -12,11 +12,6 @@ import {
 import { TAuthState, TUser } from "../../types/auth";
 import { generateChatRoomId } from "../../utils/generateChatRoomId";
 
-// interface ChatFormProps {
-//   // onSubmit: (message: string) => void;
-// }
-
-// export const ChatForm: React.FC<ChatFormProps> = (props) => {
 export const ChatForm: React.FC = () => {
   let messageRef = useRef<any>(null);
 
@@ -102,17 +97,8 @@ export const ChatForm: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="relative w-full">
-        {/* <div className="relative bg-green-500s p-1 pt-3">
-          <div className="flex items-center gap-x-2 absolute -top-3">
-            <svg className="w-6 h-6 fill-gray-600 cursor-pointer">
-              <use href={`${sprite}#icon-gif`}></use>
-            </svg>
-            <svg className="w-6 h-6 fill-gray-600 cursor-pointer">
-              <use href={`${sprite}#icon-emoji`}></use>
-            </svg>
-          </div>
-        </div> */}
+      <div className="relative w-full p-4 border-t-[1px] border-gray-400">
+        {/* Emoji icons */}
         <form
           onSubmit={(event) => sendMessageHandler(event)}
           className="flex items-center justify-center bg-gray-300 

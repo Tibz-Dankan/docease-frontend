@@ -1,5 +1,7 @@
-export const truncateString = (str: string): string => {
-  const maxLength = 28;
+export const truncateString = (str: string, charLength?: number): string => {
+  const maxLength = charLength ? charLength : 28;
+
+  if (!str) return "";
 
   if (str.length <= maxLength) {
     return str;

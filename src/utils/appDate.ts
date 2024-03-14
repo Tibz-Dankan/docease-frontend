@@ -31,6 +31,22 @@ export class AppDate {
     return `${dayOfMonth} ${month} ${year}`;
   }
 
+  monthDayYear() {
+    const year = this.date.getFullYear();
+    const month = this.date.toLocaleDateString("en-US", { month: "short" });
+    const dayOfMonth = this.date.getDate();
+
+    return `${month} ${dayOfMonth}, ${year}`;
+  }
+
+  fullMonthDayYear() {
+    const year = this.date.getFullYear();
+    const month = this.date.toLocaleDateString("en-US", { month: "long" });
+    const dayOfMonth = this.date.getDate();
+
+    return `${month} ${dayOfMonth}, ${year}`;
+  }
+
   weekdayMonthDate() {
     const dayOfWeek = this.date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -61,7 +77,23 @@ export class AppDate {
       return "Yesterday";
     }
     if (date < yesterdayEnd) {
-      return date.toDateString(); // provides format  -> Sun Jul 03 2022;
+      return this.fullMonthDayYear();
+    }
+  }
+
+  timeOrDate() {
+    const todayEnd = new Date(this.midnight.getTime() + this.oneDayMillSec);
+    const yesterdayEnd = new Date(this.midnight.getTime() - this.oneDayMillSec);
+    const date = new Date(this.date.getTime());
+
+    if (date > this.midnight && date < todayEnd) {
+      return this.time();
+    }
+    if (date < this.midnight && date > yesterdayEnd) {
+      return "Yesterday";
+    }
+    if (date < yesterdayEnd) {
+      return this.monthDayYear();
     }
   }
 

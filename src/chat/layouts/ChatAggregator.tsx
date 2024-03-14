@@ -5,17 +5,18 @@ import { ChatForm } from "../UI/ChatForm";
 import { ChatMessages } from "../UI/ChatMessages";
 import { useDispatch, useSelector } from "react-redux";
 // import { Socket } from "socket.io-client";
-import { useQuery } from "@tanstack/react-query";
-import { MessageLoader } from "../UI/MessageLoader";
+// import { useQuery } from "@tanstack/react-query";
+// import { MessageLoader } from "../UI/MessageLoader";
 import { TAuthState, TUser } from "../../types/auth";
 import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { addToMessageList, updateMessageList } from "../../store/actions/chat";
-import { IChatMessage } from "../../types/chat";
-import { generateChatRoomId } from "../../utils/generateChatRoomId";
-import { getChatMessages } from "../API";
+// import { addToMessageList, updateMessageList } from "../../store/actions/chat";
+import { addToMessageList } from "../../store/actions/chat";
+import { IChatMessage, TChatState } from "../../types/chat";
+// import { generateChatRoomId } from "../../utils/generateChatRoomId";
+// import { getChatMessages } from "../API";
 import { url } from "../../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
 // import { TLiveConfNotification } from "../../types/liveNotification";
@@ -27,92 +28,44 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 
 // export const ChatAggregator: React.FC<ChatAggregatorProps> = (props) => {
 export const ChatAggregator: React.FC = () => {
-  // const [chatMessage, setChatMessage] = useState<string>("");
-  // const [isSocketConnected, setIsSocketConnected] = useState<boolean>(true); // Track socket connection status
-
-  // const onSubmitHandler = (message: string) => {
-  //   setChatMessage(message);
-  // };
-
-  const currentUser: TUser = useSelector((state: any) => state.auth.user);
+  // const currentUser: TUser = useSelector((state: any) => state.auth.user);
   const recipient: TUser = useSelector(
     (state: any) => state.chat.currentRecipient
   );
 
-  const chatRoomId = generateChatRoomId(currentUser, recipient);
+  const theRecipient = useSelector(
+    (state: TChatState) => state.chat.currentRecipient
+  );
+
+  // const chatRoomId = generateChatRoomId(currentUser, recipient);
   // const effectRan = useRef(false);
   const dispatch: any = useDispatch();
   const accessToken: string = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
 
-  const { isLoading } = useQuery(
-    [`${chatRoomId}-messageList`],
-    () => {
-      return getChatMessages({
-        chatRoomId: chatRoomId,
-        accessToken: accessToken,
-      });
-    },
-    {
-      onSuccess: (data: any) => {
-        dispatch(updateMessageList(data.data.messages));
-      },
-      onError: (error: any) => {
-        dispatch(
-          showCardNotification({ type: "error", message: error.message })
-        );
-        setTimeout(() => {
-          dispatch(hideCardNotification());
-        }, 5000);
-      },
-    }
-  );
-
-  // const newMessage: IChatMessage = {
-  //   senderId: currentUser.userId,
-  //   recipientId: recipient.userId,
-  //   chatRoomId: chatRoomId,
-  //   message: chatMessage,
-  //   isRead: false,
-  //   isDelivered: false,
-  //   createdAt: createdAt,
-  // };
-
-  // useEffect(() => {
-  //   const sendMessageHandler = () => {
-  //     if (!chatMessage) return;
-  //     dispatch(addToMessageList(newMessage));
-  //     props.socket.emit("sendChatMessage", newMessage);
-  //   };
-  //   sendMessageHandler();
-  // }, [chatMessage]);
-
-  // useEffect(() => {
-  //   if (effectRan.current === false) {
-  //     props.socket.on("receiveChatMessage", (message: IChatMessage) => {
-  //       dispatch(addToMessageList(message));
+  // const { isLoading } = useQuery(
+  //   [`${chatRoomId}-messageList`],
+  //   () => {
+  //     return getChatMessages({
+  //       chatRoomId: chatRoomId,
+  //       accessToken: accessToken,
   //     });
-  //     setIsSocketConnected(true); // Set socket connection status to true when socket is connected
-  //     return () => {
-  //       effectRan.current = true;
-  //     };
+  //   },
+  //   {
+  //     onSuccess: (data: any) => {
+  //       dispatch(updateMessageList(data.data.messages));
+  //     },
+  //     onError: (error: any) => {
+  //       dispatch(
+  //         showCardNotification({ type: "error", message: error.message })
+  //       );
+  //       setTimeout(() => {
+  //         dispatch(hideCardNotification());
+  //       }, 5000);
+  //     },
   //   }
-  // }, [props.socket]);
-
-  // useEffect(() => {
-  //   const handleWindowBeforeUnload = () => {
-  //     if (isSocketConnected) {
-  //       props.socket.close(); // Close socket connection only if it's connected
-  //     }
-  //   };
-
-  //   window.addEventListener("beforeunload", handleWindowBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleWindowBeforeUnload);
-  //   };
-  // }, [isSocketConnected, props.socket]);
+  // );
 
   const userId = useSelector((state: TAuthState) => state.auth.user?.userId);
 
@@ -162,16 +115,19 @@ export const ChatAggregator: React.FC = () => {
     eventSource.onerror = onerror;
   }, [dispatch, accessToken]);
 
-  const messageList: IChatMessage[] = useSelector(
-    (state: any) => state.chat.messageList
-  );
+  // const messageList: IChatMessage[] = useSelector(
+  //   (state: any) => state.chat.messageList
+  // );
+
+  const messageList = theRecipient.messages;
 
   return (
     <Fragment>
       <div
-        className="w-full sm:w-96 bg-gray-50 sm:rounded-md shadow-2xl
-         p-4 pt-3 borders-[1px] border-gray-200 space-y-4 flex flex-col
-          items-start h-[100vh] sm:h-auto animate-opacityZeroToFull relative"
+        className="w-full sm:w-96 bg-gray-50 sm:rounded-t-md
+         shadow-md border-[1px] border-gray-300 flex flex-col
+         items-start h-[100vh] sm:h-auto animate-opacityZeroToFull
+         relative"
       >
         <ChatHeader
           recipientName={`${recipient.firstName} ${recipient.lastName}`}
@@ -179,7 +135,7 @@ export const ChatAggregator: React.FC = () => {
           recipientImageUrl={`${recipient.imageUrl}`}
           onChatClose={() => {}}
         />
-        {isLoading && <MessageLoader />}
+        {/* {isLoading && <MessageLoader />} */}
         <ChatMessages messages={messageList} />
         {/* <ChatForm onSubmit={onSubmitHandler} /> */}
         <ChatForm />

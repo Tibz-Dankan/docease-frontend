@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import sprite from "../../assets/icons/sprite.svg";
 import { AppDate } from "../../utils/appDate";
 import { IOrganizedChatMessage } from "../../types/chat";
+import { IconContext } from "react-icons";
+import { IoPerson } from "react-icons/io5";
 
 export const MessagePrimary = (props: any) => {
   const time = () => new AppDate(msg.createdAt).time();
@@ -18,13 +20,20 @@ export const MessagePrimary = (props: any) => {
             <img
               src={msg.userImageUrl}
               alt={msg.username}
-              className="w-full  h-full rounded-[50%]"
+              className="w-full  h-full rounded-[50%] bg-gray-400"
             />
           )}
           {!msg.userImageUrl && (
-            <svg className="w-6 h-6 fill-gray-600">
-              <use href={`${sprite}#icon-person-filled`}></use>
-            </svg>
+            <span
+              className="grid place-items-center bg-gray-400 
+               w-full h-full rounded-[50%]"
+            >
+              <IconContext.Provider
+                value={{ size: "1.2rem", color: "#495057" }}
+              >
+                <IoPerson />
+              </IconContext.Provider>
+            </span>
           )}
         </div>
         <div className="flex-1 mr-2 space-y-2">
@@ -38,8 +47,8 @@ export const MessagePrimary = (props: any) => {
           <p
             className={`text-sm ${
               msg.currentUserIsSender
-                ? "bg-primary text-gray-light-2 before:bg-primary"
-                : "bg-gray-light-3 text-gray-900 before:bg-gray-light-3"
+                ? "bg-primary text-gray-50 before:bg-primary"
+                : "bg-gray-300 text-gray-900 before:bg-gray-300"
             }
            p-4 rounded-xl 
            rounded-tl-none relative before:absolute before:top-[-1px] before:left-[-2px] 
