@@ -2,21 +2,21 @@ import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 import { BsChatFill } from "react-icons/bs";
-import { TUser } from "../../types/auth";
 import {
   hideChat,
   showChatRecipientList,
   updateCurrentRecipient,
 } from "../../store/actions/chat";
 import { IconContext } from "react-icons";
+import { TChatRecipient } from "../../types/chat";
 
 interface StartChatProps {
   className?: string;
-  currentRecipient: TUser;
+  currentRecipient: TChatRecipient;
 }
 
 export const StartChat: React.FC<StartChatProps> = (props) => {
-  const recipient: TUser = props.currentRecipient;
+  const recipient: TChatRecipient = props.currentRecipient;
 
   const dispatch: any = useDispatch();
 
