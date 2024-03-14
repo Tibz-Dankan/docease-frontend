@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 // import { MessageBadge } from "./MessageBadge";
 // import { Socket } from "socket.io-client";
-import { TAuthState, TUser } from "../../types/auth";
+import { TAuthState } from "../../types/auth";
 import {
   clearMessageList,
   hideChatRecipientList,
@@ -14,36 +14,28 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-// import { generateChatRoomId } from "../../utils/generateChatRoomId";
-// import { getAllDoctors, getChatRecipients } from "../API";
-import { getChatRecipientByRole } from "../API";
+
+import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
+import { TChatRecipient, TChatState } from "../../types/chat";
 
-// interface ChatRecipientListProps {
-//   socket: Socket;
-// }
-
-// export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
 export const ChatRecipientList: React.FC = () => {
-  // const currentUserId: string = useSelector(
-  //   (state: TAuthState) => state.auth.user?.userId!
-  // );
-  const currentUser = useSelector((state: TAuthState) => state.auth.user!);
+  const currentUserId: string = useSelector(
+    (state: TAuthState) => state.auth.user?.userId!
+  );
 
-  const recipient: TUser = useSelector(
-    (state: any) => state.chat.currentRecipient
+  const recipient = useSelector(
+    (state: TChatState) => state.chat.currentRecipient
   );
   const accessToken: string = useSelector(
-    (state: any) => state.auth.accessToken
+    (state: TAuthState) => state.auth.accessToken!
   );
-  // const sellerRecipient: TUser = useSelector(
-  //   (state: any) => state.user?.seller
-  // );
 
   const dispatch: any = useDispatch();
-  const [recipientList, setRecipientList] = useState<TUser[]>([]);
-  const [activeRecipient, setActiveRecipient] = useState<TUser>(recipient);
+  const [recipientList, setRecipientList] = useState<TChatRecipient[]>([]);
+  const [activeRecipient, setActiveRecipient] =
+    useState<TChatRecipient>(recipient);
 
   const showChatHandler = () => {
     dispatch(showChat());
@@ -56,7 +48,10 @@ export const ChatRecipientList: React.FC = () => {
   const { isLoading, data } = useQuery(
     ["chatRecipientList"],
     () => {
-      return getChatRecipientByRole(accessToken, currentUser.role);
+      return getChatRecipients({
+        userId: currentUserId,
+        accessToken: accessToken,
+      });
     },
     {
       onSuccess: (response: any) => {
@@ -79,13 +74,8 @@ export const ChatRecipientList: React.FC = () => {
 
   if (!data) return <p>No data fetched(Recipient)</p>;
 
-  const joinChatRoom = async (recipient: TUser) => {
-    // const chatRoomId = generateChatRoomId(currentUser!, recipient);
+  const joinChatRoom = async (recipient: TChatRecipient) => {
     dispatch(updateCurrentRecipient(recipient));
-    // props.socket.emit("joinRoom", {
-    //   chatRoomId: chatRoomId,
-    //   userId: currentUserId,
-    // });
     setActiveRecipient(recipient);
   };
 
@@ -93,22 +83,13 @@ export const ChatRecipientList: React.FC = () => {
     dispatch(hideChatRecipientList());
   };
 
-  const onJoinChatRoomHandler = (recipient: TUser) => {
+  const onJoinChatRoomHandler = (recipient: TChatRecipient) => {
     joinChatRoom(recipient), clearMessageListHandler(), showChatHandler();
 
     if (window.innerWidth < 640) {
       hideRecipientListHandler();
     }
   };
-
-  // // Remove sellerRecipient if exits in the fetched recipients
-  // const filteredRecipients: TUser[] = recipientList.filter((recipient) => {
-  //   return recipient.userId !== sellerRecipient.userId;
-  // });
-  // //  Add seller at start of recipients array
-  // sellerRecipient.userId && filteredRecipients.unshift(sellerRecipient);
-
-  // const sellerRecipientStyles = `border-[1px] border-primary`;
 
   return (
     <Fragment>
@@ -136,8 +117,7 @@ export const ChatRecipientList: React.FC = () => {
           </svg>
         </div>
         <div>
-          {/* {filteredRecipients.map((recipient: TUser, index: number) => { */}
-          {recipientList.map((recipient: TUser, index: number) => {
+          {recipientList.map((recipient: TChatRecipient, index: number) => {
             return (
               <div
                 className={`relative p-4 flex items-center justify-start border-b-[1px]

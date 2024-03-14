@@ -8,13 +8,16 @@ export const getChatRecipients = async ({
   userId: string;
   accessToken: string;
 }) => {
-  const response = await fetch(`${url}/chat/get-chat-recipients/${userId}`, {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await fetch(
+    `${url}/chat/get-chat-recipients?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 
   if (!response.ok) {
     const error = await response.json();

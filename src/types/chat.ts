@@ -33,9 +33,13 @@ export interface IOrganizedChatMessage extends IChatMessage {
   username: string;
 }
 
+export type TChatRecipient = TUser & {
+  messages: IChatMessage[];
+};
+
 export type TChat = {
-  chatRecipientList: TUser[];
-  currentRecipient: TUser;
+  chatRecipientList: TChatRecipient[];
+  currentRecipient: TChatRecipient;
   messageList: IChatMessage[];
   showChat: boolean;
   showChatRecipientList: boolean;
@@ -46,11 +50,15 @@ export type TChatState = {
 };
 
 export type TRecipientListPayload = {
-  chatRecipientList: TUser[];
+  chatRecipientList: TChatRecipient[];
 };
 
 export type TCurrentRecipientPayload = {
-  currentRecipient: TUser;
+  currentRecipient: TChatRecipient;
+};
+
+export type TRecipientMessagePayload = {
+  message: IChatMessage;
 };
 
 export type TMessageListPayload = {

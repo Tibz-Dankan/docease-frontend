@@ -1,8 +1,9 @@
 import { chatActions } from "../index";
-import { IChatMessage } from "../../types/chat";
-import { TUser } from "../../types/auth";
+import { IChatMessage, TChatRecipient } from "../../types/chat";
 
-export const updateChatRecipientList = (chatRecipientList: TUser[]) => {
+export const updateChatRecipientList = (
+  chatRecipientList: TChatRecipient[]
+) => {
   return (dispatch: any) => {
     dispatch(
       chatActions.updateChatRecipientList({
@@ -12,11 +13,31 @@ export const updateChatRecipientList = (chatRecipientList: TUser[]) => {
   };
 };
 
-export const updateCurrentRecipient = (currentRecipient: TUser) => {
+export const updateChatRecipientListMessage = (message: IChatMessage) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.updateChatRecipientListMessage({
+        message: message,
+      })
+    );
+  };
+};
+
+export const updateCurrentRecipient = (currentRecipient: TChatRecipient) => {
   return (dispatch: any) => {
     dispatch(
       chatActions.updateCurrentRecipient({
         currentRecipient: currentRecipient,
+      })
+    );
+  };
+};
+
+export const updateCurrentRecipientMessage = (message: IChatMessage) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.updateCurrentRecipientMessage({
+        message: message,
       })
     );
   };

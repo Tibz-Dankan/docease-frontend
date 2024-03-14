@@ -5,6 +5,7 @@ import {
   TMessageListPayload,
   TMessagePayload,
   TRecipientListPayload,
+  TRecipientMessagePayload,
 } from "../../types/chat";
 
 const initialState: TChat = {
@@ -19,6 +20,7 @@ const initialState: TChat = {
     imageUrl: null,
     createdAt: "",
     updatedAt: "",
+    messages: [],
   },
   messageList: [],
   showChat: false,
@@ -34,11 +36,41 @@ export const chatSlice = createSlice({
     ) {
       state.chatRecipientList = action.payload.chatRecipientList;
     },
+    updateChatRecipientListMessage(
+      state,
+      action: PayloadAction<TRecipientMessagePayload>
+    ) {
+      const recipientList = state.chatRecipientList;
+
+      const recipient = recipientList.find((recipient) => {
+        return recipient.userId === action.payload.message.senderId;
+      });
+      if (!recipient) return;
+      recipient.messages.push(action.payload.message);
+
+      const recipientIndex = recipientList.findIndex(
+        (recipient) => recipient.userId === action.payload.message.senderId
+      );
+
+      recipientList.splice(recipientIndex, 1); //Remove element from recipientList
+      recipientList.unshift(recipient); //Add element at beginning of recipientList
+      state.chatRecipientList = recipientList;
+    },
     updateCurrentRecipient(
       state,
       action: PayloadAction<TCurrentRecipientPayload>
     ) {
       state.currentRecipient = action.payload.currentRecipient;
+    },
+    updateCurrentRecipientMessage(
+      state,
+      action: PayloadAction<TRecipientMessagePayload>
+    ) {
+      const recipient = state.currentRecipient;
+      if (recipient.userId !== action.payload.message.senderId) return;
+
+      recipient.messages.push(action.payload.message);
+      state.currentRecipient = recipient;
     },
     updateMessageList(state, action: PayloadAction<TMessageListPayload>) {
       state.messageList = action.payload.messageList;
@@ -73,6 +105,7 @@ export const chatSlice = createSlice({
         imageUrl: null,
         createdAt: "",
         updatedAt: "",
+        messages: [],
       };
       state.messageList = [];
     },
