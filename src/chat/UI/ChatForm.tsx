@@ -48,6 +48,15 @@ export const ChatForm: React.FC = () => {
 
   console.log("isLoading :", isLoading);
 
+  const scrollToBottom = () => {
+    // Delay scrolling to bottom to allow element attain its full height
+    setTimeout(() => {
+      const viewElement = document.querySelector("#message-container")!;
+      viewElement.scrollIntoView({ behavior: "smooth" });
+      viewElement.scrollTop = viewElement?.scrollHeight;
+    }, 50);
+  };
+
   const sendMessageHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -93,14 +102,8 @@ export const ChatForm: React.FC = () => {
     );
     // TODO: To dispatch the message to chatRecipientList
     messageRef.current.value = messageRef.current && "";
+    scrollToBottom();
   };
-  // const onSubmitMessageHandler = (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   const message: string = messageRef.current && messageRef.current?.value;
-  //   if (!message) return;
-  //   props.onSubmit(message);
-  //   messageRef.current.value = messageRef.current && "";
-  // };
 
   return (
     <Fragment>

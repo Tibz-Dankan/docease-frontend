@@ -80,6 +80,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
                 </div>
               );
             })}
+            <div id="below-messages" className="h-1 w-full"></div>
           </div>
         )}
       </div>
