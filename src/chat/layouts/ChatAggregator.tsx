@@ -3,19 +3,14 @@ import { ChatHeader } from "../UI/ChatHeader";
 import { ChatForm } from "../UI/ChatForm";
 import { ChatMessages } from "../UI/ChatMessages";
 import { useSelector } from "react-redux";
-import { TUser } from "../../types/auth";
 import { TChatState } from "../../types/chat";
 
 export const ChatAggregator: React.FC = () => {
-  const recipient: TUser = useSelector(
-    (state: any) => state.chat.currentRecipient
-  );
-
-  const theRecipient = useSelector(
+  const recipient = useSelector(
     (state: TChatState) => state.chat.currentRecipient
   );
 
-  const messageList = theRecipient.messages;
+  const messageList = recipient.messages;
 
   return (
     <Fragment>
