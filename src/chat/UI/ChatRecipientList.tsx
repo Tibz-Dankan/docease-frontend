@@ -1,67 +1,65 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-// import { MessageBadge } from "./MessageBadge";
-// import { Socket } from "socket.io-client";
-import { TAuthState, TUser } from "../../types/auth";
+import { TAuthState } from "../../types/auth";
 import {
-  clearMessageList,
   hideChatRecipientList,
   showChat,
+  updateChatRecipientList,
   updateCurrentRecipient,
 } from "../../store/actions/chat";
 import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-// import { generateChatRoomId } from "../../utils/generateChatRoomId";
-// import { getAllDoctors, getChatRecipients } from "../API";
-import { getChatRecipientByRole } from "../API";
+
+import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
+import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
+import { AppDate } from "../../utils/appDate";
+import { truncateString } from "../../utils/truncateString";
+import { MessageBadge } from "./MessageBadge";
+import { Loader } from "../../shared/UI/Loader";
 
-// interface ChatRecipientListProps {
-//   socket: Socket;
-// }
-
-// export const ChatRecipientList: React.FC<ChatRecipientListProps> = (props) => {
 export const ChatRecipientList: React.FC = () => {
-  // const currentUserId: string = useSelector(
-  //   (state: TAuthState) => state.auth.user?.userId!
-  // );
-  const currentUser = useSelector((state: TAuthState) => state.auth.user!);
+  const currentUserId: string = useSelector(
+    (state: TAuthState) => state.auth.user?.userId!
+  );
 
-  const recipient: TUser = useSelector(
-    (state: any) => state.chat.currentRecipient
+  const recipient = useSelector(
+    (state: TChatState) => state.chat.currentRecipient
   );
   const accessToken: string = useSelector(
-    (state: any) => state.auth.accessToken
+    (state: TAuthState) => state.auth.accessToken!
   );
-  // const sellerRecipient: TUser = useSelector(
-  //   (state: any) => state.user?.seller
-  // );
 
   const dispatch: any = useDispatch();
-  const [recipientList, setRecipientList] = useState<TUser[]>([]);
-  const [activeRecipient, setActiveRecipient] = useState<TUser>(recipient);
+  const [recipientList, setRecipientList] = useState<TChatRecipient[]>([]);
+  const [activeRecipient, setActiveRecipient] =
+    useState<TChatRecipient>(recipient);
+
+  const startChatRecipient: TChatRecipient = useSelector(
+    (state: TChatState) => state.chat.startChatRecipient
+  );
 
   const showChatHandler = () => {
     dispatch(showChat());
   };
 
-  const clearMessageListHandler = () => {
-    dispatch(clearMessageList());
-  };
-
-  const { isLoading, data } = useQuery(
-    ["chatRecipientList"],
+  const { isLoading } = useQuery(
+    [`chatRecipientList-${currentUserId}`],
     () => {
-      return getChatRecipientByRole(accessToken, currentUser.role);
+      return getChatRecipients({
+        userId: currentUserId,
+        accessToken: accessToken,
+      });
     },
     {
       onSuccess: (response: any) => {
-        console.log("chat recipient response: ", response);
-        setRecipientList(() => response.data.users);
+        if (!response.data?.recipients[0]?.userId) return;
+        setRecipientList(() => response.data.recipients);
+        dispatch(updateChatRecipientList(response.data.recipients));
       },
       onError: (error: any) => {
         dispatch(
@@ -74,18 +72,8 @@ export const ChatRecipientList: React.FC = () => {
     }
   );
 
-  // TODO: show custom loader here
-  if (isLoading) return <p>Loading...</p>;
-
-  if (!data) return <p>No data fetched(Recipient)</p>;
-
-  const joinChatRoom = async (recipient: TUser) => {
-    // const chatRoomId = generateChatRoomId(currentUser!, recipient);
+  const joinChatRoom = async (recipient: TChatRecipient) => {
     dispatch(updateCurrentRecipient(recipient));
-    // props.socket.emit("joinRoom", {
-    //   chatRoomId: chatRoomId,
-    //   userId: currentUserId,
-    // });
     setActiveRecipient(recipient);
   };
 
@@ -93,32 +81,52 @@ export const ChatRecipientList: React.FC = () => {
     dispatch(hideChatRecipientList());
   };
 
-  const onJoinChatRoomHandler = (recipient: TUser) => {
-    joinChatRoom(recipient), clearMessageListHandler(), showChatHandler();
+  const onJoinChatRoomHandler = (recipient: TChatRecipient) => {
+    joinChatRoom(recipient), showChatHandler();
 
     if (window.innerWidth < 640) {
       hideRecipientListHandler();
     }
   };
 
-  // // Remove sellerRecipient if exits in the fetched recipients
-  // const filteredRecipients: TUser[] = recipientList.filter((recipient) => {
-  //   return recipient.userId !== sellerRecipient.userId;
-  // });
-  // //  Add seller at start of recipients array
-  // sellerRecipient.userId && filteredRecipients.unshift(sellerRecipient);
+  const getLastMessageDate = (messages: IChatMessage[]) => {
+    const lastMessage = messages[messages.length - 1];
+    return new AppDate(lastMessage?.createdAt).timeOrDate();
+  };
+  const getLastMessage = (messages: IChatMessage[]) => {
+    const lastMessage = messages[messages.length - 1];
+    return truncateString(lastMessage?.message, 24);
+  };
 
-  // const sellerRecipientStyles = `border-[1px] border-primary`;
+  const startChatRecipientFromList = recipientList.find((recipient) => {
+    return recipient.userId === startChatRecipient.userId;
+  });
+
+  const filteredRecipientList: TChatRecipient[] = recipientList.filter(
+    (recipient) => {
+      return recipient.userId !== startChatRecipient.userId;
+    }
+  );
+
+  if (startChatRecipientFromList != undefined) {
+    filteredRecipientList.unshift(startChatRecipientFromList);
+  } else {
+    startChatRecipient.userId && filteredRecipientList.push(startChatRecipient);
+  }
+
+  const startChatRecipientStyles = `border-[1px] border-primary`;
 
   return (
     <Fragment>
       <div
-        className="w-full sm:w-60 border-[1px] border-gray-ligh
-            sm:rounded-md rounded-tl-lgs shadow-2xl animate-opacityZeroToFull"
+        className="w-full sm:w-80 h-[58vh] sm:h-[50vh] overflow-x-hidden
+         border-[1px] border-gray-300 sm:rounded-t-md 
+         shadow-md animate-opacityZeroToFull bg-gray-50"
       >
         <div
-          className="flex items-center justify-between border-b-[1px] 
-            border-primary p-4 bg-primary rounded-tl-md rounded-tr-md"
+          className="flex items-center justify-between 
+          border-b-[1px] border-primary p-4 bg-primary
+          rounded-tl-md rounded-tr-md"
         >
           <span className="text-gray-50">Messaging</span>
           <svg
@@ -128,72 +136,104 @@ export const ChatRecipientList: React.FC = () => {
             <IconContext.Provider
               value={{
                 size: "1.4rem",
-                color: "#343a40",
+                color: "#fff",
               }}
             >
               <IoClose />
             </IconContext.Provider>
           </svg>
         </div>
+
         <div>
-          {/* {filteredRecipients.map((recipient: TUser, index: number) => { */}
-          {recipientList.map((recipient: TUser, index: number) => {
-            return (
-              <div
-                className={`relative p-4 flex items-center justify-start border-b-[1px]
-                    border-gray-light-3 cursor-pointer  ${
-                      recipient.userId == activeRecipient?.userId
-                        ? "bg-gray-200"
-                        : "bg-gray-50"
-                    }
-                
+          {isLoading && (
+            <div
+              className="flex items-center justify-center
+              bg-gray-50 w-full h-40 text-gray-800"
+            >
+              <Loader className="stroke-gray-600" />
+            </div>
+          )}
+        </div>
+        <div>
+          {!filteredRecipientList[0] && (
+            <div
+              className="flex items-center justify-center
+              bg-gray-50 w-full h-40 text-gray-800"
+            >
+              <p>Chat History will appear here</p>
+            </div>
+          )}
+        </div>
+        <div>
+          {filteredRecipientList.map(
+            (recipient: TChatRecipient, index: number) => {
+              return (
+                <div
+                  className={`relative p-2 flex items-center justify-start
+                 border-b-[1px] border-gray-light-3 cursor-pointer ${
+                   recipient.userId == activeRecipient?.userId
+                     ? "bg-gray-200"
+                     : "bg-gray-50"
+                 } ${
+                    recipient.userId === startChatRecipient.userId &&
+                    startChatRecipientStyles
+                  }
                 `}
-                key={index + 1}
-                onClick={() => onJoinChatRoomHandler(recipient)}
-              >
-                {recipient.imageUrl && (
-                  <div
-                    className="bg-gray-light-3 flex items-center justify-center 
-                        w-10 h-10 rounded-[50%]"
-                  >
-                    <img
-                      src={recipient.imageUrl}
-                      alt={recipient.firstName}
-                      className="w-full  h-full rounded-[50%]"
-                    />
-                  </div>
-                )}
-                {!recipient.imageUrl && (
-                  <span
-                    className="cursor-pointer grid place-items-center  bg-gray-300
-                  w-10 h-10 rounded-[50%]"
-                  >
-                    <IconContext.Provider
-                      value={{ size: "1.2rem", color: "#495057" }}
+                  key={index + 1}
+                  onClick={() => onJoinChatRoomHandler(recipient)}
+                >
+                  {recipient.imageUrl && (
+                    <div
+                      className="bg-gray-light-3 flex items-center justify-center 
+                    w-14 h-14 rounded-[50%]"
                     >
-                      <IoPerson />
-                    </IconContext.Provider>
-                  </span>
-                )}
-                <div className="px-2 text-sm text-gray-800">
-                  <p className="font-bold">
-                    {recipient.firstName} {recipient.lastName}
-                  </p>
-                  {/* <p className="text-gray-500">{"recipient.lastChatMessage"}</p> */}
-                  {/* <p className="text-gray-500">{"Last message"}</p> */}
-                </div>
-                <span className="absolute top-4 right-4 text-[12px]">
-                  {/* {"recipient.chatMessageDate"} */}
-                  {/* {"Last date"} */}
-                </span>
-                {/* {recipient.userId === sellerRecipient.userId && (
-                  <div className="absolute bottom-0 right-0">
-                    <MessageBadge />
+                      <img
+                        src={recipient.imageUrl}
+                        alt={recipient.firstName}
+                        className="w-full  h-full rounded-[50%] bg-gray-400"
+                      />
+                    </div>
+                  )}
+                  {!recipient.imageUrl && (
+                    <span
+                      className="cursor-pointer grid place-items-center  bg-gray-400
+                    w-14 h-14 rounded-[50%]"
+                    >
+                      <IconContext.Provider
+                        value={{ size: "1.6rem", color: "#495057" }}
+                      >
+                        <IoPerson />
+                      </IconContext.Provider>
+                    </span>
+                  )}
+                  <div
+                    className="flex-1 flex flex-col items-between justify-center
+                   gap-1 px-2 text-sm text-gray-800"
+                  >
+                    <div>
+                      <p className="font-bold">
+                        {truncateString(
+                          `${recipient.firstName} ${recipient.lastName}`,
+                          16
+                        )}
+                      </p>
+                      <span className="text-gray-600 absolute top-3 right-2 text-sm">
+                        {getLastMessageDate(recipient.messages)}
+                      </span>
+                    </div>
+                    <div className="text-gray-600">
+                      <p>{getLastMessage(recipient.messages)}</p>
+                    </div>
                   </div>
-                )} */}
-              </div>
-            );
-          })}
+                  {recipient.userId === startChatRecipient.userId && (
+                    <div className="absolute bottom-0 right-0">
+                      <MessageBadge />
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          )}
         </div>
       </div>
     </Fragment>

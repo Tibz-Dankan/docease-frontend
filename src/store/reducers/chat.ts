@@ -4,7 +4,10 @@ import {
   TCurrentRecipientPayload,
   TMessageListPayload,
   TMessagePayload,
+  TPostingMessagePayload,
   TRecipientListPayload,
+  TRecipientMessagePayload,
+  TStartChatRecipientPayload,
 } from "../../types/chat";
 
 const initialState: TChat = {
@@ -19,8 +22,31 @@ const initialState: TChat = {
     imageUrl: null,
     createdAt: "",
     updatedAt: "",
+    messages: [],
+  },
+  startChatRecipient: {
+    userId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    role: "patient",
+    imageUrl: null,
+    createdAt: "",
+    updatedAt: "",
+    messages: [],
   },
   messageList: [],
+  postMessaging: {
+    chatRoomId: "",
+    senderId: "",
+    recipientId: "",
+    message: "",
+    isRead: false,
+    isDelivered: false,
+    createdAt: "",
+    isPosting: false,
+  },
   showChat: false,
   showChatRecipientList: false,
 };
@@ -34,20 +60,96 @@ export const chatSlice = createSlice({
     ) {
       state.chatRecipientList = action.payload.chatRecipientList;
     },
+    updateChatRecipientListMessage(
+      state,
+      action: PayloadAction<TRecipientMessagePayload>
+    ) {
+      const recipientList = state.chatRecipientList;
+
+      const recipient = recipientList.find((recipient) => {
+        return recipient.userId === action.payload.message.senderId;
+      });
+      if (!recipient) return;
+      recipient.messages.push(action.payload.message);
+
+      // const recipientIndex = recipientList.findIndex(
+      //   (recipient) => recipient.userId === action.payload.message.senderId
+      // );
+
+      // recipientList.splice(recipientIndex, 1); //Remove element from recipientList
+      // recipientList.unshift(recipient); //Add element at beginning of recipientList
+      // state.chatRecipientList = recipientList;
+
+      if (recipientList.length === 1) {
+        state.chatRecipientList = [recipient];
+        return;
+      }
+
+      const filteredRecipientList = recipientList.filter((recipient) => {
+        return recipient.userId !== action.payload.message.senderId;
+      });
+      filteredRecipientList.unshift(recipient);
+      state.chatRecipientList = filteredRecipientList;
+    },
     updateCurrentRecipient(
       state,
       action: PayloadAction<TCurrentRecipientPayload>
     ) {
       state.currentRecipient = action.payload.currentRecipient;
     },
+
+    // updating messages coming from backend(recipient user)
+    updateCurrentRecipientMessage(
+      state,
+      action: PayloadAction<TRecipientMessagePayload>
+    ) {
+      const recipient = state.currentRecipient;
+      if (recipient.userId !== action.payload.message.senderId) return;
+
+      const message = recipient.messages.find(
+        (message) => message.messageId === action.payload.message.messageId
+      );
+      if (message) return;
+
+      recipient.messages.push(action.payload.message);
+      state.currentRecipient = recipient;
+    },
+
+    // Adding messages coming from current device user
+    addToMessageList(state, action: PayloadAction<TMessagePayload>) {
+      const recipient = state.currentRecipient;
+      if (recipient.userId !== action.payload.message.recipientId) return;
+
+      recipient.messages.push(action.payload.message);
+      state.currentRecipient = recipient;
+    },
+
+    updatePostingMessage(state, action: PayloadAction<TPostingMessagePayload>) {
+      state.postMessaging = action.payload.postMessaging;
+    },
+
+    clearPostingMessage(state) {
+      state.postMessaging = {
+        chatRoomId: "",
+        senderId: "",
+        recipientId: "",
+        message: "",
+        isRead: false,
+        isDelivered: false,
+        createdAt: "",
+        isPosting: false,
+      };
+    },
+
+    updateStartChatRecipient(
+      state,
+      action: PayloadAction<TStartChatRecipientPayload>
+    ) {
+      state.startChatRecipient = action.payload.startChatRecipient;
+    },
+
     updateMessageList(state, action: PayloadAction<TMessageListPayload>) {
       state.messageList = action.payload.messageList;
-    },
-    addToMessageList(state, action: PayloadAction<TMessagePayload>) {
-      state.messageList = [...state.messageList, action.payload.message];
-    },
-    clearMessageList(state) {
-      state.messageList = [];
     },
     showChat(state) {
       state.showChat = true;
@@ -73,6 +175,7 @@ export const chatSlice = createSlice({
         imageUrl: null,
         createdAt: "",
         updatedAt: "",
+        messages: [],
       };
       state.messageList = [];
     },

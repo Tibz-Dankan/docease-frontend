@@ -48,13 +48,17 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
 
   return (
     <Fragment>
-      <div className="w-full flex-1">
+      <div
+        className="p-4 overflow-x-hidden w-full h-[58vh]
+         sm:h-[50vh] relative"
+        id="message-container"
+      >
         {!messages[0] && <MessagePlaceholder />}
         {messages[0] && (
           <div
-            className="overflow-x-hidden w-full h-[58vh] max-h-[58vh] 
-            sm:max-h-auto sm:h-[50vh] relative"
-            id="message-container"
+          // className="overflow-x-hidden w-full h-[58vh] max-h-[58vh]
+          // sm:max-h-auto sm:h-[50vh] relative"
+          // id="message-container"
           >
             {messages.map((message, index) => {
               return (

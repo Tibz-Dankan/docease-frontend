@@ -3,7 +3,11 @@ import React, { Fragment, useRef } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineSend } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { addToMessageList } from "../../store/actions/chat";
+import {
+  addToMessageList,
+  clearPostingMessage,
+  updatePostingMessage,
+} from "../../store/actions/chat";
 import { postChat } from "../API";
 import {
   hideCardNotification,
@@ -12,11 +16,6 @@ import {
 import { TAuthState, TUser } from "../../types/auth";
 import { generateChatRoomId } from "../../utils/generateChatRoomId";
 
-// interface ChatFormProps {
-//   // onSubmit: (message: string) => void;
-// }
-
-// export const ChatForm: React.FC<ChatFormProps> = (props) => {
 export const ChatForm: React.FC = () => {
   let messageRef = useRef<any>(null);
 
@@ -30,27 +29,16 @@ export const ChatForm: React.FC = () => {
 
   const chatRoomId = generateChatRoomId(currentUser, recipient);
 
-  // const newMessage: IChatMessage = {
-  //   senderId: currentUser.userId,
-  //   recipientId: recipient.userId,
-  //   chatRoomId: chatRoomId,
-  //   message: chatMessage,
-  //   isRead: false,
-  //   isDelivered: false,
-  //   createdAt: createdAt,
-  // };
-
-  // send chat message via http
-
   const dispatch: any = useDispatch();
 
   const { isLoading, mutate } = useMutation({
     mutationFn: postChat,
     onSuccess: (response: any) => {
-      // dispatch(authenticate(response));
       console.log("response chat: ", response);
+      dispatch(clearPostingMessage());
     },
     onError: (error: any) => {
+      dispatch(clearPostingMessage());
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
@@ -64,7 +52,7 @@ export const ChatForm: React.FC = () => {
     event.preventDefault();
 
     const createdAt = new Date().toISOString();
-    const message: string = messageRef.current;
+    const message: string = messageRef.current && messageRef.current?.value;
 
     if (!message) return;
 
@@ -91,6 +79,20 @@ export const ChatForm: React.FC = () => {
         createdAt: createdAt,
       })
     );
+    dispatch(
+      updatePostingMessage({
+        chatRoomId: chatRoomId,
+        senderId: currentUser.userId,
+        recipientId: recipient.userId,
+        message: message,
+        isRead: false,
+        isDelivered: false,
+        createdAt: createdAt,
+        isPosting: true,
+      })
+    );
+    // TODO: To dispatch the message to chatRecipientList
+    messageRef.current.value = messageRef.current && "";
   };
   // const onSubmitMessageHandler = (event: React.FormEvent) => {
   //   event.preventDefault();
@@ -102,17 +104,8 @@ export const ChatForm: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="relative w-full">
-        {/* <div className="relative bg-green-500s p-1 pt-3">
-          <div className="flex items-center gap-x-2 absolute -top-3">
-            <svg className="w-6 h-6 fill-gray-600 cursor-pointer">
-              <use href={`${sprite}#icon-gif`}></use>
-            </svg>
-            <svg className="w-6 h-6 fill-gray-600 cursor-pointer">
-              <use href={`${sprite}#icon-emoji`}></use>
-            </svg>
-          </div>
-        </div> */}
+      <div className="relative w-full p-4 border-t-[1px] border-gray-400">
+        {/* Emoji icons */}
         <form
           onSubmit={(event) => sendMessageHandler(event)}
           className="flex items-center justify-center bg-gray-300 

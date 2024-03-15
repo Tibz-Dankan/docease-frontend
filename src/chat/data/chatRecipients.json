@@ -1,0 +1,124 @@
+[
+  {
+    "userId": "user1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "phoneNumber": "1234567890",
+    "role": "patient",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/owino-dd2f6.appspot.com/o/prod%2Fusers%2F1695579908632_Muhumuza-Nicholas.png?alt=media&token=e8b5d60b-c1be-491f-ad86-dbf5f2d469ef",
+    "createdAt": "2024-03-14T12:00:00Z",
+    "updatedAt": "2024-03-14T12:00:00Z",
+    "twoFA": {
+      "isEnabled": true,
+      "method": "email"
+    },
+    "messages": [
+      {
+        "messageId": "1",
+        "chatRoomId": "room1",
+        "senderId": "user2",
+        "recipientId": "user1",
+        "message": "Hello, John!",
+        "isRead": true,
+        "isDelivered": true,
+        "createdAt": "2024-03-14T12:01:00Z"
+      },
+      {
+        "messageId": "2",
+        "chatRoomId": "room1",
+        "senderId": "user2",
+        "recipientId": "user1",
+        "message": "How are you?",
+        "isRead": false,
+        "isDelivered": true,
+        "createdAt": "2024-03-14T12:01:20Z"
+      },
+      {
+        "messageId": "1",
+        "chatRoomId": "room1",
+        "senderId": "user2",
+        "recipientId": "user1",
+        "message": "Hope you are doing fantastic",
+        "isRead": true,
+        "isDelivered": true,
+        "createdAt": "2024-03-14T12:01:00Z"
+      },
+      {
+        "messageId": "2",
+        "chatRoomId": "room1",
+        "senderId": "user2",
+        "recipientId": "user1",
+        "message": "how was your day?",
+        "isRead": false,
+        "isDelivered": true,
+        "createdAt": "2024-03-14T11:05:20Z"
+      }
+    ]
+  },
+  {
+    "userId": "6fd83af8-c1b0-47cc-a54e-cc68d9ceeefb",
+    "firstName": "Allan",
+    "lastName": "Smith",
+    "email": "alice@example.com",
+    "phoneNumber": "9876543210",
+    "role": "doctor",
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/owino-dd2f6.appspot.com/o/prod%2Fusers%2F1697518410913_Tibesigwa%20-Dankan.png?alt=media&token=421e1cba-d59c-4a04-850f-d403e42a0601",
+    "createdAt": "2024-03-14T12:10:00Z",
+    "updatedAt": "2024-03-14T12:10:00Z",
+    "twoFA": {
+      "isEnabled": false
+    },
+    "messages": [
+      {
+        "messageId": "3",
+        "chatRoomId": "room1",
+        "senderId": "6fd83af8-c1b0-47cc-a54e-cc68d9ceeefb",
+        "recipientId": "user2",
+        "message": "Hi Alice, I'm good, thanks! thanks thanks",
+        "isRead": true,
+        "isDelivered": true,
+        "createdAt": "2024-03-14T12:03:00Z"
+      }
+    ]
+  },
+  {
+    "userId": "user3",
+    "firstName": "Emily",
+    "lastName": "Brown",
+    "email": "emily@example.com",
+    "phoneNumber": "5555555555",
+    "role": "patient",
+    "imageUrl": null,
+    "createdAt": "2024-03-14T12:20:00Z",
+    "updatedAt": "2024-03-14T12:20:00Z",
+    "twoFA": {
+      "isEnabled": true,
+      "method": "sms"
+    },
+    "messages": []
+  },
+  {
+    "userId": "user4",
+    "firstName": "Michael",
+    "lastName": "Johnson",
+    "email": "michael@example.com",
+    "phoneNumber": "4444444444",
+    "role": "admin",
+    "imageUrl": null,
+    "createdAt": "2024-03-14T12:30:00Z",
+    "updatedAt": "2024-03-14T12:30:00Z",
+    "messages": [
+      {
+        "messageId": "4",
+        "chatRoomId": "room2",
+        "senderId": "user4",
+        "recipientId": "user3",
+        "message": "Good morning, Emily!",
+        "isRead": false,
+        "isDelivered": false,
+        "createdAt": "2024-03-14T12:31:00Z"
+      }
+    ]
+  }
+]
