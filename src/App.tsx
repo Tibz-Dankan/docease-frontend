@@ -13,7 +13,7 @@ import { DoctorRoutes } from "./routes/DoctorRoutes";
 import { useLiveNotification } from "./hooks/useLiveNotification";
 import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
-import { useLiveConfNotification } from "./hooks/useLiveConfNotification";
+import { useLiveChat } from "./hooks/useLiveChat";
 import { LandingPage } from "./common/pages/LandingPage";
 import { Chat } from "./chat/pages/Chat";
 // import { io, Socket } from "socket.io-client";
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
 
   // useGetDeviceToken();
   useLiveNotification();
-  useLiveConfNotification();
+  useLiveChat();
   useGetOnlineStatus();
   useUpdateOnlineStatus();
 

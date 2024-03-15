@@ -1,34 +1,12 @@
-// import React, { Fragment, useState, useRef, useEffect } from "react";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { ChatHeader } from "../UI/ChatHeader";
 import { ChatForm } from "../UI/ChatForm";
 import { ChatMessages } from "../UI/ChatMessages";
-import { useDispatch, useSelector } from "react-redux";
-// import { Socket } from "socket.io-client";
-// import { useQuery } from "@tanstack/react-query";
-// import { MessageLoader } from "../UI/MessageLoader";
-import { TAuthState, TUser } from "../../types/auth";
-import {
-  hideCardNotification,
-  showCardNotification,
-} from "../../store/actions/notification";
-// import { addToMessageList, updateMessageList } from "../../store/actions/chat";
-import { addToMessageList } from "../../store/actions/chat";
-import { IChatMessage, TChatState } from "../../types/chat";
-// import { generateChatRoomId } from "../../utils/generateChatRoomId";
-// import { getChatMessages } from "../API";
-import { url } from "../../store";
-import { EventSourcePolyfill } from "event-source-polyfill";
-// import { TLiveConfNotification } from "../../types/liveNotification";
-// import { updateLiveNotification } from "../../store/actions/liveNotification";
+import { useSelector } from "react-redux";
+import { TUser } from "../../types/auth";
+import { TChatState } from "../../types/chat";
 
-// interface ChatAggregatorProps {
-//   socket: Socket;
-// }
-
-// export const ChatAggregator: React.FC<ChatAggregatorProps> = (props) => {
 export const ChatAggregator: React.FC = () => {
-  // const currentUser: TUser = useSelector((state: any) => state.auth.user);
   const recipient: TUser = useSelector(
     (state: any) => state.chat.currentRecipient
   );
@@ -36,88 +14,6 @@ export const ChatAggregator: React.FC = () => {
   const theRecipient = useSelector(
     (state: TChatState) => state.chat.currentRecipient
   );
-
-  // const chatRoomId = generateChatRoomId(currentUser, recipient);
-  // const effectRan = useRef(false);
-  const dispatch: any = useDispatch();
-  const accessToken: string = useSelector(
-    (state: TAuthState) => state.auth.accessToken!
-  );
-
-  // const { isLoading } = useQuery(
-  //   [`${chatRoomId}-messageList`],
-  //   () => {
-  //     return getChatMessages({
-  //       chatRoomId: chatRoomId,
-  //       accessToken: accessToken,
-  //     });
-  //   },
-  //   {
-  //     onSuccess: (data: any) => {
-  //       dispatch(updateMessageList(data.data.messages));
-  //     },
-  //     onError: (error: any) => {
-  //       dispatch(
-  //         showCardNotification({ type: "error", message: error.message })
-  //       );
-  //       setTimeout(() => {
-  //         dispatch(hideCardNotification());
-  //       }, 5000);
-  //     },
-  //   }
-  // );
-
-  const userId = useSelector((state: TAuthState) => state.auth.user?.userId);
-
-  useEffect(() => {
-    if (!accessToken || !userId) return;
-    const eventSource = new EventSourcePolyfill(`${url}/chat/get-live-chat`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    const onmessage = async (event: any) => {
-      console.log("event data", event);
-      const parsedData = JSON.parse(event.data);
-      const message = parsedData.message;
-      const parsedUserId: string = parsedData.recipientId;
-      if (message === "heartbeat" || message === "warmup") return;
-      if (parsedUserId !== userId) return;
-
-      const newMessage: IChatMessage = parsedData.message;
-      console.log("newMessage from server: ", newMessage);
-      dispatch(addToMessageList(newMessage));
-
-      // dispatch(updateLiveNotification(parsedData));
-      dispatch(
-        showCardNotification({ type: "info", message: "You have new message" })
-      );
-      setTimeout(() => {
-        dispatch(hideCardNotification());
-      }, 5000);
-    };
-
-    const onerror = async (error: any) => {
-      if (error.status === 401) {
-        console.log("live notify error", error);
-        eventSource.close();
-        dispatch(
-          showCardNotification({ type: "error", message: error.message })
-        );
-        setTimeout(() => {
-          dispatch(hideCardNotification());
-        }, 5000);
-      }
-    };
-
-    eventSource.onmessage = onmessage;
-    eventSource.onerror = onerror;
-  }, [dispatch, accessToken]);
-
-  // const messageList: IChatMessage[] = useSelector(
-  //   (state: any) => state.chat.messageList
-  // );
 
   const messageList = theRecipient.messages;
 
@@ -135,9 +31,7 @@ export const ChatAggregator: React.FC = () => {
           recipientImageUrl={`${recipient.imageUrl}`}
           onChatClose={() => {}}
         />
-        {/* {isLoading && <MessageLoader />} */}
         <ChatMessages messages={messageList} />
-        {/* <ChatForm onSubmit={onSubmitHandler} /> */}
         <ChatForm />
       </div>
     </Fragment>

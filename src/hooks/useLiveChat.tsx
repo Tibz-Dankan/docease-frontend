@@ -7,13 +7,13 @@ import {
 import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { TLiveConfNotification } from "../types/liveNotification";
 import {
-  updateRequestConnectVideoConference,
-  updateVideoConferenceConnected,
-} from "../store/actions/videoConference";
+  updateChatRecipientListMessage,
+  updateCurrentRecipientMessage,
+} from "../store/actions/chat";
+import { IChatMessage } from "../types/chat";
 
-export const useLiveConfNotification = async () => {
+export const useLiveChat = async () => {
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   );
@@ -23,38 +23,29 @@ export const useLiveConfNotification = async () => {
 
   useEffect(() => {
     if (!accessToken || !userId) return;
-    const eventSource = new EventSourcePolyfill(
-      `${url}/notifications/get-live-conf-notifications`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const eventSource = new EventSourcePolyfill(`${url}/chat/get-live-chat`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     const onmessage = async (event: any) => {
-      console.log("event data", event);
-      const parsedData = JSON.parse(event.data) as TLiveConfNotification;
+      console.log("chat message event data", event);
+      const parsedData = JSON.parse(event.data);
       const message = parsedData.message;
-      // const parsedUserId = parsedData.userId;
+      const parsedUserId: string = parsedData.recipientId;
       if (message === "heartbeat" || message === "warmup") return;
-      if (message === "confconnected") {
-        dispatch(updateVideoConferenceConnected(parsedData.peerId!));
-        return;
-      }
+      if (parsedUserId !== userId) return;
 
-      // if (parsedUserId !== userId) return;
+      const newMessage: IChatMessage = parsedData.message;
+      console.log("newMessage from server: ", newMessage);
 
-      const videoConferenceId: string = parsedData.videoConferenceId!;
-      const requestConnectMessage: string = parsedData.message;
+      dispatch(updateChatRecipientListMessage(newMessage));
+      dispatch(updateCurrentRecipientMessage(newMessage));
 
       dispatch(
-        updateRequestConnectVideoConference(
-          videoConferenceId,
-          requestConnectMessage
-        )
+        showCardNotification({ type: "info", message: "You have new message" })
       );
-      dispatch(showCardNotification({ type: "info", message: message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
@@ -62,7 +53,6 @@ export const useLiveConfNotification = async () => {
 
     const onerror = async (error: any) => {
       if (error.status === 401) {
-        console.log("live notify error", error);
         eventSource.close();
         dispatch(
           showCardNotification({ type: "error", message: error.message })
