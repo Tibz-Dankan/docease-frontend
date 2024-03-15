@@ -70,7 +70,7 @@ export const GetVideoConference: React.FC<GetVideoConferenceProps> = (
           <div>
             <span
               className="w-10 h-10 rounded-[50%] flex items-center 
-               justify-center bg-white border-[1px] border-gray-100
+               justify-center bg-white border-[1px] border-gray-300
                shadow-lg cursor-pointer"
               onClick={() => getVideoConferenceHandler()}
             >

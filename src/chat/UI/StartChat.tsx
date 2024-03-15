@@ -1,13 +1,14 @@
 import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
-import { BsChatFill } from "react-icons/bs";
 import {
   hideChat,
   showChatRecipientList,
   updateStartChatRecipient,
 } from "../../store/actions/chat";
 import { IconContext } from "react-icons";
+import { BsChatSquareTextFill } from "react-icons/bs";
+// import { BsChatSquareText } from "react-icons/bs";
 import { TChatRecipient } from "../../types/chat";
 
 interface StartChatProps {
@@ -35,14 +36,15 @@ export const StartChat: React.FC<StartChatProps> = (props) => {
 
   return (
     <Fragment>
-      <div className={twMerge(`w-full`, props.className)}>
+      <div className={twMerge(`inline-block`, props.className)}>
         <span
-          className="cursor-pointer flex items-center 
-          text-gray-400 text-sm"
+          className="w-10 h-10 rounded-[50%] flex items-center 
+           justify-center bg-white border-[1px] border-gray-300
+           shadow-lg cursor-pointer"
           onClick={() => updateStartRecipientHandler()}
         >
-          <IconContext.Provider value={{ size: "1.2rem", color: "#495057" }}>
-            <BsChatFill />
+          <IconContext.Provider value={{ size: "1.0rem", color: "#1c7ed6" }}>
+            <BsChatSquareTextFill />
           </IconContext.Provider>
         </span>
       </div>

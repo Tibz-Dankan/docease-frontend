@@ -92,7 +92,7 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
         </div>
 
         <div className="space-y-2">
-          <div className="w-full flex justify-center items-center bg-green-500">
+          <div className="w-full flex justify-center items-center gap-2">
             {/* <GetVideoConference attendeeId={doctorId} /> */}
             <StartChat startChatRecipient={startChatRecipient} />
           </div>
