@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { TAuthState } from "../../types/auth";
@@ -29,6 +29,9 @@ export const ChatRecipientList: React.FC = () => {
 
   const recipient = useSelector(
     (state: TChatState) => state.chat.currentRecipient
+  );
+  const chatRecipientList = useSelector(
+    (state: TChatState) => state.chat.chatRecipientList
   );
   const accessToken: string = useSelector(
     (state: TAuthState) => state.auth.accessToken!
@@ -115,6 +118,13 @@ export const ChatRecipientList: React.FC = () => {
   }
 
   const startChatRecipientStyles = `border-[1px] border-primary`;
+
+  useEffect(() => {
+    const updateChatRecipientHandler = () => {
+      setRecipientList(() => chatRecipientList);
+    };
+    updateChatRecipientHandler();
+  }, [chatRecipientList]);
 
   return (
     <Fragment>
