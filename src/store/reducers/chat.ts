@@ -60,6 +60,8 @@ export const chatSlice = createSlice({
     ) {
       state.chatRecipientList = action.payload.chatRecipientList;
     },
+
+    //Add messages from backend(recipient user) to the recipient list
     updateChatRecipientListMessage(
       state,
       action: PayloadAction<TRecipientMessagePayload>
@@ -70,15 +72,12 @@ export const chatSlice = createSlice({
         return recipient.userId === action.payload.message.senderId;
       });
       if (!recipient) return;
+
+      const message = recipient.messages.find(
+        (message) => message.messageId === action.payload.message.messageId
+      );
+      if (message) return;
       recipient.messages.push(action.payload.message);
-
-      // const recipientIndex = recipientList.findIndex(
-      //   (recipient) => recipient.userId === action.payload.message.senderId
-      // );
-
-      // recipientList.splice(recipientIndex, 1); //Remove element from recipientList
-      // recipientList.unshift(recipient); //Add element at beginning of recipientList
-      // state.chatRecipientList = recipientList;
 
       if (recipientList.length === 1) {
         state.chatRecipientList = [recipient];
@@ -91,6 +90,32 @@ export const chatSlice = createSlice({
       filteredRecipientList.unshift(recipient);
       state.chatRecipientList = filteredRecipientList;
     },
+
+    //Add messages from current device user to the recipient list
+    addToRecipientMessageList(
+      state,
+      action: PayloadAction<TRecipientMessagePayload>
+    ) {
+      const recipientList = state.chatRecipientList;
+
+      const recipient = recipientList.find((recipient) => {
+        return recipient.userId === action.payload.message.recipientId;
+      });
+      if (!recipient) return;
+      recipient.messages.push(action.payload.message);
+
+      if (recipientList.length === 1) {
+        state.chatRecipientList = [recipient];
+        return;
+      }
+
+      const filteredRecipientList = recipientList.filter((recipient) => {
+        return recipient.userId !== action.payload.message.recipientId;
+      });
+      filteredRecipientList.unshift(recipient);
+      state.chatRecipientList = filteredRecipientList;
+    },
+
     updateCurrentRecipient(
       state,
       action: PayloadAction<TCurrentRecipientPayload>

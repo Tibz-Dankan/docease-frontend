@@ -27,6 +27,16 @@ export const updateChatRecipientListMessage = (message: IChatMessage) => {
   };
 };
 
+export const addToRecipientMessageList = (message: IChatMessage) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.addToRecipientMessageList({
+        message: message,
+      })
+    );
+  };
+};
+
 export const updateCurrentRecipient = (currentRecipient: TChatRecipient) => {
   return (dispatch: any) => {
     dispatch(

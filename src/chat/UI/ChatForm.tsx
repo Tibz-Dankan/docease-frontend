@@ -5,6 +5,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToMessageList,
+  addToRecipientMessageList,
   clearPostingMessage,
   updatePostingMessage,
 } from "../../store/actions/chat";
@@ -31,10 +32,9 @@ export const ChatForm: React.FC = () => {
 
   const dispatch: any = useDispatch();
 
-  const { isLoading, mutate } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: postChat,
-    onSuccess: (response: any) => {
-      console.log("response chat: ", response);
+    onSuccess: (_: any) => {
       dispatch(clearPostingMessage());
     },
     onError: (error: any) => {
@@ -45,8 +45,6 @@ export const ChatForm: React.FC = () => {
       }, 5000);
     },
   });
-
-  console.log("isLoading :", isLoading);
 
   const scrollToBottom = () => {
     // Delay scrolling to bottom to allow element attain its full height
@@ -100,7 +98,19 @@ export const ChatForm: React.FC = () => {
         isPosting: true,
       })
     );
-    // TODO: To dispatch the message to chatRecipientList
+
+    dispatch(
+      addToRecipientMessageList({
+        senderId: currentUser.userId,
+        recipientId: recipient.userId,
+        chatRoomId: chatRoomId,
+        message: message,
+        isRead: false,
+        isDelivered: false,
+        createdAt: createdAt,
+      })
+    );
+
     messageRef.current.value = messageRef.current && "";
     scrollToBottom();
   };
