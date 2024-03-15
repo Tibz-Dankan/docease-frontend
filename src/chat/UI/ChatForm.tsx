@@ -31,10 +31,9 @@ export const ChatForm: React.FC = () => {
 
   const dispatch: any = useDispatch();
 
-  const { isLoading, mutate } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: postChat,
-    onSuccess: (response: any) => {
-      console.log("response chat: ", response);
+    onSuccess: (_: any) => {
       dispatch(clearPostingMessage());
     },
     onError: (error: any) => {
@@ -45,8 +44,6 @@ export const ChatForm: React.FC = () => {
       }, 5000);
     },
   });
-
-  console.log("isLoading :", isLoading);
 
   const scrollToBottom = () => {
     // Delay scrolling to bottom to allow element attain its full height
