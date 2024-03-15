@@ -44,6 +44,7 @@ export interface IPostingMessage extends IChatMessage {
 export type TChat = {
   chatRecipientList: TChatRecipient[];
   currentRecipient: TChatRecipient;
+  startChatRecipient: TChatRecipient;
   postMessaging: IPostingMessage;
   messageList: IChatMessage[];
   showChat: boolean;
@@ -60,6 +61,10 @@ export type TRecipientListPayload = {
 
 export type TCurrentRecipientPayload = {
   currentRecipient: TChatRecipient;
+};
+
+export type TStartChatRecipientPayload = {
+  startChatRecipient: TChatRecipient;
 };
 
 export type TRecipientMessagePayload = {

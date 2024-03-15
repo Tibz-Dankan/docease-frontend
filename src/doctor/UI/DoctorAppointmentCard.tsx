@@ -5,6 +5,8 @@ import { Button } from "../../shared/UI/Button";
 import { Modal } from "../../shared/UI/Modal";
 import { PostAppointment } from "../../appointment/UI/PostAppointment";
 import { elapsedTime } from "../../utils/elapsedTime";
+import { StartChat } from "../../chat/UI/StartChat";
+import { TChatRecipient } from "../../types/chat";
 // import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
 
 interface CardProps {
@@ -24,6 +26,19 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
   const doctorId = props.userId;
 
   const lastSeenAt = props.lastSeenAt as string;
+
+  const startChatRecipient: TChatRecipient = {
+    userId: props.userId,
+    firstName: props.firstName,
+    lastName: props.lastName,
+    email: "",
+    phoneNumber: "",
+    role: "doctor",
+    imageUrl: props.imageUrl,
+    createdAt: props.createdAt,
+    updatedAt: props.updatedAt,
+    messages: [],
+  };
 
   return (
     <Fragment>
@@ -77,9 +92,10 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
         </div>
 
         <div className="space-y-2">
-          {/* <div className="flex justify-center">
-            <GetVideoConference attendeeId={doctorId} />
-          </div> */}
+          <div className="w-full flex justify-center items-center bg-green-500">
+            {/* <GetVideoConference attendeeId={doctorId} /> */}
+            <StartChat startChatRecipient={startChatRecipient} />
+          </div>
           <Modal
             openModalElement={
               <Button

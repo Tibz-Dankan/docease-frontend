@@ -38,6 +38,7 @@ export const ChatForm: React.FC = () => {
       dispatch(clearPostingMessage());
     },
     onError: (error: any) => {
+      dispatch(clearPostingMessage());
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {
         dispatch(hideCardNotification());
@@ -90,6 +91,7 @@ export const ChatForm: React.FC = () => {
         isPosting: true,
       })
     );
+    // TODO: To dispatch the message to chatRecipientList
     messageRef.current.value = messageRef.current && "";
   };
   // const onSubmitMessageHandler = (event: React.FormEvent) => {

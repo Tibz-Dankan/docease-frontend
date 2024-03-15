@@ -7,11 +7,24 @@ import {
   TPostingMessagePayload,
   TRecipientListPayload,
   TRecipientMessagePayload,
+  TStartChatRecipientPayload,
 } from "../../types/chat";
 
 const initialState: TChat = {
   chatRecipientList: [],
   currentRecipient: {
+    userId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    role: "patient",
+    imageUrl: null,
+    createdAt: "",
+    updatedAt: "",
+    messages: [],
+  },
+  startChatRecipient: {
     userId: "",
     firstName: "",
     lastName: "",
@@ -74,7 +87,7 @@ export const chatSlice = createSlice({
       state.currentRecipient = action.payload.currentRecipient;
     },
 
-    // updating messages from coming from backend(recipient user)
+    // updating messages coming from backend(recipient user)
     updateCurrentRecipientMessage(
       state,
       action: PayloadAction<TRecipientMessagePayload>
@@ -86,7 +99,7 @@ export const chatSlice = createSlice({
       state.currentRecipient = recipient;
     },
 
-    // Adding messages from coming from device user
+    // Adding messages coming from current device user
     addToMessageList(state, action: PayloadAction<TMessagePayload>) {
       const recipient = state.currentRecipient;
       if (recipient.userId !== action.payload.message.recipientId) return;
@@ -110,6 +123,13 @@ export const chatSlice = createSlice({
         createdAt: "",
         isPosting: false,
       };
+    },
+
+    updateStartChatRecipient(
+      state,
+      action: PayloadAction<TStartChatRecipientPayload>
+    ) {
+      state.startChatRecipient = action.payload.startChatRecipient;
     },
 
     updateMessageList(state, action: PayloadAction<TMessageListPayload>) {

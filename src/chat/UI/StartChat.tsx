@@ -5,18 +5,18 @@ import { BsChatFill } from "react-icons/bs";
 import {
   hideChat,
   showChatRecipientList,
-  updateCurrentRecipient,
+  updateStartChatRecipient,
 } from "../../store/actions/chat";
 import { IconContext } from "react-icons";
 import { TChatRecipient } from "../../types/chat";
 
 interface StartChatProps {
   className?: string;
-  currentRecipient: TChatRecipient;
+  startChatRecipient: TChatRecipient;
 }
 
 export const StartChat: React.FC<StartChatProps> = (props) => {
-  const recipient: TChatRecipient = props.currentRecipient;
+  const recipient: TChatRecipient = props.startChatRecipient;
 
   const dispatch: any = useDispatch();
 
@@ -28,8 +28,8 @@ export const StartChat: React.FC<StartChatProps> = (props) => {
     }
   };
 
-  const updateCurrentRecipientHandler = () => {
-    dispatch(updateCurrentRecipient(recipient));
+  const updateStartRecipientHandler = () => {
+    dispatch(updateStartChatRecipient(recipient));
     showChatRecipientListHandler();
   };
 
@@ -39,7 +39,7 @@ export const StartChat: React.FC<StartChatProps> = (props) => {
         <span
           className="cursor-pointer flex items-center 
           text-gray-400 text-sm"
-          onClick={() => updateCurrentRecipientHandler()}
+          onClick={() => updateStartRecipientHandler()}
         >
           <IconContext.Provider value={{ size: "1.2rem", color: "#495057" }}>
             <BsChatFill />

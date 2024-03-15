@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-// import { MessageBadge } from "./MessageBadge";
-// import { Socket } from "socket.io-client";
 import { TAuthState } from "../../types/auth";
 import {
   hideChatRecipientList,
@@ -18,9 +16,11 @@ import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
 import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
-import recipients from "../data/chatRecipients.json";
+// import recipients from "../data/chatRecipients.json";
 import { AppDate } from "../../utils/appDate";
 import { truncateString } from "../../utils/truncateString";
+import { MessageBadge } from "./MessageBadge";
+import { Loader } from "../../shared/UI/Loader";
 
 export const ChatRecipientList: React.FC = () => {
   const currentUserId: string = useSelector(
@@ -34,21 +34,23 @@ export const ChatRecipientList: React.FC = () => {
     (state: TAuthState) => state.auth.accessToken!
   );
 
-  // console.log("chatRecipients==>", chatRecipients);
-
-  const chatRecipients = recipients as TChatRecipient[];
+  // const chatRecipients = recipients as TChatRecipient[];
 
   const dispatch: any = useDispatch();
   const [recipientList, setRecipientList] = useState<TChatRecipient[]>([]);
   const [activeRecipient, setActiveRecipient] =
     useState<TChatRecipient>(recipient);
 
+  const startChatRecipient: TChatRecipient = useSelector(
+    (state: TChatState) => state.chat.startChatRecipient
+  );
+
   const showChatHandler = () => {
     dispatch(showChat());
   };
 
-  const { isLoading, data } = useQuery(
-    ["chatRecipientList"],
+  const { isLoading } = useQuery(
+    [`chatRecipientList-${currentUserId}`],
     () => {
       return getChatRecipients({
         userId: currentUserId,
@@ -57,7 +59,7 @@ export const ChatRecipientList: React.FC = () => {
     },
     {
       onSuccess: (response: any) => {
-        console.log("chat recipient response: ", response);
+        if (!response.data?.recipients[0]?.userId) return;
         setRecipientList(() => response.data.recipients);
       },
       onError: (error: any) => {
@@ -70,11 +72,6 @@ export const ChatRecipientList: React.FC = () => {
       },
     }
   );
-
-  // TODO: show custom loader here
-  if (isLoading) return <p>Loading...</p>;
-
-  if (!data) return <p>No data fetched(Recipient)</p>;
 
   const joinChatRoom = async (recipient: TChatRecipient) => {
     dispatch(updateCurrentRecipient(recipient));
@@ -102,15 +99,46 @@ export const ChatRecipientList: React.FC = () => {
     return truncateString(lastMessage?.message);
   };
 
+  const isStartChatRecipientAvailable: boolean = !!startChatRecipient.userId;
+
+  const hasRecipients: boolean = !!recipientList[0]?.userId;
+
+  const startChatRecipientFromList = recipientList.find((recipient) => {
+    return recipient.userId === startChatRecipient.userId;
+  });
+
+  const SCRecipientIndex = recipientList.findIndex(
+    (recipient) => recipient.userId === startChatRecipient.userId
+  ); //startChatRecipient(SCRecipientIndex)
+
+  // Remove startChatRecipient if exits in the recipientList
+  startChatRecipientFromList && recipientList.splice(SCRecipientIndex, 1);
+  // Add startChatRecipient at the start of recipientList
+  startChatRecipientFromList &&
+    recipientList.unshift(startChatRecipientFromList);
+  // If startChatRecipient does not exist in the list
+  !startChatRecipientFromList &&
+    isStartChatRecipientAvailable &&
+    recipientList.unshift(startChatRecipient);
+  // If recipientList from server is empty then,
+  //  add startChatRecipient as only element in the list
+  hasRecipients &&
+    isStartChatRecipientAvailable &&
+    recipientList.push(startChatRecipient);
+
+  const startChatRecipientStyles = `border-[1px] border-primary`;
+
   return (
     <Fragment>
       <div
-        className="w-full sm:w-80 border-[1px] border-gray-300
-        sm:rounded-mds sm:rounded-t-md shadow-md animate-opacityZeroToFull"
+        className="w-full sm:w-80 h-[58vh] sm:h-[50vh] overflow-x-hidden
+         border-[1px] border-gray-300 sm:rounded-t-md 
+         shadow-md animate-opacityZeroToFull bg-gray-50"
       >
         <div
-          className="flex items-center justify-between border-b-[1px] 
-          border-primary p-4 bg-primary rounded-tl-md rounded-tr-md"
+          className="flex items-center justify-between 
+          border-b-[1px] border-primary p-4 bg-primary
+          rounded-tl-md rounded-tr-md"
         >
           <span className="text-gray-50">Messaging</span>
           <svg
@@ -127,18 +155,40 @@ export const ChatRecipientList: React.FC = () => {
             </IconContext.Provider>
           </svg>
         </div>
+
         <div>
-          {/* {recipientList.map((recipient: TChatRecipient, index: number) => { */}
-          {chatRecipients.map((recipient: TChatRecipient, index: number) => {
+          {isLoading && (
+            <div
+              className="flex items-center justify-center
+              bg-gray-50 w-full h-40 text-gray-800"
+            >
+              <Loader className="stroke-gray-600" />
+            </div>
+          )}
+        </div>
+        <div>
+          {!recipientList[0] && (
+            <div
+              className="flex items-center justify-center
+              bg-gray-50 w-full h-40 text-gray-800"
+            >
+              <p>Chat History will appear here</p>
+            </div>
+          )}
+        </div>
+        <div>
+          {recipientList.map((recipient: TChatRecipient, index: number) => {
             return (
               <div
-                className={`relative p-2 flex items-center justify-start border-b-[1px]
-                    border-gray-light-3 cursor-pointer  ${
-                      recipient.userId == activeRecipient?.userId
-                        ? "bg-gray-200"
-                        : "bg-gray-50"
-                    }
-                
+                className={`relative p-2 flex items-center justify-start
+                 border-b-[1px] border-gray-light-3 cursor-pointer ${
+                   recipient.userId == activeRecipient?.userId
+                     ? "bg-gray-200"
+                     : "bg-gray-50"
+                 } ${
+                  recipient.userId === startChatRecipient.userId &&
+                  startChatRecipientStyles
+                }
                 `}
                 key={index + 1}
                 onClick={() => onJoinChatRoomHandler(recipient)}
@@ -186,11 +236,11 @@ export const ChatRecipientList: React.FC = () => {
                     <p>{getLastMessage(recipient.messages)}</p>
                   </div>
                 </div>
-                {/* {recipient.userId === sellerRecipient.userId && (
+                {recipient.userId === startChatRecipient.userId && (
                   <div className="absolute bottom-0 right-0">
                     <MessageBadge />
                   </div>
-                )} */}
+                )}
               </div>
             );
           })}

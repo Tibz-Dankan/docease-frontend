@@ -63,6 +63,18 @@ export const clearPostingMessage = () => {
   };
 };
 
+export const updateStartChatRecipient = (
+  startChatRecipient: TChatRecipient
+) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.updateStartChatRecipient({
+        startChatRecipient: startChatRecipient,
+      })
+    );
+  };
+};
+
 export const updateMessageList = (messageList: IChatMessage[]) => {
   return (dispatch: any) => {
     dispatch(
