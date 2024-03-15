@@ -72,13 +72,24 @@ export const chatSlice = createSlice({
       if (!recipient) return;
       recipient.messages.push(action.payload.message);
 
-      const recipientIndex = recipientList.findIndex(
-        (recipient) => recipient.userId === action.payload.message.senderId
-      );
+      // const recipientIndex = recipientList.findIndex(
+      //   (recipient) => recipient.userId === action.payload.message.senderId
+      // );
 
-      recipientList.splice(recipientIndex, 1); //Remove element from recipientList
-      recipientList.unshift(recipient); //Add element at beginning of recipientList
-      state.chatRecipientList = recipientList;
+      // recipientList.splice(recipientIndex, 1); //Remove element from recipientList
+      // recipientList.unshift(recipient); //Add element at beginning of recipientList
+      // state.chatRecipientList = recipientList;
+
+      if (recipientList.length === 1) {
+        state.chatRecipientList = [recipient];
+        return;
+      }
+
+      const filteredRecipientList = recipientList.filter((recipient) => {
+        return recipient.userId !== action.payload.message.senderId;
+      });
+      filteredRecipientList.unshift(recipient);
+      state.chatRecipientList = filteredRecipientList;
     },
     updateCurrentRecipient(
       state,
@@ -94,6 +105,11 @@ export const chatSlice = createSlice({
     ) {
       const recipient = state.currentRecipient;
       if (recipient.userId !== action.payload.message.senderId) return;
+
+      const message = recipient.messages.find(
+        (message) => message.messageId === action.payload.message.messageId
+      );
+      if (message) return;
 
       recipient.messages.push(action.payload.message);
       state.currentRecipient = recipient;

@@ -5,6 +5,7 @@ import { TAuthState } from "../../types/auth";
 import {
   hideChatRecipientList,
   showChat,
+  updateChatRecipientList,
   updateCurrentRecipient,
 } from "../../store/actions/chat";
 import {
@@ -58,6 +59,7 @@ export const ChatRecipientList: React.FC = () => {
       onSuccess: (response: any) => {
         if (!response.data?.recipients[0]?.userId) return;
         setRecipientList(() => response.data.recipients);
+        dispatch(updateChatRecipientList(response.data.recipients));
       },
       onError: (error: any) => {
         dispatch(

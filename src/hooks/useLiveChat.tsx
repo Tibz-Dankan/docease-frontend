@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showCardNotification,
@@ -11,17 +11,30 @@ import {
   updateChatRecipientListMessage,
   updateCurrentRecipientMessage,
 } from "../store/actions/chat";
-import { IChatMessage } from "../types/chat";
+import { IChatMessage, TChatState } from "../types/chat";
 
 export const useLiveChat = async () => {
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   );
   const userId = useSelector((state: TAuthState) => state.auth.user?.userId);
+  const chatRecipientList = useSelector(
+    (state: TChatState) => state.chat.chatRecipientList
+  );
 
   const dispatch: any = useDispatch();
+  const effectRan = useRef(false);
 
   useEffect(() => {
+    // if (effectRan.current === false) {
+
+    //   return () => {
+    //     effectRan.current = true;
+    //   };
+    // }
+
+    if (effectRan.current == true) return;
+
     if (!accessToken || !userId) return;
     const eventSource = new EventSourcePolyfill(`${url}/chat/get-live-chat`, {
       headers: {
@@ -39,6 +52,19 @@ export const useLiveChat = async () => {
 
       const newMessage: IChatMessage = parsedData.message;
       console.log("newMessage from server: ", newMessage);
+
+      console.log("Updating message lists in the store.......");
+
+      // prevent unnecessary updates of the chat messages
+      const recipient = chatRecipientList.find(
+        (recipient) => recipient.userId === newMessage.senderId
+      );
+
+      const existingMessage = recipient?.messages.find(
+        (message) => message.messageId === newMessage.messageId
+      );
+
+      if (existingMessage) return;
 
       dispatch(updateChatRecipientListMessage(newMessage));
       dispatch(updateCurrentRecipientMessage(newMessage));
@@ -65,7 +91,13 @@ export const useLiveChat = async () => {
 
     eventSource.onmessage = onmessage;
     eventSource.onerror = onerror;
-  }, [dispatch, accessToken]);
+
+    return () => {
+      effectRan.current = true;
+    };
+
+    // }, [dispatch, accessToken]);
+  }, [accessToken]);
 
   return {};
 };
