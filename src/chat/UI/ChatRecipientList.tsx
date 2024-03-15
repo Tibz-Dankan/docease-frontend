@@ -174,17 +174,17 @@ export const ChatRecipientList: React.FC = () => {
             </div>
           )}
         </div>
-        <div>
+        <div className="transition-all">
           {filteredRecipientList.map(
             (recipient: TChatRecipient, index: number) => {
               return (
                 <div
                   className={`relative p-2 flex items-center justify-start
-                 border-b-[1px] border-gray-light-3 cursor-pointer ${
-                   recipient.userId == activeRecipient?.userId
-                     ? "bg-gray-200"
-                     : "bg-gray-50"
-                 } ${
+                  border-b-[1px] border-gray-light-3 cursor-pointer ${
+                    recipient.userId == activeRecipient?.userId
+                      ? "bg-gray-200"
+                      : "bg-gray-50"
+                  } ${
                     recipient.userId === startChatRecipient.userId &&
                     startChatRecipientStyles
                   }
@@ -195,7 +195,7 @@ export const ChatRecipientList: React.FC = () => {
                   {recipient.imageUrl && (
                     <div
                       className="bg-gray-light-3 flex items-center justify-center 
-                    w-14 h-14 rounded-[50%]"
+                      w-14 h-14 rounded-[50%]"
                     >
                       <img
                         src={recipient.imageUrl}
@@ -207,7 +207,7 @@ export const ChatRecipientList: React.FC = () => {
                   {!recipient.imageUrl && (
                     <span
                       className="cursor-pointer grid place-items-center  bg-gray-400
-                    w-14 h-14 rounded-[50%]"
+                      w-14 h-14 rounded-[50%]"
                     >
                       <IconContext.Provider
                         value={{ size: "1.6rem", color: "#495057" }}
@@ -218,7 +218,7 @@ export const ChatRecipientList: React.FC = () => {
                   )}
                   <div
                     className="flex-1 flex flex-col items-between justify-center
-                   gap-1 px-2 text-sm text-gray-800"
+                    gap-1 px-2 text-sm text-gray-800"
                   >
                     <div>
                       <p className="font-bold">
