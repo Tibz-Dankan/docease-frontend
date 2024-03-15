@@ -34,7 +34,6 @@ export const useLiveNotification = async () => {
     );
 
     const onmessage = async (event: any) => {
-      console.log("event data", event);
       const parsedData = JSON.parse(event.data) as TLiveConfNotification;
       const message = parsedData.message;
       const parsedUserId = parsedData.userId;
@@ -69,7 +68,6 @@ export const useLiveNotification = async () => {
 
     const onerror = async (error: any) => {
       if (error.status === 401) {
-        console.log("live notify error", error);
         eventSource.close();
         dispatch(
           showCardNotification({ type: "error", message: error.message })
