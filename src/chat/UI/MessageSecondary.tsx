@@ -18,7 +18,7 @@ export const MessageSecondary = (props: any) => {
     <Fragment>
       <div>
         <div className="mt-1 ml-12 mr-2  inline-block">
-          <p
+          <div
             className={`text-sm ${
               msg.currentUserIsSender
                 ? "bg-primary text-gray-50 before:bg-primary"
@@ -36,7 +36,7 @@ export const MessageSecondary = (props: any) => {
                 />
               </div>
             )}
-          </p>
+          </div>
         </div>
       </div>
     </Fragment>

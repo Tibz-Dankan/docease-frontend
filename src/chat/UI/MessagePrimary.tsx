@@ -54,7 +54,7 @@ export const MessagePrimary = (props: any) => {
             </svg>
             <span className="text-sm text-gray-500">{time()}</span>
           </div>
-          <p
+          <div
             className={`text-sm ${
               msg.currentUserIsSender
                 ? "bg-primary text-gray-50 before:bg-primary"
@@ -75,7 +75,7 @@ export const MessagePrimary = (props: any) => {
                 />
               </div>
             )}
-          </p>
+          </div>
         </div>
       </div>
     </Fragment>

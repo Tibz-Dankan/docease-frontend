@@ -16,7 +16,6 @@ import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
 import { IoClose, IoPerson } from "react-icons/io5";
 import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
-// import recipients from "../data/chatRecipients.json";
 import { AppDate } from "../../utils/appDate";
 import { truncateString } from "../../utils/truncateString";
 import { MessageBadge } from "./MessageBadge";
@@ -33,8 +32,6 @@ export const ChatRecipientList: React.FC = () => {
   const accessToken: string = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
-
-  // const chatRecipients = recipients as TChatRecipient[];
 
   const dispatch: any = useDispatch();
   const [recipientList, setRecipientList] = useState<TChatRecipient[]>([]);
@@ -96,35 +93,24 @@ export const ChatRecipientList: React.FC = () => {
   };
   const getLastMessage = (messages: IChatMessage[]) => {
     const lastMessage = messages[messages.length - 1];
-    return truncateString(lastMessage?.message);
+    return truncateString(lastMessage?.message, 24);
   };
-
-  const isStartChatRecipientAvailable: boolean = !!startChatRecipient.userId;
-
-  const hasRecipients: boolean = !!recipientList[0]?.userId;
 
   const startChatRecipientFromList = recipientList.find((recipient) => {
     return recipient.userId === startChatRecipient.userId;
   });
 
-  const SCRecipientIndex = recipientList.findIndex(
-    (recipient) => recipient.userId === startChatRecipient.userId
-  ); //startChatRecipient(SCRecipientIndex)
+  const filteredRecipientList: TChatRecipient[] = recipientList.filter(
+    (recipient) => {
+      return recipient.userId !== startChatRecipient.userId;
+    }
+  );
 
-  // Remove startChatRecipient if exits in the recipientList
-  startChatRecipientFromList && recipientList.splice(SCRecipientIndex, 1);
-  // Add startChatRecipient at the start of recipientList
-  startChatRecipientFromList &&
-    recipientList.unshift(startChatRecipientFromList);
-  // If startChatRecipient does not exist in the list
-  !startChatRecipientFromList &&
-    isStartChatRecipientAvailable &&
-    recipientList.unshift(startChatRecipient);
-  // If recipientList from server is empty then,
-  //  add startChatRecipient as only element in the list
-  hasRecipients &&
-    isStartChatRecipientAvailable &&
-    recipientList.push(startChatRecipient);
+  if (startChatRecipientFromList != undefined) {
+    filteredRecipientList.unshift(startChatRecipientFromList);
+  } else {
+    startChatRecipient.userId && filteredRecipientList.push(startChatRecipient);
+  }
 
   const startChatRecipientStyles = `border-[1px] border-primary`;
 
@@ -167,7 +153,7 @@ export const ChatRecipientList: React.FC = () => {
           )}
         </div>
         <div>
-          {!recipientList[0] && (
+          {!filteredRecipientList[0] && (
             <div
               className="flex items-center justify-center
               bg-gray-50 w-full h-40 text-gray-800"
@@ -177,73 +163,75 @@ export const ChatRecipientList: React.FC = () => {
           )}
         </div>
         <div>
-          {recipientList.map((recipient: TChatRecipient, index: number) => {
-            return (
-              <div
-                className={`relative p-2 flex items-center justify-start
+          {filteredRecipientList.map(
+            (recipient: TChatRecipient, index: number) => {
+              return (
+                <div
+                  className={`relative p-2 flex items-center justify-start
                  border-b-[1px] border-gray-light-3 cursor-pointer ${
                    recipient.userId == activeRecipient?.userId
                      ? "bg-gray-200"
                      : "bg-gray-50"
                  } ${
-                  recipient.userId === startChatRecipient.userId &&
-                  startChatRecipientStyles
-                }
+                    recipient.userId === startChatRecipient.userId &&
+                    startChatRecipientStyles
+                  }
                 `}
-                key={index + 1}
-                onClick={() => onJoinChatRoomHandler(recipient)}
-              >
-                {recipient.imageUrl && (
-                  <div
-                    className="bg-gray-light-3 flex items-center justify-center 
-                    w-14 h-14 rounded-[50%]"
-                  >
-                    <img
-                      src={recipient.imageUrl}
-                      alt={recipient.firstName}
-                      className="w-full  h-full rounded-[50%] bg-gray-400"
-                    />
-                  </div>
-                )}
-                {!recipient.imageUrl && (
-                  <span
-                    className="cursor-pointer grid place-items-center  bg-gray-400
-                    w-14 h-14 rounded-[50%]"
-                  >
-                    <IconContext.Provider
-                      value={{ size: "1.6rem", color: "#495057" }}
-                    >
-                      <IoPerson />
-                    </IconContext.Provider>
-                  </span>
-                )}
-                <div
-                  className="flex-1 flex flex-col items-between justify-center
-                   gap-1 px-2 text-sm text-gray-800"
+                  key={index + 1}
+                  onClick={() => onJoinChatRoomHandler(recipient)}
                 >
-                  <div>
-                    <p className="font-bold">
-                      {truncateString(
-                        `${recipient.firstName} ${recipient.lastName}`,
-                        16
-                      )}
-                    </p>
-                    <span className="text-gray-600 absolute top-3 right-2 text-sm">
-                      {getLastMessageDate(recipient.messages)}
+                  {recipient.imageUrl && (
+                    <div
+                      className="bg-gray-light-3 flex items-center justify-center 
+                    w-14 h-14 rounded-[50%]"
+                    >
+                      <img
+                        src={recipient.imageUrl}
+                        alt={recipient.firstName}
+                        className="w-full  h-full rounded-[50%] bg-gray-400"
+                      />
+                    </div>
+                  )}
+                  {!recipient.imageUrl && (
+                    <span
+                      className="cursor-pointer grid place-items-center  bg-gray-400
+                    w-14 h-14 rounded-[50%]"
+                    >
+                      <IconContext.Provider
+                        value={{ size: "1.6rem", color: "#495057" }}
+                      >
+                        <IoPerson />
+                      </IconContext.Provider>
                     </span>
+                  )}
+                  <div
+                    className="flex-1 flex flex-col items-between justify-center
+                   gap-1 px-2 text-sm text-gray-800"
+                  >
+                    <div>
+                      <p className="font-bold">
+                        {truncateString(
+                          `${recipient.firstName} ${recipient.lastName}`,
+                          16
+                        )}
+                      </p>
+                      <span className="text-gray-600 absolute top-3 right-2 text-sm">
+                        {getLastMessageDate(recipient.messages)}
+                      </span>
+                    </div>
+                    <div className="text-gray-600">
+                      <p>{getLastMessage(recipient.messages)}</p>
+                    </div>
                   </div>
-                  <div className="text-gray-600">
-                    <p>{getLastMessage(recipient.messages)}</p>
-                  </div>
+                  {recipient.userId === startChatRecipient.userId && (
+                    <div className="absolute bottom-0 right-0">
+                      <MessageBadge />
+                    </div>
+                  )}
                 </div>
-                {recipient.userId === startChatRecipient.userId && (
-                  <div className="absolute bottom-0 right-0">
-                    <MessageBadge />
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
       </div>
     </Fragment>
