@@ -118,15 +118,29 @@ export const LandingPage: React.FC = () => {
         {/* Feature section */}
         <div
           className="flex flex-col items-center justify-center
-          text-lg my-16 gap-6 w-full bg-green-500s"
+          text-lg my-16 gap-6 w-full"
         >
-          <p className="uppercase text-primaryDark font-semibold">
-            Our features
-          </p>
+          <div
+            className="w-full text-center relative bg-transparent
+             z-20"
+          >
+            <p
+              className="uppercase text-primary text-gray-600s font-semibold text-5xl
+              opacity-10"
+            >
+              Our features
+            </p>
+            <p
+              className="text-primaryDark font-semibold uppercase
+               text-center absolute top-[10px] left-0 right-0 bg-purple-500s z-0"
+            >
+              Our features
+            </p>
+          </div>
           <div
             className="flex items-center justify-center px-4
-           sm:px-16 lg:px-28 gap-4 sm:gap-8 lg:gap-10 flex-col xs:flex-row
-           text-gray-800 text-sm"
+            sm:px-16 lg:px-28 gap-4 sm:gap-8 lg:gap-10 flex-col
+            xs:flex-row text-gray-800 text-sm"
           >
             <div
               className="flex flex-col items-center justify-between 
@@ -178,9 +192,23 @@ export const LandingPage: React.FC = () => {
           className="flex flex-col items-center justify-center px-4
            sm:px-16 lg:px-28 mb-16"
         >
-          <p className="text-primaryDark font-semibold uppercase text-center">
-            About us
-          </p>
+          <div
+            className="w-full text-center relative bg-transparent
+             z-20"
+          >
+            <p
+              className="uppercase text-primary text-gray-600s font-semibold text-5xl
+              opacity-10"
+            >
+              About us
+            </p>
+            <p
+              className="text-primaryDark font-semibold uppercase
+               text-center absolute top-[12px] left-0 right-0 bg-purple-500s z-0"
+            >
+              About us
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
             <div className="w-full flex flex-col gap-3 lg:w-[450px]">
               <h2 className="text-primaryDark text-lg font-semibold">
