@@ -120,8 +120,13 @@ export const Team: React.FC = () => {
        my-16"
       >
         <div className="space-y-2">
-          <h3 className="text-center text-xl uppercase">Our Team</h3>
-          <p>Meet our professional team</p>
+          <h3
+            className="text-center text-xl uppercase
+            text-gray-800"
+          >
+            Our Team
+          </h3>
+          <p className="text-gray-800">Meet our professional team</p>
         </div>
         <div
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 
