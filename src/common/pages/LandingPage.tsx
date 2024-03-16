@@ -6,9 +6,10 @@ import { Button } from "../../shared/UI/Button";
 import { Image } from "../../shared/UI/Image";
 import { Footer } from "../layout/Footer";
 import { IconContext } from "react-icons";
-import { LiaBrainSolid } from "react-icons/lia";
-import { GoHistory } from "react-icons/go";
-import { MdOutlineCalendarMonth } from "react-icons/md";
+import { SlCloudUpload } from "react-icons/sl";
+import { PiFileCloudLight, PiBrainLight } from "react-icons/pi";
+import { VscHistory } from "react-icons/vsc";
+import { CiCalendarDate } from "react-icons/ci";
 import { PiChatsCircleLight } from "react-icons/pi";
 import maleDoctor from "../../assets/images/male-doctor.jpeg";
 import femaleDoctor from "../../assets/images/female-doctor.jpeg";
@@ -138,55 +139,94 @@ export const LandingPage: React.FC = () => {
             </p>
           </div>
           <div
-            className="flex items-center justify-center px-4
-            sm:px-16 lg:px-28 gap-4 sm:gap-8 lg:gap-10 flex-col
-            xs:flex-row text-gray-800 text-sm"
+            className="grid grid-cols-2 sm:grid-cols-6 text-gray-600 
+             text-sm gap-6 sm:gap-4 w-full sm:w-auto px-4"
           >
             <div
-              className="flex flex-col items-center justify-between 
-              gap-4"
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
             >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{
+                    size: "2.4rem",
+                    color: "#868e96",
+                    style: { fontWeight: 100 },
+                  }}
                 >
-                  <LiaBrainSolid />
+                  <PiBrainLight />
                 </IconContext.Provider>
               </span>
-              <span>Mental Health</span>
+              <span className="text-center">Mental Health</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.0rem", color: "#868e96" }}
                 >
-                  <GoHistory />
+                  <VscHistory />
                 </IconContext.Provider>
               </span>
-              <span>Medical history</span>
+              <span className="text-center">Medical History</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.4rem", color: "#868e96" }}
                 >
-                  <MdOutlineCalendarMonth />
+                  <CiCalendarDate />
                 </IconContext.Provider>
               </span>
-              <span>Appointments</span>
+              <span className="text-center">Appointments</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.4rem", color: "#868e96" }}
                 >
                   <PiChatsCircleLight />
                 </IconContext.Provider>
               </span>
-              <span>Real-Time Messenger</span>
+              <span className="text-center">Real-Time Messenger</span>
+            </div>
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
+              <span className="inline-block cursor-pointer">
+                <IconContext.Provider
+                  value={{ size: "2.0rem", color: "#868e96" }}
+                >
+                  <SlCloudUpload />
+                </IconContext.Provider>
+              </span>
+              <span className="text-center">File Upload</span>
+            </div>
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
+              <span className="inline-block cursor-pointer">
+                <IconContext.Provider
+                  value={{ size: "2.0rem", color: "#868e96" }}
+                >
+                  <PiFileCloudLight />
+                </IconContext.Provider>
+              </span>
+              <span className="text-center">File Storage</span>
             </div>
           </div>
         </div>
+
         {/* About Us section */}
         <div
           className="flex flex-col items-center justify-center px-4
