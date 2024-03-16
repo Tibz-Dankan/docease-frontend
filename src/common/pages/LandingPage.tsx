@@ -71,7 +71,7 @@ export const LandingPage: React.FC = () => {
             <SquareDots
               className="absolute top-28 right-2 sm:right-6 md:right-12
               xl:right-32 z-[1] hidden sm:grid grid-cols-5"
-              size={"w-5 h-5"}
+              size={"w-4 h-4"}
               bgColor={""}
               borderColor={"border-gray-200"}
               gap={"gap-3"}
@@ -230,7 +230,7 @@ export const LandingPage: React.FC = () => {
         {/* About Us section */}
         <div
           className="flex flex-col items-center justify-center px-4
-           sm:px-16 lg:px-28 mb-16"
+           sm:px-16 lg:px-28 mb-16 relative gap-8"
         >
           <div
             className="w-full text-center relative bg-transparent
@@ -249,30 +249,60 @@ export const LandingPage: React.FC = () => {
               About us
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
+          <div
+            className="flex flex-col sm:flex-row gap-6 items-center justify-center
+            z-10"
+          >
             <div className="w-full flex flex-col gap-3 lg:w-[450px]">
-              <h2 className="text-primaryDark text-lg font-semibold">
+              <h2 className="text-primaryDark text-xl font-semibold">
                 We are extending healthcare at your convenience
               </h2>
-              <p>
+              <p className="text-gray-800">
                 We everyone should have easy access to excellent health care.
                 Our aim to make process as simple as possible for our patients
                 no matter where they are - in person or at their convenience
               </p>
               <Button
                 label="Learn more"
-                className="bg-white border-primaryDark rounded
-                text-gray-800 border-[2px] w-28"
+                className="bg-white border-primaryDark rounded-3xl
+                text-gray-800 border-[2px] w-32"
                 type="button"
               />
             </div>
-            <div className="w-full lg:w-[350px]">
+            <div className="w-full lg:w-[350px] relative z-20">
               <Image
                 src={maleDoctor}
-                className="w-full h-auto aspect-[1/1] rounded-[50%] bg-center"
+                className="w-full h-auto aspect-[1/1] rounded-[50%]
+                 bg-center z-10s"
+              />
+              <SquareDots
+                className="absolute bottom-0 sm:right-4 
+                z-[1] opacity-[30%] hidden sm:grid grid-cols-5"
+                size={"w-2 h-2"}
+                bgColor={"bg-gray-600"}
+                gap={"gap-[6px]"}
+                filled={true}
               />
             </div>
           </div>
+          <SquareDots
+            className="absolute top-8 left-12 md:left-20
+            z-[1] opacity-[40%] hidden sm:grid grid-cols-5"
+            size={"w-2 h-2"}
+            bgColor={"bg-primaryLight"}
+            gap={"gap-[6px]"}
+            filled={true}
+          />
+          <SquareDots
+            className="absolute top-2 right-2 sm:right-6 md:right-12
+            xl:right-32 z-[1] hidden sm:grid grid-cols-5"
+            size={"w-4 h-4"}
+            bgColor={""}
+            borderColor={"border-blue-100"}
+            gap={"gap-3"}
+            filled={false}
+            applyShadow={false}
+          />
         </div>
 
         {/* Footer section */}
