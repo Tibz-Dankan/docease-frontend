@@ -6,13 +6,15 @@ import { Button } from "../../shared/UI/Button";
 import { Image } from "../../shared/UI/Image";
 import { Footer } from "../layout/Footer";
 import { IconContext } from "react-icons";
-import { LiaBrainSolid } from "react-icons/lia";
-import { GoHistory } from "react-icons/go";
-import { MdOutlineCalendarMonth } from "react-icons/md";
+import { SlCloudUpload } from "react-icons/sl";
+import { PiFileCloudLight, PiBrainLight } from "react-icons/pi";
+import { VscHistory } from "react-icons/vsc";
+import { CiCalendarDate } from "react-icons/ci";
 import { PiChatsCircleLight } from "react-icons/pi";
 import maleDoctor from "../../assets/images/male-doctor.jpeg";
 import femaleDoctor from "../../assets/images/female-doctor.jpeg";
 import { SquareDots } from "../UI/SquareDots";
+import { Team } from "../UI/Team";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -70,7 +72,7 @@ export const LandingPage: React.FC = () => {
             <SquareDots
               className="absolute top-28 right-2 sm:right-6 md:right-12
               xl:right-32 z-[1] hidden sm:grid grid-cols-5"
-              size={"w-5 h-5"}
+              size={"w-4 h-4"}
               bgColor={""}
               borderColor={"border-gray-200"}
               gap={"gap-3"}
@@ -118,93 +120,194 @@ export const LandingPage: React.FC = () => {
         {/* Feature section */}
         <div
           className="flex flex-col items-center justify-center
-          text-lg my-16 gap-6 w-full bg-green-500s"
+          text-lg my-16 gap-6 w-full"
         >
-          <p className="uppercase text-primaryDark font-semibold">
-            Our features
-          </p>
           <div
-            className="flex items-center justify-center px-4
-           sm:px-16 lg:px-28 gap-4 sm:gap-8 lg:gap-10 flex-col xs:flex-row
-           text-gray-800 text-sm"
+            className="w-full text-center relative bg-transparent
+             z-20"
+          >
+            <p
+              className="uppercase text-primary text-gray-600s font-semibold text-5xl
+              opacity-10"
+            >
+              Our features
+            </p>
+            <p
+              className="text-primaryDark font-semibold uppercase
+               text-center absolute top-[10px] left-0 right-0 bg-purple-500s z-0"
+            >
+              Our features
+            </p>
+          </div>
+          <div
+            className="grid grid-cols-2 sm:grid-cols-6 text-gray-600 
+             text-sm gap-6 sm:gap-4 w-full sm:w-auto px-4"
           >
             <div
-              className="flex flex-col items-center justify-between 
-              gap-4"
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
             >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{
+                    size: "2.4rem",
+                    color: "#868e96",
+                    style: { fontWeight: 100 },
+                  }}
                 >
-                  <LiaBrainSolid />
+                  <PiBrainLight />
                 </IconContext.Provider>
               </span>
-              <span>Mental Health</span>
+              <span className="text-center">Mental Health</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.0rem", color: "#868e96" }}
                 >
-                  <GoHistory />
+                  <VscHistory />
                 </IconContext.Provider>
               </span>
-              <span>Medical history</span>
+              <span className="text-center">Medical History</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.4rem", color: "#868e96" }}
                 >
-                  <MdOutlineCalendarMonth />
+                  <CiCalendarDate />
                 </IconContext.Provider>
               </span>
-              <span>Appointments</span>
+              <span className="text-center">Appointments</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
               <span className="inline-block cursor-pointer">
                 <IconContext.Provider
-                  value={{ size: "2.4rem", color: "#495057" }}
+                  value={{ size: "2.4rem", color: "#868e96" }}
                 >
                   <PiChatsCircleLight />
                 </IconContext.Provider>
               </span>
-              <span>Real-Time Messenger</span>
+              <span className="text-center">Real-Time Messenger</span>
+            </div>
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
+              <span className="inline-block cursor-pointer">
+                <IconContext.Provider
+                  value={{ size: "2.0rem", color: "#868e96" }}
+                >
+                  <SlCloudUpload />
+                </IconContext.Provider>
+              </span>
+              <span className="text-center">File Upload</span>
+            </div>
+            <div
+              className="flex flex-col items-center justify-center
+               gap-4 w-full"
+            >
+              <span className="inline-block cursor-pointer">
+                <IconContext.Provider
+                  value={{ size: "2.0rem", color: "#868e96" }}
+                >
+                  <PiFileCloudLight />
+                </IconContext.Provider>
+              </span>
+              <span className="text-center">File Storage</span>
             </div>
           </div>
         </div>
+
         {/* About Us section */}
         <div
           className="flex flex-col items-center justify-center px-4
-           sm:px-16 lg:px-28 mb-16"
+           sm:px-16 lg:px-28 mb-16 relative gap-8"
         >
-          <p className="text-primaryDark font-semibold uppercase text-center">
-            About us
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
+          <div
+            className="w-full text-center relative bg-transparent
+             z-20"
+          >
+            <p
+              className="uppercase text-primary text-gray-600s font-semibold text-5xl
+              opacity-10"
+            >
+              About us
+            </p>
+            <p
+              className="text-primaryDark font-semibold uppercase
+               text-center absolute top-[12px] left-0 right-0 bg-purple-500s z-0"
+            >
+              About us
+            </p>
+          </div>
+          <div
+            className="flex flex-col sm:flex-row gap-6 items-center justify-center
+            z-10"
+          >
             <div className="w-full flex flex-col gap-3 lg:w-[450px]">
-              <h2 className="text-primaryDark text-lg font-semibold">
+              <h2 className="text-primaryDark text-xl font-semibold">
                 We are extending healthcare at your convenience
               </h2>
-              <p>
+              <p className="text-gray-800">
                 We everyone should have easy access to excellent health care.
                 Our aim to make process as simple as possible for our patients
                 no matter where they are - in person or at their convenience
               </p>
               <Button
                 label="Learn more"
-                className="bg-white border-primaryDark rounded
-                text-gray-800 border-[2px] w-28"
+                className="bg-white border-primaryDark rounded-3xl
+                text-gray-800 border-[2px] w-32"
                 type="button"
               />
             </div>
-            <div className="w-full lg:w-[350px]">
+            <div className="w-full lg:w-[350px] relative z-20">
               <Image
                 src={maleDoctor}
-                className="w-full h-auto aspect-[1/1] rounded-[50%] bg-center"
+                className="w-full h-auto aspect-[1/1] rounded-[50%]
+                 bg-center z-10s"
+              />
+              <SquareDots
+                className="absolute bottom-0 sm:right-4 
+                z-[1] opacity-[30%] hidden sm:grid grid-cols-5"
+                size={"w-2 h-2"}
+                bgColor={"bg-gray-600"}
+                gap={"gap-[6px]"}
+                filled={true}
               />
             </div>
           </div>
+          <SquareDots
+            className="absolute top-8 left-12 md:left-20
+            z-[1] opacity-[40%] hidden sm:grid grid-cols-5"
+            size={"w-2 h-2"}
+            bgColor={"bg-primaryLight"}
+            gap={"gap-[6px]"}
+            filled={true}
+          />
+          <SquareDots
+            className="absolute top-2 right-2 sm:right-6 md:right-12
+            xl:right-32 z-[1] hidden sm:grid grid-cols-5"
+            size={"w-4 h-4"}
+            bgColor={""}
+            borderColor={"border-blue-100"}
+            gap={"gap-3"}
+            filled={false}
+            applyShadow={false}
+          />
+        </div>
+        {/* Team section */}
+        <div>
+          <Team />
         </div>
 
         {/* Footer section */}

@@ -23,8 +23,16 @@ export const Footer: React.FC = () => {
             <span className="font-bold text-3xl uppercase">Docease</span>
             <ul className="space-y-2">
               <li>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequuntur voluptates autem ea minus beatae nesciunt facilis
+                Doc Ease: Uganda's telehealth app with EMR integration enables
+                remote consultations, secure data management, and improved
+                healthcare accessibility for all.
+                {/* Doc Ease is a revolutionary telehealth app integrating
+                Electronic Medical Records in Uganda. Our solution enables
+                remote consultations, secure data management, and seamless
+                patient-provider communication. With a focus on enhancing
+                healthcare delivery, minimizing delays, and improving outcomes,
+                Doc Ease strives to make quality healthcare accessible to all
+                Ugandans, regardless of location or circumstances. */}
               </li>
               <li className="flex items-center justify-start gap-x-4">
                 <Link to="#">

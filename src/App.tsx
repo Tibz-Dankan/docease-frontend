@@ -16,6 +16,7 @@ import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
 import { useLiveChat } from "./hooks/useLiveChat";
 import { LandingPage } from "./common/pages/LandingPage";
 import { Chat } from "./chat/pages/Chat";
+import { MembersPage } from "./common/pages/MembersPage";
 // import { io, Socket } from "socket.io-client";
 
 export const App: React.FC = () => {
@@ -99,6 +100,7 @@ export const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/auth/*" element={<AuthRoutes />} />
+                <Route path="/profile/:name" element={<MembersPage />} />
                 <Route path="/home" element={<Navigate to="/" replace />} />
                 <Route
                   path="/doctor/dashboard"
