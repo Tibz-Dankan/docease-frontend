@@ -6,6 +6,7 @@ import { AppDate } from "../../utils/appDate";
 import { useNavigate } from "react-router-dom";
 import { Image } from "../../shared/UI/Image";
 import appointmentImg from "../../assets/images/appointment.jpeg";
+import { SquareDots } from "../UI/SquareDots";
 
 interface TileContentProps {
   date: any;
@@ -68,17 +69,28 @@ export const LandingAppointmentSection: React.FC = () => {
             Appointment
           </p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end gap-8">
-          <div className="w-full ">
+        <div
+          className="flex flex-col md:flex-row md:items-end gap-8
+           relative z-10"
+        >
+          <SquareDots
+            className="absolute top-2 left-12 md:left-20
+            z-[1] opacity-[40%] hidden sm:grid grid-cols-5"
+            size={"w-2 h-2"}
+            bgColor={"bg-primaryLight"}
+            gap={"gap-[6px]"}
+            filled={true}
+          />
+          <div className="w-full">
             <div
-              className="inline-block border-[1px] border-primary
+              className="inline-block w-full border-[1px] border-primary
               skew-x-2s skew-y-2s rounded-[32px] -rotate-2 md:pb-2"
             >
               <Image
                 src={appointmentImg}
                 alt={"appointment"}
                 className="rounded-[32px] skew-x-2 skew-y-2 rotate-2
-                border-[1px] border-gray-300"
+                border-[1px] border-gray-300 w-full"
               />
             </div>
           </div>
