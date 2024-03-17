@@ -120,12 +120,23 @@ export const Team: React.FC = () => {
        my-16"
       >
         <div className="space-y-2">
-          <h3
-            className="text-center text-xl uppercase
-            text-gray-800"
+          <div
+            className="w-full text-center relative bg-transparent
+             z-20"
           >
-            Our Team
-          </h3>
+            <p
+              className="uppercase text-primary font-semibold text-5xl
+              opacity-10"
+            >
+              Our Team
+            </p>
+            <p
+              className="text-primaryDark font-semibold uppercase
+               text-center absolute top-[12px] left-0 right-0 bg-purple-500s z-0"
+            >
+              Our Team
+            </p>
+          </div>
           <p className="text-gray-800">Meet our professional team</p>
         </div>
         <div

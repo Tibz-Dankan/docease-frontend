@@ -15,6 +15,7 @@ import maleDoctor from "../../assets/images/male-doctor.jpeg";
 import femaleDoctor from "../../assets/images/female-doctor.jpeg";
 import { SquareDots } from "../UI/SquareDots";
 import { Team } from "../UI/Team";
+import { LandingAppointmentSection } from "../layout/LandingAppointmentSection";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -263,12 +264,14 @@ export const LandingPage: React.FC = () => {
                 Our aim to make process as simple as possible for our patients
                 no matter where they are - in person or at their convenience
               </p>
-              <Button
-                label="Learn more"
-                className="bg-white border-primaryDark rounded-3xl
-                text-gray-800 border-[2px] w-32"
-                type="button"
-              />
+              <Link to="/auth/patient/signup">
+                <Button
+                  label="Learn more"
+                  className="bg-white border-primaryDark rounded-3xl
+                  text-gray-800 border-[2px] w-32"
+                  type="button"
+                />
+              </Link>
             </div>
             <div className="w-full lg:w-[350px] relative z-20">
               <Image
@@ -304,6 +307,10 @@ export const LandingPage: React.FC = () => {
             filled={false}
             applyShadow={false}
           />
+        </div>
+        {/* Appointment Section */}
+        <div className="px-4 sm:px-16 lg:px-28">
+          <LandingAppointmentSection />
         </div>
         {/* Team section */}
         <div>
