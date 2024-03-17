@@ -263,12 +263,14 @@ export const LandingPage: React.FC = () => {
                 Our aim to make process as simple as possible for our patients
                 no matter where they are - in person or at their convenience
               </p>
-              <Button
-                label="Learn more"
-                className="bg-white border-primaryDark rounded-3xl
-                text-gray-800 border-[2px] w-32"
-                type="button"
-              />
+              <Link to="/auth/patient/signup">
+                <Button
+                  label="Learn more"
+                  className="bg-white border-primaryDark rounded-3xl
+                  text-gray-800 border-[2px] w-32"
+                  type="button"
+                />
+              </Link>
             </div>
             <div className="w-full lg:w-[350px] relative z-20">
               <Image
