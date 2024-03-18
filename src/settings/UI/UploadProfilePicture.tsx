@@ -70,8 +70,8 @@ export const UploadProfilePicture: React.FC = () => {
   return (
     <Fragment>
       <div
-        className="p-4 space-y-4 bg-gray-50 rounded-3xl w-64 min-h-64
-         shadow"
+        className="p-4 space-y-4 bg-white rounded-lg 
+         w-64 min-h-64 shadow-md"
       >
         {!selectedPhoto && (
           <div className="flex items-center justify-center">

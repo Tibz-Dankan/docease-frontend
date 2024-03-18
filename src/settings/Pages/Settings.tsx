@@ -29,13 +29,19 @@ export const Settings: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="flex items-start justify-center gap-8">
+      <div
+        className="flex flex-col  items-center 
+         justify-center gap-16"
+      >
         {/* Setting header here */}
-        <div>
+        <div
+          className="w-full flex flex-col md:flex-row items-center 
+           justify-center md:items-start gap-8"
+        >
           <UploadProfilePicture />
-        </div>
-        <div className="flex flex-col gap-4">
           <UpdateProfile />
+        </div>
+        <div className="flex flex-col gap-16">
           <ChangePassword />
           <DeviceLayout />
           <div ref={twoFARef}>

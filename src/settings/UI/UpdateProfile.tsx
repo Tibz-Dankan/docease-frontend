@@ -102,11 +102,11 @@ export const UpdateProfile: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="min-h-screen grid place-items-center">
+      <div className="w-full grid place-items-center">
         <form
           onSubmit={formik.handleSubmit}
-          className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
-          bg-white shadow-md p-8 rounded-md"
+          className="flex flex-col gap-0 items-center w-full 
+           md:w-[480px] bg-white shadow-md p-8 rounded-md"
         >
           <p
             className="text-gray-700 text-xl font-semibold
