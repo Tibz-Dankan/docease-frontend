@@ -72,15 +72,15 @@ export const UploadProfilePicture: React.FC = () => {
     <Fragment>
       <div
         className="flex flex-col justify-center items-center 
-        p-4 space-y-4 bg-white rounded-lg w-full  w-64s min-h-64s shadow-md"
+        p-4 space-y-4 bg-white rounded-lg w-full shadow-md"
       >
         {!selectedPhoto && (
-          <div className="flex items-center justify-center">
+          <div className="sm:min-w-64 flex items-center justify-center">
             {user?.imageUrl && (
-              <img
+              <Image
                 src={user.imageUrl}
                 alt={user.firstName}
-                className="w-52 h-52 rounded-[50%]"
+                className="w-52 h-52 sm:w-64 sm:h-64 rounded-[50%]"
               />
             )}
             {!user?.imageUrl && (
@@ -104,7 +104,7 @@ export const UploadProfilePicture: React.FC = () => {
             />
           </div>
         )}
-        <div className="flex items-center justify-center gap-4 relative">
+        <div className="flex items-center justify-center gap-4 relative p-2">
           <ImagePicker
             title={user?.imageUrl ? "Change Photo" : "Add Photo"}
             onSave={onSelectHandler}

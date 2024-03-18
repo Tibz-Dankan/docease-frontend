@@ -31,12 +31,12 @@ export const Settings: React.FC = () => {
     <Fragment>
       <div
         className="flex flex-col  items-center 
-         justify-center gap-16"
+        justify-center gap-16"
       >
         {/* Setting header here */}
         <div
-          className="w-full flex flex-col md:flex-row items-center 
-           justify-center md:items-start gap-8"
+          className="w-full flex flex-col md:flex-row
+          items-center justify-center md:items-start gap-8"
         >
           <UploadProfilePicture />
           <UpdateProfile />
