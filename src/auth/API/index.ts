@@ -260,6 +260,21 @@ export const updateUserImage = async (
   return await response.json();
 };
 
+export const getUserData = async (accessToken: string, userId: string) => {
+  const response = await fetch(`${url}/users/get-user/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};
+
 export const enableTwoFA = async ({
   userId,
   accessToken,

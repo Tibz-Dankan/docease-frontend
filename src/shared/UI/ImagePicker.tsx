@@ -40,8 +40,6 @@ export const ImagePicker: React.FC<ImagePickerProps> = (props) => {
     props.onSave(photo);
   };
   useEffect(() => {
-    console.log("Photo selected");
-    console.log(photo);
     saveHandler();
   }, [photo]);
 
@@ -52,7 +50,9 @@ export const ImagePicker: React.FC<ImagePickerProps> = (props) => {
           <button
             onClick={() => openFilePicker()}
             className={`bg-primary p-1 rounded-[50%] text-gray-50
-             absolute -top-20 ${user?.imageUrl ? "right-2" : "right-8"}`}
+             absolute -top-20 ${
+               user?.imageUrl ? "-right-24 sm:-right-28" : "-right-16"
+             }`}
           >
             <IconContext.Provider
               value={{

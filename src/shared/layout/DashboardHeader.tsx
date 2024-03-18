@@ -12,6 +12,7 @@ import {
   TLiveNotificationState,
 } from "../../types/liveNotification";
 import { useEffect, useState } from "react";
+import { Image } from "../UI/Image";
 
 export const DashboardHeader = () => {
   const dispatch: any = useDispatch();
@@ -94,16 +95,25 @@ export const DashboardHeader = () => {
           </Link>
           <NavDropdown>
             <div className="flex items-center gap-2 cursor-pointer">
-              <span
-                className="cursor-pointer grid place-items-center  bg-gray-300 p-1
-                w-10 h-10 rounded-[50%] "
-              >
-                <IconContext.Provider
-                  value={{ size: "1.2rem", color: "#495057" }}
+              {user.imageUrl && (
+                <Image
+                  src={user.imageUrl!}
+                  alt={username}
+                  className="w-10 h-10 rounded-[50%]"
+                />
+              )}
+              {!user.imageUrl && (
+                <span
+                  className="cursor-pointer grid place-items-center  bg-gray-300 p-1
+                  w-10 h-10 rounded-[50%] "
                 >
-                  <IoPerson />
-                </IconContext.Provider>
-              </span>
+                  <IconContext.Provider
+                    value={{ size: "1.2rem", color: "#495057" }}
+                  >
+                    <IoPerson />
+                  </IconContext.Provider>
+                </span>
+              )}
               <span className="text-gray-800 hidden sm:block">{username}</span>
             </div>
           </NavDropdown>

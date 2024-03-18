@@ -5,6 +5,7 @@ import { ChangePassword } from "../UI/ChangePassword";
 import { DeviceLayout } from "../../device/layout/DeviceLayout";
 import { AuthDeviceLayout } from "../../auth/layout/AuthDeviceLayout";
 import { useSearchParams } from "react-router-dom";
+import { SettingsHeader } from "../layout/SettingsHeader";
 
 export const Settings: React.FC = () => {
   const [searchParams, _] = useSearchParams({ view: "" });
@@ -29,12 +30,22 @@ export const Settings: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="flex items-start justify-center gap-8">
-        <div>
-          <UploadProfilePicture />
+      <div
+        className="flex flex-col  items-center 
+        justify-center gap-16"
+      >
+        {/* Setting header here */}
+        <div className="w-full">
+          <SettingsHeader />
         </div>
-        <div className="flex flex-col gap-4">
+        <div
+          className="w-full flex flex-col md:flex-row
+          items-center justify-center md:items-start gap-8"
+        >
+          <UploadProfilePicture />
           <UpdateProfile />
+        </div>
+        <div className="flex flex-col gap-16">
           <ChangePassword />
           <DeviceLayout />
           <div ref={twoFARef}>

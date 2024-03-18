@@ -11,6 +11,7 @@ import {
   hideCardNotification,
 } from "../../store/actions/notification";
 import { useMutation } from "@tanstack/react-query";
+import { Image } from "../../shared/UI/Image";
 
 export const UploadProfilePicture: React.FC = () => {
   const user = useSelector((state: TAuthState) => state.auth.user);
@@ -70,16 +71,16 @@ export const UploadProfilePicture: React.FC = () => {
   return (
     <Fragment>
       <div
-        className="p-4 space-y-4 bg-gray-50 rounded-3xl w-64 min-h-64
-         shadow"
+        className="flex flex-col justify-center items-center 
+        p-4 space-y-4 bg-white rounded-lg w-full shadow-md"
       >
         {!selectedPhoto && (
-          <div className="flex items-center justify-center">
+          <div className="sm:min-w-64 flex items-center justify-center">
             {user?.imageUrl && (
-              <img
+              <Image
                 src={user.imageUrl}
                 alt={user.firstName}
-                className="w-52 h-52 rounded-[50%]"
+                className="w-52 h-52 sm:w-64 sm:h-64 rounded-[50%]"
               />
             )}
             {!user?.imageUrl && (
@@ -96,14 +97,14 @@ export const UploadProfilePicture: React.FC = () => {
         )}
         {selectedPhoto && (
           <div className="flex items-center justify-center">
-            <img
-              src={imageURLHandler(selectedPhoto)}
+            <Image
+              src={imageURLHandler(selectedPhoto)!}
               alt="selected-photo"
-              className="w-52 h-52 rounded-[50%]"
+              className="w-52 h-52 sm:w-64 sm:h-64 rounded-[50%]"
             />
           </div>
         )}
-        <div className="flex items-center justify-center gap-4 relative">
+        <div className="flex items-center justify-center gap-4 relative p-2">
           <ImagePicker
             title={user?.imageUrl ? "Change Photo" : "Add Photo"}
             onSave={onSelectHandler}

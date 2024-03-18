@@ -1,4 +1,4 @@
-import React, { Fragment, ChangeEvent } from "react";
+import React, { Fragment } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,11 +8,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { InputField } from "../../shared/UI/InputField";
-import { InputSelect } from "../../shared/UI/InputSelect";
 import { updateProfile } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import { TAuthState } from "../../types/auth";
+import { GenderSelect } from "../../auth/UI/GenderSelect";
 
 type TUpdateUser = {
   firstName: string;
@@ -29,6 +29,7 @@ export const UpdateProfile: React.FC = () => {
   const userId = useSelector(
     (state: TAuthState) => state.auth.user?.userId
   ) as string;
+  const user = useSelector((state: TAuthState) => state.auth.user!);
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   ) as string;
@@ -55,12 +56,12 @@ export const UpdateProfile: React.FC = () => {
   });
 
   const initialValues: TUpdateUser = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    gender: "",
-    phoneNumber: "",
-    accessToken: "",
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    gender: user.gender!,
+    phoneNumber: user.phoneNumber,
+    accessToken: accessToken,
   };
 
   const formik = useFormik({
@@ -95,25 +96,23 @@ export const UpdateProfile: React.FC = () => {
     },
   });
 
-  const gender = ["--select-gender--", "male", "female"];
-
-  const genderChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
-    const genderValue = event.target.value;
-    if (genderValue === "--select-gender--") return;
-
-    formik.values.gender = genderValue;
+  const genderSelectHandler = (gender: string) => {
+    formik.values.gender = gender;
   };
 
   return (
     <Fragment>
-      <div className="min-h-screen grid place-items-center">
+      <div className="w-full grid place-items-center" id="update-profile">
         <form
           onSubmit={formik.handleSubmit}
-          className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
-          bg-blue-500s shadow-2xl p-8 rounded-2xl"
+          className="flex flex-col gap-0 items-center w-full 
+           md:w-[480px] bg-white shadow-md p-8 rounded-md"
         >
-          <p className="text-start w-full text-lg font-semibold text-gray-800">
-            Update profile
+          <p
+            className="text-gray-700 text-xl font-semibold
+            text-center"
+          >
+            Update your profile
           </p>
           <InputField
             type="text"
@@ -134,19 +133,12 @@ export const UpdateProfile: React.FC = () => {
             name="phoneNumber"
             formik={formik}
           />
-          <InputSelect
-            label="Gender"
-            name="gender"
-            onChange={genderChangeHandler}
-            options={gender}
-            formik={formik}
-          />
-          <InputField
-            type="password"
-            label="Password"
-            name="password"
-            formik={formik}
-          />
+          <div className="w-full mt-6">
+            <GenderSelect
+              onSelect={genderSelectHandler}
+              defaultGender={formik.values.gender}
+            />
+          </div>
           {!isLoading && (
             <Button
               label="Update"
