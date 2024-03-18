@@ -11,6 +11,7 @@ import {
   hideCardNotification,
 } from "../../store/actions/notification";
 import { useMutation } from "@tanstack/react-query";
+import { Image } from "../../shared/UI/Image";
 
 export const UploadProfilePicture: React.FC = () => {
   const user = useSelector((state: TAuthState) => state.auth.user);
@@ -70,8 +71,8 @@ export const UploadProfilePicture: React.FC = () => {
   return (
     <Fragment>
       <div
-        className="p-4 space-y-4 bg-white rounded-lg 
-         w-64 min-h-64 shadow-md"
+        className="flex flex-col justify-center items-center 
+        p-4 space-y-4 bg-white rounded-lg w-full  w-64s min-h-64s shadow-md"
       >
         {!selectedPhoto && (
           <div className="flex items-center justify-center">
@@ -96,10 +97,10 @@ export const UploadProfilePicture: React.FC = () => {
         )}
         {selectedPhoto && (
           <div className="flex items-center justify-center">
-            <img
-              src={imageURLHandler(selectedPhoto)}
+            <Image
+              src={imageURLHandler(selectedPhoto)!}
               alt="selected-photo"
-              className="w-52 h-52 rounded-[50%]"
+              className="w-52 h-52 sm:w-64 sm:h-64 rounded-[50%]"
             />
           </div>
         )}
