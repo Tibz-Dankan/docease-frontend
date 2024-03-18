@@ -105,7 +105,7 @@ export const DashboardHeader = () => {
               {!user.imageUrl && (
                 <span
                   className="cursor-pointer grid place-items-center  bg-gray-300 p-1
-                w-10 h-10 rounded-[50%] "
+                  w-10 h-10 rounded-[50%] "
                 >
                   <IconContext.Provider
                     value={{ size: "1.2rem", color: "#495057" }}

@@ -5,6 +5,7 @@ import { ChangePassword } from "../UI/ChangePassword";
 import { DeviceLayout } from "../../device/layout/DeviceLayout";
 import { AuthDeviceLayout } from "../../auth/layout/AuthDeviceLayout";
 import { useSearchParams } from "react-router-dom";
+import { SettingsHeader } from "../layout/SettingsHeader";
 
 export const Settings: React.FC = () => {
   const [searchParams, _] = useSearchParams({ view: "" });
@@ -34,6 +35,9 @@ export const Settings: React.FC = () => {
         justify-center gap-16"
       >
         {/* Setting header here */}
+        <div className="w-full">
+          <SettingsHeader />
+        </div>
         <div
           className="w-full flex flex-col md:flex-row
           items-center justify-center md:items-start gap-8"
