@@ -6,6 +6,13 @@ import { IoMdNotifications } from "react-icons/io";
 import { FaUserLock } from "react-icons/fa6";
 
 export const SettingsHeader: React.FC = () => {
+  const scrollToElement = (id: string) => {
+    if (!id) return;
+
+    const element = document.querySelector(id)!;
+    element.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Fragment>
       <div
@@ -15,6 +22,7 @@ export const SettingsHeader: React.FC = () => {
         <div
           className="flex flex-col items-center justify-center gap-2 
           cursor-pointer"
+          onClick={() => scrollToElement("#update-profile")}
         >
           <span
             className="cursor-pointer grid place-items-center 
@@ -34,6 +42,7 @@ export const SettingsHeader: React.FC = () => {
         <div
           className="flex flex-col items-center justify-center gap-3 
            cursor-pointer"
+          onClick={() => scrollToElement("#change-password")}
         >
           <span
             className="cursor-pointer grid place-items-center 
@@ -53,6 +62,7 @@ export const SettingsHeader: React.FC = () => {
         <div
           className="flex flex-col items-center justify-center gap-3
            cursor-pointer"
+          onClick={() => scrollToElement("#push-notification")}
         >
           <span
             className="cursor-pointer grid place-items-center 
@@ -72,6 +82,7 @@ export const SettingsHeader: React.FC = () => {
         <div
           className="flex flex-col items-center justify-center gap-3 
            cursor-pointer"
+          onClick={() => scrollToElement("#twofa")}
         >
           <span
             className="cursor-pointer grid place-items-center 

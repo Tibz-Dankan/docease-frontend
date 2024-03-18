@@ -102,7 +102,7 @@ export const UpdateProfile: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="w-full grid place-items-center">
+      <div className="w-full grid place-items-center" id="update-profile">
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col gap-0 items-center w-full 
