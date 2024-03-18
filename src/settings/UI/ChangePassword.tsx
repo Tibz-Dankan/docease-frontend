@@ -107,7 +107,7 @@ export const ChangePassword: React.FC = () => {
       <form
         onSubmit={formik.handleSubmit}
         className="w-[90%] sm:w-[480px] space-y-4s bg-white
-        rounded-md shadow-md p-12"
+        rounded-md shadow-md p-8"
       >
         <p
           className="text-gray-700 text-xl font-semibold
