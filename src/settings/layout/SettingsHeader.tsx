@@ -16,7 +16,7 @@ export const SettingsHeader: React.FC = () => {
   return (
     <Fragment>
       <div
-        className="w-full flex items-center justify-between gap-4
+        className="w-full grid grid-cols-2 sm:grid-cols-4 gap-4
         text-gray-800 bg-white p-4 rounded-md shadow-md px-8"
       >
         <div
@@ -34,13 +34,13 @@ export const SettingsHeader: React.FC = () => {
           </span>
           <span
             className="focus:text-primary hover:text-primary
-             hover:underline"
+             hover:underline text-center"
           >
-            Update profile
+            Update Profile
           </span>
         </div>
         <div
-          className="flex flex-col items-center justify-center gap-3 
+          className="flex flex-col items-center justify-center gap-2 
            cursor-pointer"
           onClick={() => scrollToElement("#change-password")}
         >
@@ -54,13 +54,13 @@ export const SettingsHeader: React.FC = () => {
           </span>
           <span
             className="focus:text-primary hover:text-primary
-             hover:underline"
+             hover:underline text-center"
           >
             Change Password
           </span>
         </div>
         <div
-          className="flex flex-col items-center justify-center gap-3
+          className="flex flex-col items-center justify-center gap-2
            cursor-pointer"
           onClick={() => scrollToElement("#push-notification")}
         >
@@ -74,13 +74,13 @@ export const SettingsHeader: React.FC = () => {
           </span>
           <span
             className="focus:text-primary hover:text-primary
-             hover:underline"
+             hover:underline text-center"
           >
             Push Notifications
           </span>
         </div>
         <div
-          className="flex flex-col items-center justify-center gap-3 
+          className="flex flex-col items-center justify-center gap-2 
            cursor-pointer"
           onClick={() => scrollToElement("#twofa")}
         >
@@ -94,7 +94,7 @@ export const SettingsHeader: React.FC = () => {
           </span>
           <span
             className="focus:text-primary hover:text-primary
-             hover:underline"
+             hover:underline text-center"
           >
             2FA
           </span>
