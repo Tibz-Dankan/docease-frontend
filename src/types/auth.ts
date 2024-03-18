@@ -5,6 +5,7 @@ export type TUser = {
   email: string;
   phoneNumber: string;
   role: "patient" | "doctor" | "admin";
+  gender?: "string";
   imageUrl: string | null;
   createdAt: string;
   updatedAt: string;

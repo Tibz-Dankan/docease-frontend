@@ -58,9 +58,9 @@ export const LandingPage: React.FC = () => {
             </ul>
           </nav>
           <div
-            className="w-full flex flex-col sm:flex-row items-center sm:items-start
-            justify-start sm:justify-center bg-blue-100s bg-gray-300s bg-transparent  px-[16px] sm:px-16 
-            lg:px-28 gap-4 pb-4 pt-4 md:pt-16s lg:pt-20 relative"
+            className="w-full flex flex-col sm:flex-row items-center
+             sm:items-start justify-start sm:justify-center  bg-transparent 
+             px-[16px] sm:px-16 lg:px-28 gap-4 pb-4 pt-4 lg:pt-20 relative"
           >
             <SquareDots
               className="absolute top-24 left-12 md:left-20
@@ -239,34 +239,34 @@ export const LandingPage: React.FC = () => {
              z-20"
           >
             <p
-              className="uppercase text-primary text-gray-600s font-semibold text-5xl
+              className="uppercase text-primary font-semibold text-5xl
               opacity-10"
             >
               About us
             </p>
             <p
               className="text-primaryDark font-semibold uppercase
-               text-center absolute top-[12px] left-0 right-0 bg-purple-500s z-0"
+               text-center absolute top-[12px] left-0 right-0 z-0"
             >
               About us
             </p>
           </div>
           <div
-            className="flex flex-col sm:flex-row gap-6 items-center justify-center
-            z-10"
+            className="flex flex-col sm:flex-row gap-6 items-center
+             justify-center z-10"
           >
             <div className="w-full flex flex-col gap-3 lg:w-[450px]">
               <h2 className="text-primaryDark text-xl font-semibold">
                 We are extending healthcare at your convenience
               </h2>
               <p className="text-gray-800">
-                We everyone should have easy access to excellent health care.
-                Our aim to make process as simple as possible for our patients
-                no matter where they are - in person or at their convenience
+                Everyone should have easy access to excellent health care. Our
+                aim to make process as simple as possible for our patients no
+                matter where they are - in person or at their convenience
               </p>
               <Link to="/auth/patient/signup">
                 <Button
-                  label="Learn more"
+                  label="Get Started"
                   className="bg-white border-primaryDark rounded-3xl
                   text-gray-800 border-[2px] w-32"
                   type="button"
@@ -277,7 +277,7 @@ export const LandingPage: React.FC = () => {
               <Image
                 src={maleDoctor}
                 className="w-full h-auto aspect-[1/1] rounded-[50%]
-                 bg-center z-10s"
+                bg-center"
               />
               <SquareDots
                 className="absolute bottom-0 sm:right-4 

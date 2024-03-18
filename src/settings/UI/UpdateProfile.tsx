@@ -29,6 +29,7 @@ export const UpdateProfile: React.FC = () => {
   const userId = useSelector(
     (state: TAuthState) => state.auth.user?.userId
   ) as string;
+  const user = useSelector((state: TAuthState) => state.auth.user!);
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   ) as string;
@@ -55,12 +56,12 @@ export const UpdateProfile: React.FC = () => {
   });
 
   const initialValues: TUpdateUser = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    gender: "",
-    phoneNumber: "",
-    accessToken: "",
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    gender: user.gender!,
+    phoneNumber: user.phoneNumber,
+    accessToken: accessToken,
   };
 
   const formik = useFormik({
@@ -110,10 +111,13 @@ export const UpdateProfile: React.FC = () => {
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
-          bg-blue-500s shadow-2xl p-8 rounded-2xl"
+          bg-white shadow-md p-8 rounded-md"
         >
-          <p className="text-start w-full text-lg font-semibold text-gray-800">
-            Update profile
+          <p
+            className="text-gray-700 text-xl font-semibold
+            text-center"
+          >
+            Update your profile
           </p>
           <InputField
             type="text"
@@ -139,12 +143,6 @@ export const UpdateProfile: React.FC = () => {
             name="gender"
             onChange={genderChangeHandler}
             options={gender}
-            formik={formik}
-          />
-          <InputField
-            type="password"
-            label="Password"
-            name="password"
             formik={formik}
           />
           {!isLoading && (

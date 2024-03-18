@@ -30,6 +30,7 @@ export const Settings: React.FC = () => {
   return (
     <Fragment>
       <div className="flex items-start justify-center gap-8">
+        {/* Setting header here */}
         <div>
           <UploadProfilePicture />
         </div>
