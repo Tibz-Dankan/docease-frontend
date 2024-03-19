@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-// import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
+import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
 // import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { DoctorAppointments } from "../doctor/pages/DoctorAppointments";
@@ -12,7 +12,7 @@ import { SlSettings } from "react-icons/sl";
 // import { PiChatsCircleLight } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-// import { AiOutlineDashboard } from "react-icons/ai";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 import { DisplayMedicalHistoryToDoctor } from "../medical-history/pages/DisplayMedicalHistoryToDoctor";
 import { DisplayAssessmentViewInitiator } from "../mental-health/Pages/DisplayAssessmentViewInitiator";
@@ -40,18 +40,18 @@ export const DoctorRoutes: React.FC = () => {
   const routes: TRoute = {
     title: "doctor",
     pages: [
-      // {
-      //   name: "Dashboard",
-      //   icon: (
-      //     <span className="inline-block cursor-pointer">
-      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-      //         <AiOutlineDashboard />
-      //       </IconContext.Provider>
-      //     </span>
-      //   ),
-      //   path: "dashboard",
-      //   element: <DoctorDashboard />,
-      // },
+      {
+        name: "Dashboard",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+              <AiOutlineDashboard />
+            </IconContext.Provider>
+          </span>
+        ),
+        path: "dashboard",
+        element: <DoctorDashboard />,
+      },
       {
         name: "My Patients",
         icon: (
