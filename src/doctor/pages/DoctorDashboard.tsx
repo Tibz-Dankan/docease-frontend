@@ -25,7 +25,6 @@ interface TileContentProps {
 
 export const DoctorDashboard: React.FC = () => {
   const user = useSelector((state: TAuthState) => state.auth.user);
-  // const userImageUrl = user?.imageUrl;
 
   const dispatch: any = useDispatch();
 
@@ -34,7 +33,7 @@ export const DoctorDashboard: React.FC = () => {
   ) as string;
 
   const { isLoading, data } = useQuery({
-    queryKey: ["doctors"],
+    queryKey: [`patient-stats-${user?.userId}`],
     queryFn: () =>
       getDoctorStatistics({
         doctorId: user?.userId!,
@@ -52,10 +51,7 @@ export const DoctorDashboard: React.FC = () => {
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
 
   const doctorStats = data?.data.statistics as TDoctorStatistics;
-
   const upcomingAppointments = doctorStats?.upcomingAppointments;
-
-  console.log("upcomingAppointments==>", upcomingAppointments);
 
   const isLastElementOfList = (list: any[], index: number) => {
     return list.length - 1 === index;
@@ -91,29 +87,6 @@ export const DoctorDashboard: React.FC = () => {
   return (
     <Fragment>
       <div className="w-full">
-        {/* <div className="w-full flex flex-col items-center justify-center pb-8 pt-4">
-          {userImageUrl && (
-            <img
-              src={userImageUrl}
-              alt="profile-img"
-              className="w-16 h-16 rounded-[50%] mb-4"
-            />
-          )}
-          {!userImageUrl && (
-            <span
-              className="cursor-pointer grid place-items-center bg-gray-300 p-1
-              w-16 h-16 rounded-[50%] mb-4"
-            >
-              <IconContext.Provider value={{ size: "2rem", color: "#495057" }}>
-                <IoPerson />
-              </IconContext.Provider>
-            </span>
-          )}
-          <p className="text-2xl text-gray-800">Hi, {user?.lastName}!</p>
-          <p className="text-gray-600 text-sm text-center">
-            There is something new checkout your dashboard
-          </p>
-        </div> */}
         <div
           className="flex flex-col items-start justify-center 
            sm:flex-row sm:justify-start gap-5"

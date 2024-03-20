@@ -33,7 +33,7 @@ export const PatientDashboard: React.FC = () => {
   ) as string;
 
   const { isLoading, data } = useQuery({
-    queryKey: ["doctors"],
+    queryKey: [`patient-stats-${user?.userId}`],
     queryFn: () =>
       getPatientStatistics({
         patientId: user?.userId!,
@@ -50,9 +50,8 @@ export const PatientDashboard: React.FC = () => {
   if (isLoading)
     return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
 
-  const doctorStats = data?.data.statistics as TPatientStatistics;
-
-  const upcomingAppointments = doctorStats?.upcomingAppointments;
+  const patientStats = data?.data.statistics as TPatientStatistics;
+  const upcomingAppointments = patientStats?.upcomingAppointments;
 
   const isLastElementOfList = (list: any[], index: number) => {
     return list.length - 1 === index;
@@ -96,7 +95,7 @@ export const PatientDashboard: React.FC = () => {
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
               <StatsCard
                 title={"Medical Files"}
-                count={doctorStats.medicalFileCount}
+                count={patientStats.medicalFileCount}
                 link={"/patient/medical-history"}
                 countClassName={"text-[#1c7ed6]"}
                 iconColor={"#1c7ed6"}
@@ -104,7 +103,7 @@ export const PatientDashboard: React.FC = () => {
               />
               <StatsCard
                 title={"MH Assessments"}
-                count={doctorStats.mentalHealthAssessmentCount}
+                count={patientStats.mentalHealthAssessmentCount}
                 link={"/patient/mental-health/assessment"}
                 countClassName={"text-[#1c7ed6]"}
                 iconColor={"#1c7ed6"}
@@ -112,7 +111,7 @@ export const PatientDashboard: React.FC = () => {
               />
               <StatsCard
                 title={"Unread Messages"}
-                count={doctorStats.unReadMessageCount}
+                count={patientStats.unReadMessageCount}
                 link={"/patient/my-patients"} // should trigger opening of the chat window
                 countClassName={"text-[#1c7ed6]"}
                 iconColor={"#1c7ed6"}
@@ -120,7 +119,7 @@ export const PatientDashboard: React.FC = () => {
               />
               <StatsCard
                 title={"Unread Notifications"}
-                count={doctorStats.unReadNotificationCount}
+                count={patientStats.unReadNotificationCount}
                 link={"/patient/notifications"}
                 countClassName={"text-[#1c7ed6]"}
                 iconColor={"#1c7ed6"}
@@ -137,11 +136,11 @@ export const PatientDashboard: React.FC = () => {
                   Doctors you have previously interacted with
                 </span>
               </div>
-              {doctorStats.recentDoctors.map((doctor, index) => (
+              {patientStats.recentDoctors.map((doctor, index) => (
                 <div
                   className={`flex items-center justify-start gap-3
                   ${
-                    !isLastElementOfList(doctorStats.recentDoctors, index) &&
+                    !isLastElementOfList(patientStats.recentDoctors, index) &&
                     "border-b-[1px] border-b-gray-400 pb-4"
                   }`}
                   key={index}
