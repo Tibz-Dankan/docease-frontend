@@ -17,6 +17,7 @@ import Calendar from "react-calendar";
 import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallStatus";
 import { AppDate } from "../../utils/appDate";
 import { TAppointment } from "../../types/appointments";
+import { AppointmentStatusKey } from "../../appointment/UI/AppointmentStatusKey";
 
 interface TileContentProps {
   date: any;
@@ -245,6 +246,9 @@ export const DoctorDashboard: React.FC = () => {
                     </span>
                   </div>
                 ))}
+              </div>
+              <div>
+                <AppointmentStatusKey />
               </div>
             </div>
           </div>
