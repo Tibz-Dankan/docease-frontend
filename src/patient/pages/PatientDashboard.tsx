@@ -1,9 +1,255 @@
 import React, { Fragment } from "react";
+import { StatsCard } from "../../shared/UI/StatsCard";
+import { useDispatch, useSelector } from "react-redux";
+import { TAuthState } from "../../types/auth";
+import { IoPerson } from "react-icons/io5";
+import { IconContext } from "react-icons";
+import { useQuery } from "@tanstack/react-query";
+import { getPatientStatistics } from "../API";
+import {
+  hideCardNotification,
+  showCardNotification,
+} from "../../store/actions/notification";
+import { Loader } from "../../shared/UI/Loader";
+import { TPatientStatistics } from "../../types/dashboard";
+import { Image } from "../../shared/UI/Image";
+import Calendar from "react-calendar";
+import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallStatus";
+import { AppDate } from "../../utils/appDate";
+import { TAppointment } from "../../types/appointments";
+
+interface TileContentProps {
+  date: any;
+  view?: any;
+}
 
 export const PatientDashboard: React.FC = () => {
+  const user = useSelector((state: TAuthState) => state.auth.user);
+
+  const dispatch: any = useDispatch();
+
+  const accessToken = useSelector(
+    (state: TAuthState) => state.auth.accessToken
+  ) as string;
+
+  const { isLoading, data } = useQuery({
+    queryKey: [`patient-stats-${user?.userId}`],
+    queryFn: () =>
+      getPatientStatistics({
+        patientId: user?.userId!,
+        accessToken: accessToken,
+      }),
+    onError: (error: any) => {
+      dispatch(showCardNotification({ type: "error", message: error.message }));
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
+    },
+  });
+
+  if (isLoading)
+    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+
+  const patientStats = data?.data.statistics as TPatientStatistics;
+  const upcomingAppointments = patientStats?.upcomingAppointments;
+
+  const isLastElementOfList = (list: any[], index: number) => {
+    return list.length - 1 === index;
+  };
+
+  const tileContent = ({ date }: TileContentProps) => {
+    for (let i = 0; i < upcomingAppointments.length; i++) {
+      const appointmentDate = new Date(upcomingAppointments[i].startsAt);
+
+      const overallStatus = getAppointmentOverallStatus(
+        upcomingAppointments[i]
+      );
+      const borderColor = overallStatus.borderColor;
+
+      if (date.toDateString() === appointmentDate.toDateString()) {
+        return (
+          <div
+            className={`absolute top-0 left-0 mx-auto h-full
+              w-full border-[2px] ${borderColor}`}
+          ></div>
+        );
+      }
+    }
+
+    return null;
+  };
+
+  // Appointment overall status
+  const appointmentOV = (appointment: TAppointment) => {
+    return getAppointmentOverallStatus(appointment);
+  };
+
   return (
     <Fragment>
-      <div>PatientDashboard</div>
+      <div className="w-full">
+        <div
+          className="flex flex-col items-start justify-center 
+           sm:flex-row sm:justify-start gap-5"
+        >
+          <div className="w-full space-y-6">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StatsCard
+                title={"Medical Files"}
+                count={patientStats.medicalFileCount}
+                link={"/patient/medical-history"}
+                countClassName={"text-[#1c7ed6]"}
+                iconColor={"#1c7ed6"}
+                className="border-2 border-[#1c7ed6] rounded-lg"
+              />
+              <StatsCard
+                title={"MH Assessments"}
+                count={patientStats.mentalHealthAssessmentCount}
+                link={"/patient/mental-health/assessment"}
+                countClassName={"text-[#1c7ed6]"}
+                iconColor={"#1c7ed6"}
+                className="border-2 border-[#1c7ed6] rounded-lg"
+              />
+              <StatsCard
+                title={"Unread Messages"}
+                count={patientStats.unReadMessageCount}
+                link={"/patient/my-patients"} // should trigger opening of the chat window
+                countClassName={"text-[#1c7ed6]"}
+                iconColor={"#1c7ed6"}
+                className="border-2 border-[#1c7ed6] rounded-lg"
+              />
+              <StatsCard
+                title={"Unread Notifications"}
+                count={patientStats.unReadNotificationCount}
+                link={"/patient/notifications"}
+                countClassName={"text-[#1c7ed6]"}
+                iconColor={"#1c7ed6"}
+                className="border-2 border-[#1c7ed6] rounded-lg"
+              />
+            </div>
+            {/* Recent patients here */}
+            <div
+              className="w-full text-gray-800 bg-gray-50 
+               rounded-md shadow-md p-4"
+            >
+              <div className="border-b-[1px] border-gray-300 pb-2 mb-4">
+                <span className="text-gray-600 text-sms text-center w-full">
+                  Doctors you have previously interacted with
+                </span>
+              </div>
+              {patientStats.recentDoctors.map((doctor, index) => (
+                <div
+                  className={`flex items-center justify-start gap-3
+                  ${
+                    !isLastElementOfList(patientStats.recentDoctors, index) &&
+                    "border-b-[1px] border-b-gray-400 pb-4"
+                  }`}
+                  key={index}
+                >
+                  {doctor.Doctor.imageUrl && (
+                    <span>
+                      <Image
+                        src={doctor.Doctor.imageUrl!}
+                        alt={`${doctor.Doctor.firstName}`}
+                        className="w-10 h-10 rounded-[50%]"
+                      />
+                    </span>
+                  )}
+                  {!doctor.Doctor.imageUrl && (
+                    <span
+                      className="cursor-pointer grid place-items-center
+                       bg-gray-300 p-1 w-10 h-10 rounded-[50%]"
+                    >
+                      <IconContext.Provider
+                        value={{ size: "1.1rem", color: "#495057" }}
+                      >
+                        <IoPerson />
+                      </IconContext.Provider>
+                    </span>
+                  )}
+                  <span>
+                    {doctor.Doctor.firstName} {doctor.Doctor.lastName}
+                  </span>
+                  <span className="first-letter:uppercase">
+                    {doctor.Doctor.gender}
+                  </span>
+                  {/* TODO:start chat action, here*/}
+                  {/* TODO:start video conf action, here */}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="w-full space-y-6">
+              <Calendar
+                className="w-full border-nones bg-gray-300 px-0 text-lg
+                rounded-lg h-[300] border-2 border-gray-500"
+                tileContent={tileContent}
+                tileClassName="relative"
+              />
+              <div className="bg-gray-50 p-4 rounded-md shadow-md">
+                <div className="border-b-[1px] border-gray-300 pb-2 mb-4">
+                  <p
+                    className="text-blue-600  text-center w-full
+                    font-semibold"
+                  >
+                    Upcoming Appointments
+                  </p>
+                </div>
+                {upcomingAppointments.map((appointment, index) => (
+                  <div
+                    className={`flex items-center justify-start gap-3
+                  ${
+                    !isLastElementOfList(upcomingAppointments, index) &&
+                    "border-b-[1px] border-b-gray-400 pb-4 mb-4"
+                  } text-gray-800 text-sm`}
+                    key={index}
+                  >
+                    {appointment.doctor?.imageUrl && (
+                      <span>
+                        <Image
+                          src={appointment.doctor?.imageUrl!}
+                          alt={`${appointment.doctor?.firstName}`}
+                          className="w-8 h-8 rounded-[50%]"
+                        />
+                      </span>
+                    )}
+                    {!appointment.doctor?.imageUrl && (
+                      <span
+                        className="cursor-pointer grid place-items-center
+                       bg-gray-300 p-1 w-8 h-8 rounded-[50%]"
+                      >
+                        <IconContext.Provider
+                          value={{ size: "1rem", color: "#495057" }}
+                        >
+                          <IoPerson />
+                        </IconContext.Provider>
+                      </span>
+                    )}
+                    <span>
+                      {appointment.doctor?.firstName}{" "}
+                      {appointment.doctor?.lastName}
+                    </span>
+                    <span className="hidden sm:block first-letter:uppercase">
+                      {appointment.doctor?.role}
+                    </span>
+                    <span className="">
+                      {new AppDate(appointment.startsAt).monthDayYear()}
+                    </span>
+                    <span
+                      className={`first-letter:uppercase text-center
+                    text-[12px]  ${appointmentOV(appointment).bgColor}
+                    ${appointmentOV(appointment).color} px-2 rounded-2xl
+                    py-1 hidden sm:block`}
+                    >
+                      {appointmentOV(appointment).overallStatus}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 };

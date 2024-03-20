@@ -13,7 +13,7 @@ type RecentPatient = {
   Patient: TUserExtended;
 };
 type RecentDoctor = {
-    Doctor: TUserExtended;
+  Doctor: TUserExtended;
 };
 
 export type TDoctorStatistics = {
@@ -26,6 +26,8 @@ export type TDoctorStatistics = {
 };
 
 export type TPatientStatistics = {
+  medicalFileCount: number;
+  mentalHealthAssessmentCount: number;
   unReadNotificationCount: number;
   unReadMessageCount: number;
   recentDoctors: RecentDoctor[];

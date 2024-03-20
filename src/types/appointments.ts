@@ -49,4 +49,5 @@ export type TAppointmentOverallStatus = {
   overallStatus: string;
   bgColor: string;
   color: string;
+  borderColor?: string;
 };

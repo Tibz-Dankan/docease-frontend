@@ -42,3 +42,26 @@ export const getDoctorsPatients = async ({
 
   return await response.json();
 };
+
+export const getDoctorStatistics = async ({
+  doctorId,
+  accessToken,
+}: {
+  doctorId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(`${url}/users/get-stats-by-doctor/${doctorId}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return await response.json();
+};

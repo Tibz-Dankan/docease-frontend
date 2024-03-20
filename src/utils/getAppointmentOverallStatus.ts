@@ -41,6 +41,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "cancelled",
       bgColor: "bg-[#fa5252]",
       color: "text-[#fff]",
+      borderColor: "border-[#fa5252]",
     };
   }
   if (isDone) {
@@ -48,6 +49,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "done",
       bgColor: "bg-[#40c057]",
       color: "text-[#fff]",
+      borderColor: "border-[#40c057]",
     };
   }
   if (isExpired) {
@@ -55,6 +57,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "missed",
       bgColor: "bg-[#e64980]",
       color: "text-[#fff]",
+      borderColor: "border-[#e64980]",
     };
   }
 
@@ -63,6 +66,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "on going",
       bgColor: "bg-[#15aabf]",
       color: "text-[#fff]",
+      borderColor: "border-[#15aabf]",
     };
   }
   if (isApprovalPending) {
@@ -70,6 +74,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "approval pending",
       bgColor: "bg-[#868e96]",
       color: "text-[#fff]",
+      borderColor: "border-[#868e96]",
     };
   }
 
@@ -78,6 +83,7 @@ export const getAppointmentOverallStatus = (
       overallStatus: "upcoming",
       bgColor: "bg-[#228be6]",
       color: "text-[#fff]",
+      borderColor: "border-[#228be6]",
     };
   }
 
@@ -85,5 +91,6 @@ export const getAppointmentOverallStatus = (
     overallStatus: "approval pending",
     bgColor: "bg-[#868e96]",
     color: "text-[#fff]",
+    borderColor: "border-[#868e96]",
   };
 };

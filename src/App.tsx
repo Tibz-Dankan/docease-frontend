@@ -131,7 +131,7 @@ export const App: React.FC = () => {
                   <Route path="/patient/*" element={<PatientRoutes />} />
                   <Route
                     path="*"
-                    element={<Navigate to="/patient/medical-history" replace />}
+                    element={<Navigate to="/patient/dashboard" replace />}
                   />
                 </Routes>
               </Fragment>
@@ -154,7 +154,7 @@ export const App: React.FC = () => {
                   <Route path="/doctor/*" element={<DoctorRoutes />} />
                   <Route
                     path="*"
-                    element={<Navigate to="/doctor/my-patients" replace />}
+                    element={<Navigate to="/doctor/dashboard" replace />}
                   />
                 </Routes>
               </Fragment>
