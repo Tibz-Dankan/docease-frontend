@@ -88,7 +88,7 @@ export const PatientRoutes: React.FC = () => {
         name: "Medical History",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
+            <IconContext.Provider value={{ size: "1.6rem", color: "#495057" }}>
               <GoHistory />
             </IconContext.Provider>
           </span>
