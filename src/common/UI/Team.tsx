@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { ProfileCard } from "./ProfileCard";
 import appImages from "../data/images.json";
+import claireImage from "../../assets/images/claire.jpeg";
 
 export const Team: React.FC = () => {
   const mogaImg = appImages.images.team.moga;
@@ -8,6 +9,7 @@ export const Team: React.FC = () => {
   const nathanImg = appImages.images.team.nathan;
   const charlesImg = appImages.images.team.charles;
   const samanthaImg = appImages.images.team.samantha;
+  const claireImg = claireImage;
 
   const members = [
     {
@@ -111,13 +113,32 @@ export const Team: React.FC = () => {
       description:
         "Samantha is our go-to person for all things sales. She's dedicated to spreading the word about DocEase. With a knack for building relationships and understanding the needs of our clients, Samantha is committed to making healthcare access more accessible for everyone.",
     },
+    {
+      name: "Nakaziba Ann Claire",
+      role: "Sales Manager",
+      image: claireImg,
+      email: "nakazibaclaire6@gmail.com",
+      phoneNumber: "0750740057",
+      socials: {
+        instagram: { link: "#", name: "ItsAnne75 " },
+        twitter: { link: "#", name: "Claire" },
+        github: { link: "https://github.com/Nakaziba", name: "Nakaziba" },
+      },
+      basicInfo: {
+        accessNumber: "A95293",
+        currentYear: "3",
+        course: "BSIT",
+      },
+      description:
+        "Nakaziba is our go-to person for all things sales. She's dedicated to spreading the word about DocEase. With a knack for building relationships and understanding the needs of our clients, Samantha is committed to making healthcare access more accessible for everyone.",
+    },
   ];
 
   return (
     <Fragment>
       <div
         className="w-full flex flex-col items-center gap-8
-       my-16"
+        my-16 px-4 sm:px-16 lg:px-28"
       >
         <div className="space-y-2">
           <div
@@ -140,9 +161,9 @@ export const Team: React.FC = () => {
           <p className="text-gray-800">Meet our professional team</p>
         </div>
         <div
-          className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 
-          gap-y-16  sm:gap-4 md:gap-4 lg:gap-4 justify-center p-2 sm:p-4
-          bg-green-500s w-full lg:p-8"
+          className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3
+          gap-y-16  sm:gap-4 md:gap-4 lg:gap-4 justify-center 
+          w-full lg:p-8"
         >
           {members.map((member, index) => (
             <div key={index} className="w-full">

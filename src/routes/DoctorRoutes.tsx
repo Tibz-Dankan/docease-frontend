@@ -11,12 +11,13 @@ import { SlSettings } from "react-icons/sl";
 // import { IoMdNotificationsOutline } from "react-icons/io";
 // import { PiChatsCircleLight } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
-import { MdOutlineCalendarMonth } from "react-icons/md";
+// import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 import { DisplayMedicalHistoryToDoctor } from "../medical-history/pages/DisplayMedicalHistoryToDoctor";
 import { DisplayAssessmentViewInitiator } from "../mental-health/Pages/DisplayAssessmentViewInitiator";
 import { DisplayAssessmentHistoryPage } from "../mental-health/Pages/DisplayAssessmentHistoryPage";
+import { CiCalendarDate } from "react-icons/ci";
 
 type TChildPath = {
   path: string;
@@ -102,8 +103,8 @@ export const DoctorRoutes: React.FC = () => {
         name: "Appointments",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-              <MdOutlineCalendarMonth />
+            <IconContext.Provider value={{ size: "2rem", color: "#495057" }}>
+              <CiCalendarDate />
             </IconContext.Provider>
           </span>
         ),

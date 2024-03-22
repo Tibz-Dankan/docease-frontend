@@ -12,12 +12,14 @@ import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
 // import { IoMdNotificationsOutline } from "react-icons/io";
 // import { PiChatsCircleLight } from "react-icons/pi";
-import { MdOutlineCalendarMonth } from "react-icons/md";
+// import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
-import { LiaBrainSolid } from "react-icons/lia";
+// import { LiaBrainSolid } from "react-icons/lia";
 import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 import { AssessmentHistoryPage } from "../mental-health/Pages/AssessmentHistoryPage";
+import { CiCalendarDate } from "react-icons/ci";
+import { PiBrainLight } from "react-icons/pi";
 
 type TChildPath = {
   path: string;
@@ -68,9 +70,14 @@ export const PatientRoutes: React.FC = () => {
       {
         name: "Appointments",
         icon: (
+          // <span className="inline-block cursor-pointer">
+          //   <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+          //     <MdOutlineCalendarMonth />
+          //   </IconContext.Provider>
+          // </span>
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-              <MdOutlineCalendarMonth />
+            <IconContext.Provider value={{ size: "2rem", color: "#495057" }}>
+              <CiCalendarDate />
             </IconContext.Provider>
           </span>
         ),
@@ -81,7 +88,7 @@ export const PatientRoutes: React.FC = () => {
         name: "Medical History",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
+            <IconContext.Provider value={{ size: "1.6rem", color: "#495057" }}>
               <GoHistory />
             </IconContext.Provider>
           </span>
@@ -123,8 +130,14 @@ export const PatientRoutes: React.FC = () => {
         name: "Mental health",
         icon: (
           <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-              <LiaBrainSolid />
+            <IconContext.Provider
+              value={{
+                size: "1.8rem",
+                color: "#495057",
+                style: { fontWeight: 100 },
+              }}
+            >
+              <PiBrainLight />
             </IconContext.Provider>
           </span>
         ),

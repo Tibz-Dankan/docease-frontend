@@ -17,6 +17,7 @@ import Calendar from "react-calendar";
 import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallStatus";
 import { AppDate } from "../../utils/appDate";
 import { TAppointment } from "../../types/appointments";
+import { AppointmentStatusKey } from "../../appointment/UI/AppointmentStatusKey";
 
 interface TileContentProps {
   date: any;
@@ -216,7 +217,7 @@ export const PatientDashboard: React.FC = () => {
                     {!appointment.doctor?.imageUrl && (
                       <span
                         className="cursor-pointer grid place-items-center
-                       bg-gray-300 p-1 w-8 h-8 rounded-[50%]"
+                        bg-gray-300 p-1 w-8 h-8 rounded-[50%]"
                       >
                         <IconContext.Provider
                           value={{ size: "1rem", color: "#495057" }}
@@ -237,14 +238,17 @@ export const PatientDashboard: React.FC = () => {
                     </span>
                     <span
                       className={`first-letter:uppercase text-center
-                    text-[12px]  ${appointmentOV(appointment).bgColor}
-                    ${appointmentOV(appointment).color} px-2 rounded-2xl
-                    py-1 hidden sm:block`}
+                      text-[12px]  ${appointmentOV(appointment).bgColor}
+                      ${appointmentOV(appointment).color} px-2 rounded-2xl
+                      py-1 hidden sm:block`}
                     >
                       {appointmentOV(appointment).overallStatus}
                     </span>
                   </div>
                 ))}
+              </div>
+              <div>
+                <AppointmentStatusKey />
               </div>
             </div>
           </div>

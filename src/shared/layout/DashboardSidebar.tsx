@@ -97,7 +97,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                 {({ isActive }) => (
                   <Button
                     className={`flex items-center gap-4 bg-inherit px-4 
-                      capitalize text-gray-8  00 shadow-none hover:bg-gray-300
+                      capitalize text-gray-800 shadow-none hover:bg-gray-300
                       hover:shadow-none relative outline-none
                     ${
                       isActive &&
@@ -111,7 +111,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                     <Typography
                       color="inherit"
                       className={`font-medium capitalize ${
-                        isActive && "font-semibold text-gray-800"
+                        isActive && "font-semibolds text-gray-800"
                       }`}
                       placeholder={""}
                     >
