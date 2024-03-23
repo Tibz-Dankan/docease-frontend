@@ -85,13 +85,14 @@ export const NotificationItem: React.FC<NotificationItemProps> = (props) => {
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
+  const userRole = useSelector((state: TAuthState) => state.auth.user?.role!);
 
   const { isLoading, mutate } = useMutation({
     mutationFn: markNotificationAsRead,
     onSuccess: (response: any) => {
       console.log("response::::: ", response);
       dispatch(updateOneServerNotification(response?.data?.notification));
-      navigate(link, { replace: true });
+      navigate(`/${userRole}${link}`, { replace: true });
       return;
     },
     onError: (error: any) => {
