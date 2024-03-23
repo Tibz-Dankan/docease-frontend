@@ -3,6 +3,7 @@ export type TNotification = {
   cardNotificationType: string | null;
   cardMessage: string | null;
   cardNotificationTitle: string | null;
+  notifications: TServerNotification[];
 };
 
 export type TNotificationState = {
@@ -13,4 +14,14 @@ export type TNotificationPayload = {
   title?: string;
   type: string;
   message: string;
+};
+
+export type TServerNotification = {
+  notificationId: string;
+  userId: string;
+  message: string;
+  link: string;
+  isRead?: boolean;
+  createdAt: string;
+  updatedAt?: string;
 };
