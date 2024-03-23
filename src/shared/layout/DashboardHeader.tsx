@@ -7,12 +7,12 @@ import { IconContext } from "react-icons";
 import { NavDropdown } from "../UI/NavDropdown";
 import { TAuthState } from "../../types/auth";
 import { Link } from "react-router-dom";
-import {
-  TLiveNotification,
-  TLiveNotificationState,
-} from "../../types/liveNotification";
 import { useEffect, useState } from "react";
 import { Image } from "../UI/Image";
+import {
+  TNotificationState,
+  TServerNotification,
+} from "../../types/notification";
 
 export const DashboardHeader = () => {
   const dispatch: any = useDispatch();
@@ -22,23 +22,28 @@ export const DashboardHeader = () => {
   };
 
   const user = useSelector((state: TAuthState) => state.auth.user!);
-  // const userRole = useSelector((state: TAuthState) => state.auth.user?.role);
-  // const userRole = user.role;
+  const userRole = user.role;
   const username = `${user.firstName} ${user.lastName}`;
 
-  const notifications: TLiveNotification[] = useSelector(
-    (state: TLiveNotificationState) => state.liveNotification.notifications
+  const notifications = useSelector(
+    (state: TNotificationState) => state.notification.notifications
   );
+
+  const unReadNotificationCount = (): number => {
+    const unReadNotifications: TServerNotification[] = notifications?.filter(
+      (notification) => notification.isRead === false
+    );
+    return unReadNotifications?.length;
+  };
   const [notificationCount, setNotificationCount] = useState<number | string>(
-    notifications?.length
+    unReadNotificationCount()
   );
 
   // TODO: to animate notification count
-  // TODO(maybe): to implement notification count
 
   useEffect(() => {
     const notificationCountStrBuilder = () => {
-      const notifyCount: number = notifications?.length;
+      const notifyCount: number = unReadNotificationCount();
       if (notifyCount > 9 && notifyCount < 99) {
         setNotificationCount(() => "9+");
         return;
@@ -78,8 +83,7 @@ export const DashboardHeader = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* <Link to={`/${userRole}/notifications`} className="relative"> */}
-          <Link to={`/`} className="relative">
+          <Link to={`/${userRole}/notifications`} className="relative">
             <span
               className="absolute -top-4 -right-1 text-[12px] 
                   font-semibold text-gray-50 bg-red-700 rounded-[50%] 

@@ -3,16 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   showCardNotification,
   hideCardNotification,
+  AddServerNotificationToList,
 } from "../store/actions/notification";
 import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { TLiveConfNotification } from "../types/liveNotification";
-import { updateLiveNotification } from "../store/actions/liveNotification";
+// import { updateLiveNotification } from "../store/actions/liveNotification";
 import {
   updateRequestConnectVideoConference,
   updateVideoConferenceConnected,
 } from "../store/actions/videoConference";
+import { TServerNotification } from "../types/notification";
 
 export const useLiveNotification = async () => {
   const accessToken = useSelector(
@@ -59,7 +61,12 @@ export const useLiveNotification = async () => {
         return;
       }
 
-      dispatch(updateLiveNotification(parsedData));
+      const parsedNotificationData = JSON.parse(
+        event.data
+      ) as TServerNotification;
+
+      // dispatch(updateLiveNotification(parsedData));
+      dispatch(AddServerNotificationToList(parsedNotificationData));
       dispatch(showCardNotification({ type: "info", message: message }));
       setTimeout(() => {
         dispatch(hideCardNotification());

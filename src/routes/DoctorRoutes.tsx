@@ -2,13 +2,12 @@ import React, { Fragment, ReactNode } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { DoctorDashboard } from "../doctor/pages/DoctorDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
-// import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { DoctorAppointments } from "../doctor/pages/DoctorAppointments";
 import { MyPatients } from "../doctor/pages/MyPatients";
 import { Settings } from "../settings/Pages/Settings";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
-// import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdNotificationsOutline } from "react-icons/io";
 // import { PiChatsCircleLight } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
 // import { MdOutlineCalendarMonth } from "react-icons/md";
@@ -18,6 +17,7 @@ import { DisplayMedicalHistoryToDoctor } from "../medical-history/pages/DisplayM
 import { DisplayAssessmentViewInitiator } from "../mental-health/Pages/DisplayAssessmentViewInitiator";
 import { DisplayAssessmentHistoryPage } from "../mental-health/Pages/DisplayAssessmentHistoryPage";
 import { CiCalendarDate } from "react-icons/ci";
+import { NotificationPage } from "../Notification/pages/NotificationPage";
 
 type TChildPath = {
   path: string;
@@ -87,18 +87,18 @@ export const DoctorRoutes: React.FC = () => {
           },
         ],
       },
-      // {
-      //   name: "Notifications",
-      //   icon: (
-      //     <span className="inline-block cursor-pointer">
-      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-      //         <IoMdNotificationsOutline />
-      //       </IconContext.Provider>
-      //     </span>
-      //   ),
-      //   path: "notifications",
-      //   element: <NotificationsPage />,
-      // },
+      {
+        name: "Notifications",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+              <IoMdNotificationsOutline />
+            </IconContext.Provider>
+          </span>
+        ),
+        path: "notifications",
+        element: <NotificationPage />,
+      },
       {
         name: "Appointments",
         icon: (

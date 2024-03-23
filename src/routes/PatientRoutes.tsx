@@ -2,7 +2,6 @@ import React, { Fragment, ReactNode } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { PatientDashboard } from "../patient/pages/PatientDashboard";
 import { DashboardLayout } from "../shared/layout/DashboardLayout";
-// import { NotificationsPage } from "../shared/pages/NotificationsPage";
 import { PatientAppointments } from "../patient/pages/PatientAppointments";
 import { PatientMedicalFiles } from "../medical-history/pages/PatientMedicalFiles";
 import { PatientMedicalForm } from "../medical-history/pages/PatientMedicalForm";
@@ -10,7 +9,7 @@ import { Settings } from "../settings/Pages/Settings";
 import { PostMentalHealthAssessmentPage } from "../mental-health/Pages/PostMentalHealthAssessmentPage";
 import { IconContext } from "react-icons";
 import { SlSettings } from "react-icons/sl";
-// import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdNotificationsOutline } from "react-icons/io";
 // import { PiChatsCircleLight } from "react-icons/pi";
 // import { MdOutlineCalendarMonth } from "react-icons/md";
 import { AiOutlineDashboard } from "react-icons/ai";
@@ -20,6 +19,7 @@ import { VideoConferencePage } from "../video-conference/pages/VideoConferencePa
 import { AssessmentHistoryPage } from "../mental-health/Pages/AssessmentHistoryPage";
 import { CiCalendarDate } from "react-icons/ci";
 import { PiBrainLight } from "react-icons/pi";
+import { NotificationPage } from "../Notification/pages/NotificationPage";
 
 type TChildPath = {
   path: string;
@@ -55,18 +55,18 @@ export const PatientRoutes: React.FC = () => {
         path: "dashboard",
         element: <PatientDashboard />,
       },
-      // {
-      //   name: "Notifications",
-      //   icon: (
-      //     <span className="inline-block cursor-pointer">
-      //       <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
-      //         <IoMdNotificationsOutline />
-      //       </IconContext.Provider>
-      //     </span>
-      //   ),
-      //   path: "notifications",
-      //   element: <NotificationsPage />,
-      // },
+      {
+        name: "Notifications",
+        icon: (
+          <span className="inline-block cursor-pointer">
+            <IconContext.Provider value={{ size: "1.8rem", color: "#495057" }}>
+              <IoMdNotificationsOutline />
+            </IconContext.Provider>
+          </span>
+        ),
+        path: "notifications",
+        element: <NotificationPage />,
+      },
       {
         name: "Appointments",
         icon: (
