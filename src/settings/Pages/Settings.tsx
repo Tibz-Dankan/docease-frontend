@@ -6,6 +6,7 @@ import { DeviceLayout } from "../../device/layout/DeviceLayout";
 import { AuthDeviceLayout } from "../../auth/layout/AuthDeviceLayout";
 import { useSearchParams } from "react-router-dom";
 import { SettingsHeader } from "../layout/SettingsHeader";
+import { ChangePasswordDescription } from "../../auth/UI/ChangePasswordDescription";
 
 export const Settings: React.FC = () => {
   const [searchParams, _] = useSearchParams({ view: "" });
@@ -34,7 +35,6 @@ export const Settings: React.FC = () => {
         className="flex flex-col  items-center 
         justify-center gap-16"
       >
-        {/* Setting header here */}
         <div className="w-full">
           <SettingsHeader />
         </div>
@@ -46,8 +46,11 @@ export const Settings: React.FC = () => {
           <UpdateProfile />
         </div>
         <div className="w-full flex flex-col gap-16">
-          <div className="w-full flex justify-start items-center">
-            {/* Description div about change password */}
+          <div
+            className="w-full flex flex-col md:flex-row justify-center 
+             items-center md:items-start gap-8"
+          >
+            <ChangePasswordDescription />
             <ChangePassword />
           </div>
           <DeviceLayout />

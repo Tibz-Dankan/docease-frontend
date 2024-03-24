@@ -103,10 +103,13 @@ export const ChangePassword: React.FC = () => {
   });
 
   return (
-    <div className="w-full h-full grid place-items-center" id="change-password">
+    <div
+      className="w-full h-fulls grid place-items-center"
+      id="change-password"
+    >
       <form
         onSubmit={formik.handleSubmit}
-        className="w-[90%] sm:w-[480px] space-y-4s bg-white
+        className="w-full md:w-[480px] space-y-4s bg-white
         rounded-md shadow-md p-8"
       >
         <p
