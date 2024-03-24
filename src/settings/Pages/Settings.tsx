@@ -45,8 +45,11 @@ export const Settings: React.FC = () => {
           <UploadProfilePicture />
           <UpdateProfile />
         </div>
-        <div className="flex flex-col gap-16">
-          <ChangePassword />
+        <div className="w-full flex flex-col gap-16">
+          <div className="w-full flex justify-start items-center">
+            {/* Description div about change password */}
+            <ChangePassword />
+          </div>
           <DeviceLayout />
           <div ref={twoFARef}>
             <AuthDeviceLayout />
