@@ -138,7 +138,7 @@ export const SignUpPatient: React.FC = () => {
           <Link to="/">
             <img src={logo} alt="logo" className="w-28" />
           </Link>
-          <p className="text-center text-2xl font-semibold">
+          <p className="text-center text-2xl font-semibold text-gray-800">
             Welcome To Docease
           </p>
           <p className="text-center text-sm font-semibold text-primary">
