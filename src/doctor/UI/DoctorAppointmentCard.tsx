@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
-import { Button } from "../../shared/UI/Button";
-import { Modal } from "../../shared/UI/Modal";
 import { PostAppointment } from "../../appointment/UI/PostAppointment";
 import { elapsedTime } from "../../utils/elapsedTime";
 import { StartChat } from "../../chat/UI/StartChat";
@@ -96,20 +94,7 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
             {/* <GetVideoConference attendeeId={doctorId} /> */}
             <StartChat startChatRecipient={startChatRecipient} />
           </div>
-          <Modal
-            openModalElement={
-              <Button
-                label="Make Appointment"
-                type="button"
-                className="w-full text-sm"
-              />
-            }
-            className=""
-          >
-            <div>
-              <PostAppointment doctorName={doctorName} doctorId={doctorId} />
-            </div>
-          </Modal>
+          <PostAppointment doctorName={doctorName} doctorId={doctorId} />
         </div>
       </div>
     </Fragment>

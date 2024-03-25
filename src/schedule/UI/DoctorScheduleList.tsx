@@ -12,7 +12,6 @@ import { getScheduleByUser } from "../API";
 import { buildScheduleList } from "../../utils/buildScheduleList";
 import { Schedule } from "../../types/schedule";
 import { convertTo12HourFormat } from "../../utils/convertTo12HourFormat";
-// import { useReload } from "../../hooks/useReload";
 interface DoctorScheduleListProps {
   doctorId: string;
   doctorName: string;
@@ -62,8 +61,6 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
     return false;
   };
 
-  console.log("scheduleList :", scheduleList);
-
   return (
     <Fragment>
       <div>
@@ -76,19 +73,23 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
           </div>
           <div
             className="border-b-[1px] border-gray-300
-            text-primary space-y-4 py-4 h-auto"
+            text-primary space-y-2 py-4 h-auto"
           >
             {scheduleList.map((schedule, index) => {
               if (showScheduleItem(schedule)) {
                 return (
-                  <div key={index} className="flex items-center gap-4">
-                    <p
+                  <div
+                    key={index}
+                    className="flex flex-col items-start sm:flex-row 
+                     sm:items-center gap-2 sm:gap-4"
+                  >
+                    <div
                       className="w-20 text-start first-letter:uppercase
-                    text-gray-800"
+                      text-gray-800"
                     >
                       {schedule.weekday}
-                    </p>
-                    <p className="space-x-2">
+                    </div>
+                    <div className="space-x-2s grid grid-cols-2 md:grid-cols-3 gap-2">
                       {schedule.scheduleTime.map((timeSlot, index) => (
                         <span
                           key={index}
@@ -99,7 +100,7 @@ export const DoctorScheduleList: React.FC<DoctorScheduleListProps> = (
                           {convertTo12HourFormat(timeSlot.end)}
                         </span>
                       ))}
-                    </p>
+                    </div>
                   </div>
                 );
               }
