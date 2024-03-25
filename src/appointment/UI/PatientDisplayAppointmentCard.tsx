@@ -230,7 +230,8 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Delete</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[400px] h-[90vh]s
+            md:h-autos"
           >
             <PatientDeleteAppointment appointment={appointment} />
           </Modal>

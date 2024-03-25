@@ -211,7 +211,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Approve</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[400px]"
           >
             <DoctorApproveAppointment appointment={appointment} />
           </Modal>
@@ -234,7 +234,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Reschedule</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[600px]"
           >
             <DoctorRescheduleAppointment appointment={appointment} />
           </Modal>
@@ -257,7 +257,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Cancel</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[400px]"
           >
             <DoctorCancelAppointment appointment={appointment} />
           </Modal>

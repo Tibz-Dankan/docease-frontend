@@ -161,8 +161,8 @@ export const DoctorRescheduleAppointment: React.FC<
   return (
     <Fragment>
       <div
-        className="p-8  w-[90%] md:w-[600px] h-[90v] 
-         md:h-[70vh] overflow-x-hidden flex flex-col gap-4"
+        className="p-4 sm:p-8 w-full h-[70vh] overflow-x-hidden
+          flex flex-col gap-4"
       >
         <div className="text-sm text-gray-800">
           <DoctorScheduleList
