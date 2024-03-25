@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { MedicalFilePicker } from "./MedicalFilePicker";
 import { Loader } from "../../shared/UI/Loader";
-import { MdCloudUpload } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
@@ -11,6 +10,9 @@ import {
 } from "../../store/actions/notification";
 import { uploadPatientMedicalFile } from "../API";
 import { TAuthState } from "../../types/auth";
+// import { Image } from "../../shared/UI/Image";
+import { FaFolder, FaFileAlt } from "react-icons/fa";
+import { MedicalFilePreviewer } from "./MedicalFilePreviewer";
 
 interface UploadMedicalFileProps {}
 
@@ -26,6 +28,7 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     name: "",
     type: "",
   });
+  const [isCancelled, setIsCancelled] = useState<boolean>(false);
 
   const dispatch: any = useDispatch();
   const user = useSelector((state: TAuthState) => state.auth.user);
@@ -37,10 +40,20 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     setFile(() => file);
   };
 
+  const onCancelHandler = () => {
+    setIsCancelled(() => true);
+    setFile(() => {
+      return {
+        content: null,
+        name: "",
+        type: "",
+      };
+    });
+  };
+
   const { isLoading, mutate } = useMutation({
     mutationFn: uploadPatientMedicalFile,
     onSuccess: (response) => {
-      console.log("response", response);
       setFile(() => {
         return {
           content: null,
@@ -84,71 +97,111 @@ export const MedicalFileUpload: React.FC<UploadMedicalFileProps> = () => {
     });
   };
 
-  const imageURLHandler = (imageArrayBuffer: any) => {
-    if (!imageArrayBuffer) return;
-    const blob = new Blob([imageArrayBuffer], { type: "image/*" });
-    return URL.createObjectURL(blob);
-  };
+  // const imageURLHandler = (imageArrayBuffer: any) => {
+  //   if (!imageArrayBuffer) return;
+  //   const blob = new Blob([imageArrayBuffer], { type: "image/*" });
+  //   return URL.createObjectURL(blob);
+  // };
 
   return (
     <Fragment>
       <div
         className="flex h-full w-full flex-col items-center 
-        justify-center gap-4 py-8 rounded-md"
+        justify-center gap-4"
       >
         <div
-          className="-mt-8 mb-4 w-full text-gray-800s text-center
-          bg-gray-300 rounded-md p-4 text-primary"
+          className="w-full rounded-md border-[2px]
+          border-gray-400 h-64 grid place-items-center"
         >
-          <p>Upload Medical File</p>
-        </div>
-        {/* Preview image */}
-        {file.content && (
-          <div>
-            <img
-              src={imageURLHandler(file.content)}
-              alt={"medical-file"}
-              className="h-80 w-auto rounded-md"
-            />
+          <div
+            className="flex items-center  gap-3 p-4 border-b-[2px]
+            border-gray-400 w-full pt-0"
+          >
+            <span className="">
+              <IconContext.Provider
+                value={{
+                  size: "1.4rem",
+                  color: "#495057",
+                }}
+              >
+                <FaFolder />
+              </IconContext.Provider>
+            </span>
+            <span className="text-primary">Files</span>
           </div>
-        )}
+          {!file.content && (
+            <div
+              className="flex flex-col items-center justify-center
+              gap-2"
+            >
+              <span
+                className="grid place-items-center border-[1px]
+                 border-gray-400 p-4 rounded"
+              >
+                <IconContext.Provider
+                  value={{
+                    size: "4.8rem",
+                    color: "#868e96",
+                  }}
+                >
+                  <FaFileAlt />
+                </IconContext.Provider>
+              </span>
+              <MedicalFilePicker
+                onSave={onSelectHandler}
+                isCancelled={isCancelled}
+                isLoading={isLoading}
+              />
+            </div>
+          )}
+
+          {/* File preview */}
+          {file.content && <MedicalFilePreviewer file={file} />}
+        </div>
+        {/* Acceptable file formats*/}
+        <div className="w-full text-gray-700">
+          <p className="text-start">
+            <span className="mr-2">Accepted file types:</span>
+            <span>.pdf .docx .jpeg .jpg .png .webp</span>
+          </p>
+        </div>
+
         {/* File uploader */}
         <div
-          className="flex w-full items-center justify-center gap-4
-           md:gap-8 -mt-4s sm:py-8 sm:bg-gray-300 rounded-md mt-2"
+          className="flex w-full items-center justify-start gap-4
+           md:gap-8"
         >
-          <MedicalFilePicker onSave={onSelectHandler} isLoading={isLoading} />
-          {file.content && !isLoading && (
+          {!isLoading && (
             <button
               onClick={() => uploadFileHandler()}
               className="flex w-auto items-center justify-center
-               gap-4 rounded bg-primary p-4 py-3 text-gray-50
-               disabled:opacity-60 md:w-40"
-              disabled={isLoading}
+            gap-4 rounded-md bg-primary p-4 py-3 text-gray-50
+            disabled:opacity-60 disabled:cursor-not-allowed md:w-40"
+              disabled={isLoading || !file.content}
             >
-              <span>
-                <IconContext.Provider
-                  value={{
-                    size: "1.2rem",
-                    color: "#fff",
-                  }}
-                >
-                  <MdCloudUpload />
-                </IconContext.Provider>
-              </span>
-              <span>Upload</span>
+              <span>Save changes</span>
             </button>
           )}
-          {file.content && isLoading && (
+          {/* {file.content && isLoading && ( */}
+          {isLoading && (
             <button
               className="flex w-auto items-center justify-center
                gap-4 rounded bg-primary p-4 py-3 text-gray-50
-               disabled:opacity-60 md:w-40"
+               md:w-40"
               disabled={isLoading}
             >
               <Loader className="w-6 h-6" />
             </button>
           )}
+          <button
+            onClick={() => onCancelHandler()}
+            className="flex w-auto items-center justify-center
+             gap-4 rounded-md bg-gray-400 p-4 py-3 text-gray-800
+             disabled:opacity-60 disabled:cursor-not-allowed md:w-40"
+            disabled={isLoading || !file.content}
+          >
+            <span>Cancel</span>
+          </button>
         </div>
       </div>
     </Fragment>

@@ -12,31 +12,36 @@ interface FileItemProps {
 }
 
 export const FileItem: React.FC<FileItemProps> = (props) => {
-  const createdAt = new AppDate(props.medicalFile.createdAt).dayMonthYear();
-  const filename = props.medicalFile.name;
+  const createdAtDate = new AppDate(props.medicalFile.createdAt).dayMonthYear();
+  const createdAtTime = new AppDate(props.medicalFile.createdAt).time();
+
   const user = useSelector((state: TAuthState) => state.auth.user!);
 
   const isPatient = user.role === "patient";
 
   return (
     <Fragment>
-      <div
-        className="flex items-center gap-4 justify-between 
-         p-4 rounded shadow text-gray-800"
-      >
-        <span>{filename}</span>
-        <div className="flex items-center justify-center gap-2">
+      <div className="w-auto  items-center p-2">
+        <div
+          className="flex flex-col items-center justify-center gap-2
+          p-4 rounded-md border-2 border-gray-400 shadow bg-white"
+        >
+          <p className="space-x-2 text-sm text-gray-700">
+            <span>{createdAtDate},</span>
+            <span>{createdAtTime}</span>
+          </p>
           <DocumentViewerLayout
             documentName={props.medicalFile.name}
             documentUrl={props.medicalFile.url}
           />
-          <DownloadMedicalFile fileUrl={props.medicalFile.url} />
-          {isPatient && (
-            <DeleteMedicalFile
-              medicalFileId={props.medicalFile.medicalFileId}
-            />
-          )}
-          <span className="ml-2">{createdAt}</span>
+          <div className="flex items-center justify-center gap-2">
+            <DownloadMedicalFile fileUrl={props.medicalFile.url} />
+            {isPatient && (
+              <DeleteMedicalFile
+                medicalFileId={props.medicalFile.medicalFileId}
+              />
+            )}
+          </div>
         </div>
       </div>
     </Fragment>

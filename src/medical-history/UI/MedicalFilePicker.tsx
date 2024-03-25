@@ -7,12 +7,13 @@ import {
 } from "use-file-picker/validators";
 import { IconContext } from "react-icons";
 import { MdCloudUpload } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
+// import { IoClose } from "react-icons/io5";
 // import { DragDrop } from "../../shared/UI/DragDrop";
 
 interface MedicalFilePickerProps {
   onSave: (photo: any) => void;
   isLoading: boolean;
+  isCancelled: boolean;
 }
 
 type TFile = {
@@ -30,7 +31,7 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
 
   const { openFilePicker, filesContent } = useFilePicker({
     readAs: "ArrayBuffer",
-    accept: [".jpeg", ".jpg", ".png", ".webp", ".pdf", ".docx", "doc"],
+    accept: [".jpeg", ".jpg", ".png", ".webp", ".pdf", ".docx", ".doc"],
     multiple: false,
 
     validators: [
@@ -58,11 +59,15 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
   // };
 
   const onCancelSelectHandler = () => {
+    if (!props.isCancelled) return;
+
     props.onSave("");
-    setFile({
-      content: null,
-      name: "",
-      type: "",
+    setFile(() => {
+      return {
+        content: null,
+        name: "",
+        type: "",
+      };
     });
   };
 
@@ -70,25 +75,27 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
     saveHandler();
   }, [file]);
 
+  useEffect(() => {
+    onCancelSelectHandler();
+  }, [props.isCancelled]);
+
   return (
     <Fragment>
-      <div
-        className="flex h-auto w-auto items-center
-        justify-center gap-x-2 text-gray-800"
-      >
+      <div className="w-auto">
         {!file.content && (
           <div className="grid h-auto w-auto place-items-center gap-y-4">
             {/* <DragDrop onDrag={onDragHandler} /> */}
             <button
               onClick={() => openFilePicker()}
-              className="flex w-full items-center justify-center gap-4
-               rounded bg-primary p-4 py-3 text-gray-50"
+              className="flex w-auto items-center justify-center gap-4
+               rounded p-4 py-3 text-gray-700 hover:text-primary
+               hover:underline"
             >
               <span>
                 <IconContext.Provider
                   value={{
                     size: "1.2rem",
-                    color: "#fff",
+                    color: "#495057",
                   }}
                 >
                   <MdCloudUpload />
@@ -97,27 +104,6 @@ export const MedicalFilePicker: React.FC<MedicalFilePickerProps> = (props) => {
               <span>Select File</span>
             </button>
           </div>
-        )}
-        {file.content && (
-          <button
-            onClick={() => onCancelSelectHandler()}
-            className="flex w-full items-center justify-center gap-4
-             rounded bg-primary p-4 py-3 text-gray-50 disabled:opacity-60
-             md:w-40"
-            disabled={props.isLoading && props.isLoading}
-          >
-            <span>
-              <IconContext.Provider
-                value={{
-                  size: "1.2rem",
-                  color: "#fff",
-                }}
-              >
-                <IoClose />
-              </IconContext.Provider>
-            </span>
-            <span>Cancel</span>
-          </button>
         )}
       </div>
     </Fragment>
