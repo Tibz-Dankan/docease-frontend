@@ -4,17 +4,19 @@ import {
   showCardNotification,
   hideCardNotification,
   AddServerNotificationToList,
+  updateServerNotifications,
 } from "../store/actions/notification";
 import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { TLiveConfNotification } from "../types/liveNotification";
-// import { updateLiveNotification } from "../store/actions/liveNotification";
 import {
   updateRequestConnectVideoConference,
   updateVideoConferenceConnected,
 } from "../store/actions/videoConference";
 import { TServerNotification } from "../types/notification";
+import { useQuery } from "@tanstack/react-query";
+import { getNotificationsByUser } from "../Notification/API";
 
 export const useLiveNotification = async () => {
   const accessToken = useSelector(
@@ -24,6 +26,28 @@ export const useLiveNotification = async () => {
 
   const dispatch: any = useDispatch();
 
+  // Fetch all the users notifications
+  const {} = useQuery({
+    queryKey: [`notifications-${userId}`],
+    queryFn: () => {
+      if (!accessToken) return null;
+      return getNotificationsByUser({
+        userId: userId!,
+        accessToken: accessToken!,
+      });
+    },
+    onSuccess: (response: any) => {
+      dispatch(updateServerNotifications(response?.data?.notifications));
+    },
+    onError: (error: any) => {
+      dispatch(showCardNotification({ type: "error", message: error.message }));
+      setTimeout(() => {
+        dispatch(hideCardNotification());
+      }, 5000);
+    },
+  });
+
+  // Connect and Listen for latest live notifications
   useEffect(() => {
     if (!accessToken || !userId) return;
     const eventSource = new EventSourcePolyfill(
@@ -65,7 +89,6 @@ export const useLiveNotification = async () => {
         event.data
       ) as TServerNotification;
 
-      // dispatch(updateLiveNotification(parsedData));
       dispatch(AddServerNotificationToList(parsedNotificationData));
       dispatch(showCardNotification({ type: "info", message: message }));
       setTimeout(() => {
