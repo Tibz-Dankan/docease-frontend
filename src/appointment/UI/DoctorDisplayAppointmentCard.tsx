@@ -211,7 +211,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Approve</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[400px]"
           >
             <DoctorApproveAppointment appointment={appointment} />
           </Modal>

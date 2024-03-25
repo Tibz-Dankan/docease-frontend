@@ -80,8 +80,7 @@ export const DoctorApproveAppointment: React.FC<
   return (
     <Fragment>
       <div
-        className="p-8  w-[90%] sm:w-[400px] h-[90vh]
-         md:h-auto flex-col gap-4 text-gray-800 
+        className="p-4 sm:p-8 w-full flex-col gap-4 text-gray-800 
          space-y-4"
       >
         <div
