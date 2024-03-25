@@ -185,8 +185,8 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
 
         <div
           className="flex items-center justify-center gap-4
-         text border-t-[1px] border-gray-300 pt-4 text-gray-700
-         text-sm"
+          text border-t-[1px] border-gray-300 pt-4 text-gray-700
+          text-sm"
         >
           <Modal
             openModalElement={
@@ -207,7 +207,7 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
                 <span>Edit</span>
               </p>
             }
-            className=""
+            className="w-[90vw] sm:w-[600px]"
           >
             <PatientEditAppointment appointment={appointment} />
           </Modal>
