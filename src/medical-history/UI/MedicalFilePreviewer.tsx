@@ -29,8 +29,6 @@ export const MedicalFilePreviewer: React.FC<MedicalFilePreviewerProps> = (
     fileExtension === "jpeg" ||
     fileExtension === "webp";
 
-  console.log("fileExtension: ", fileExtension);
-
   const imageURLHandler = (imageArrayBuffer: any) => {
     if (!imageArrayBuffer) return;
     const blob = new Blob([imageArrayBuffer], { type: "image/*" });

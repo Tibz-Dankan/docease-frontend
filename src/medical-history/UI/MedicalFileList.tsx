@@ -49,26 +49,21 @@ export const MedicalFileList: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="w-full space-y-4">
+      <div className="w-full mt-8 sm:mt-0 space-y-4">
         <div
-          className=" w-full text-gray-800s text-center
-          bg-gray-300 rounded-md p-4 text-primary
-          "
+          className="w-full text-gray-800s text-center
+          bg-gray-300s rounded-md p-4 text-primary
+          border-2 border-gray-400"
         >
           <p>Uploaded Files</p>
         </div>
-        <div className=" max-h-[50vh] overflow-x-hidden pb-8 px-4">
+        <div
+          className="sm:max-h-[55vh] overflow-x-hidden sm:pt-4 pb-8 px-4
+          grid grid-cols-1 lg:grid-cols-2 gap-2 sm:bg-gray-100 
+          rounded-md"
+        >
           {medication.map((record, index: number) => (
             <div key={index}>
-              {/* <DocumentViewerLayout
-                openModalElement={
-                  <div className="cursor-pointer">
-                    <FileItem medicalFile={record} />
-                  </div>
-                }
-                documentName={record.name}
-                documentUrl={record.url}
-              /> */}
               <FileItem medicalFile={record} />
             </div>
           ))}
