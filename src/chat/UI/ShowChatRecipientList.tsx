@@ -48,24 +48,6 @@ export const ShowChatRecipientList: React.FC = () => {
          border-gray-300 border-2 bg-white "
         onClick={() => showChatOperationHandler()}
       >
-        {/* {!showChatRecipientListValue && (
-          <svg
-            className="w-7 h-7 text-gray-100 cursor-pointer"
-            onClick={() => showChatRecipientListHandler()}
-          >
-            <use href={`${sprite}#icon-chat`}></use>
-          </svg>
-        )}
-        {showChatRecipientListValue && (
-          <svg
-            className="w-7 h-7 fill-gray-100 cursor-pointer"
-            onClick={() => {
-              hideRecipientListHandler(), hideChatHandler();
-            }}
-          >
-            <use href={`${sprite}#icon-cross-small`}></use>
-          </svg>
-        )} */}
         {user.imageUrl && (
           <div
             className="bg-gray-light-3 flex items-center justify-center 
