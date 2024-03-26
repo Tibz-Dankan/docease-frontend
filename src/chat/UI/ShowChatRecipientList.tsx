@@ -8,7 +8,8 @@ import {
 import { TAuthState } from "../../types/auth";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
-import { GoChevronDown, GoChevronUp } from "react-icons/go";
+import { HiOutlineChevronDoubleDown } from "react-icons/hi2";
+import { HiOutlineChevronDoubleUp } from "react-icons/hi2";
 
 export const ShowChatRecipientList: React.FC = () => {
   const showChatRecipientListValue = useSelector(
@@ -27,53 +28,60 @@ export const ShowChatRecipientList: React.FC = () => {
   const hideRecipientListHandler = () => {
     dispatch(hideChatRecipientList());
   };
-  const hideChatHandler = () => {
-    dispatch(hideChat());
-  };
+  // const hideChatHandler = () => {
+  //   dispatch(hideChat());
+  // };
 
   const showChatOperationHandler = () => {
     if (!showChatRecipientListValue) {
       showChatRecipientListHandler();
     } else {
-      hideRecipientListHandler(), hideChatHandler();
+      // hideRecipientListHandler(), hideChatHandler();
+      hideRecipientListHandler();
     }
   };
 
   return (
     <Fragment>
       <div
-        className="flex items-center justify-center gap-3 
-         w-auto py-2 px-4 rounded-t-md fixed bottom-[1vh] 
-         right-[5vh] shadow-2xl z-[500] cursor-pointer
-         border-gray-300 border-2 bg-white"
+        className="flex items-center justify-between gap-3 
+         w-autos w-full py-2 px-4 rounded-t-md 
+         right-[5vh] shadow-2xls z-[500] cursor-pointer
+         border-gray-400 border-[1px] bg-gray-50
+         shadow-md"
         onClick={() => showChatOperationHandler()}
       >
-        {user.imageUrl && (
-          <div
-            className="bg-gray-light-3 flex items-center justify-center 
+        <div className="flex items-center justify-center gap-3">
+          {user.imageUrl && (
+            <div
+              className="bg-gray-light-3 flex items-center justify-center 
              w-10 h-10 rounded-[50%]"
-          >
-            <img
-              src={user.imageUrl}
-              alt={user.firstName}
-              className="w-full  h-full rounded-[50%]"
-            />
-          </div>
-        )}
-        {!user.imageUrl && (
-          <span
-            className="cursor-pointer grid place-items-center bg-gray-300
+            >
+              <img
+                src={user.imageUrl}
+                alt={user.firstName}
+                className="w-full  h-full rounded-[50%]"
+              />
+            </div>
+          )}
+          {!user.imageUrl && (
+            <span
+              className="cursor-pointer grid place-items-center bg-gray-300
              w-10 h-10 rounded-[50%]"
-          >
-            <IconContext.Provider value={{ size: "1.2rem", color: "#495057" }}>
-              <IoPerson />
-            </IconContext.Provider>
-          </span>
-        )}
-        <div className="flex items-center justify-center gap-2 text-gray-800">
+            >
+              <IconContext.Provider
+                value={{ size: "1.2rem", color: "#495057" }}
+              >
+                <IoPerson />
+              </IconContext.Provider>
+            </span>
+          )}
+          <span className="font-semibold text-gray-800">Messaging</span>
+        </div>
+        {/* <div className="flex items-center justify-center gap-2 text-gray-800">
           <span>{user.firstName}</span>
           <span>{user.lastName}</span>
-        </div>
+        </div> */}
         <div>
           {showChatRecipientListValue && (
             <span
@@ -83,7 +91,7 @@ export const ShowChatRecipientList: React.FC = () => {
               <IconContext.Provider
                 value={{ size: "1.2rem", color: "#495057" }}
               >
-                <GoChevronDown />
+                <HiOutlineChevronDoubleDown />
               </IconContext.Provider>
             </span>
           )}
@@ -95,7 +103,7 @@ export const ShowChatRecipientList: React.FC = () => {
               <IconContext.Provider
                 value={{ size: "1.2rem", color: "#495057" }}
               >
-                <GoChevronUp />
+                <HiOutlineChevronDoubleUp />
               </IconContext.Provider>
             </span>
           )}

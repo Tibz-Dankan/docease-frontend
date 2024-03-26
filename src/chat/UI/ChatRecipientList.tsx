@@ -15,7 +15,7 @@ import {
 
 import { getChatRecipients } from "../API";
 import { IconContext } from "react-icons";
-import { IoClose, IoPerson } from "react-icons/io5";
+import { IoPerson } from "react-icons/io5";
 import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
 import { AppDate } from "../../utils/appDate";
 import { truncateString } from "../../utils/truncateString";
@@ -130,30 +130,10 @@ export const ChatRecipientList: React.FC = () => {
     <Fragment>
       <div
         className="w-full sm:w-80 h-[58vh] sm:h-[50vh] overflow-x-hidden
-         border-[1px] border-gray-300 sm:rounded-t-md 
+         border-[1px] border-gray-400 border-t-[0px]
          shadow-md animate-opacityZeroToFull bg-gray-50"
       >
-        <div
-          className="flex items-center justify-between 
-          border-b-[1px] border-primary p-4 bg-primary
-          rounded-tl-md rounded-tr-md"
-        >
-          <span className="text-gray-50">Messaging</span>
-          <svg
-            className="w-6 h-6 fill-gray-100 cursor-pointer"
-            onClick={() => hideRecipientListHandler()}
-          >
-            <IconContext.Provider
-              value={{
-                size: "1.4rem",
-                color: "#fff",
-              }}
-            >
-              <IoClose />
-            </IconContext.Provider>
-          </svg>
-        </div>
-
+        {/* Recipient search component here */}
         <div>
           {isLoading && (
             <div
