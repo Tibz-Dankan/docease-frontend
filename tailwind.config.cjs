@@ -26,11 +26,16 @@ module.exports = withMT({
       },
       animation: {
         slideDown: "slideDown 0.5s ease-out forwards",
+        moveInnerLoaderToRight: "moveInnerLoaderToRight 0.8s infinite ease-out",
       },
       keyframes: {
         slideDown: {
           "0%": { opacity: "0", transform: "translateY(-150px)" },
           "100%": { opacity: "1", transform: "translateY(0px)" },
+        },
+        moveInnerLoaderToRight: {
+          "0%": { left: "0%" },
+          "100%": { left: "45%" },
         },
       },
       spacing: {

@@ -10,7 +10,6 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { Loader } from "../../shared/UI/Loader";
 import { TPatientStatistics } from "../../types/dashboard";
 import { Image } from "../../shared/UI/Image";
 import Calendar from "react-calendar";
@@ -18,6 +17,7 @@ import { getAppointmentOverallStatus } from "../../utils/getAppointmentOverallSt
 import { AppDate } from "../../utils/appDate";
 import { TAppointment } from "../../types/appointments";
 import { AppointmentStatusKey } from "../../appointment/UI/AppointmentStatusKey";
+import { DashboardLoader } from "../UI/DashboardLoader";
 
 interface TileContentProps {
   date: any;
@@ -48,8 +48,7 @@ export const PatientDashboard: React.FC = () => {
     },
   });
 
-  if (isLoading)
-    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+  if (isLoading) return <DashboardLoader />;
 
   const patientStats = data?.data.statistics as TPatientStatistics;
   const upcomingAppointments = patientStats?.upcomingAppointments;
