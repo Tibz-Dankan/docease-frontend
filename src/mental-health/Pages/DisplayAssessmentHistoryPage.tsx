@@ -7,12 +7,12 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { Loader } from "../../shared/UI/Loader";
 import { TMentalHealthAssessment } from "../../types/mentalHealth";
 import { useParams } from "react-router-dom";
 import { AnsweredQuestions } from "../UI/AnsweredQuestions";
 import { AIResponse } from "../UI/AIResponse";
 import { DisplayAssessmentLayout } from "../layout/DisplayAssessmentLayout";
+import { AssessmentHistoryPageLoader } from "./AssessmentHistoryPageLoader";
 
 export const DisplayAssessmentHistoryPage: React.FC = () => {
   const { mentalHealthId } = useParams();
@@ -40,8 +40,8 @@ export const DisplayAssessmentHistoryPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center w-full">
-        <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />
+      <div className="w-full">
+        <AssessmentHistoryPageLoader />
       </div>
     );
   }
