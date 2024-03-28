@@ -126,6 +126,9 @@ export const ChatRecipientList: React.FC = () => {
     updateChatRecipientHandler();
   }, [chatRecipientList]);
 
+  // TODO: To improve the appearance of the recipient display
+  // TODO: To add a custom loader for chat recipient
+
   return (
     <Fragment>
       <div
