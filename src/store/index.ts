@@ -29,16 +29,9 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   url = "http://localhost:8000/api/v1";
   socketUrl = "http://localhost:8000";
 } else {
-  url = "https://docease-backendv2.onrender.com/api/v1";
-  socketUrl = "https://docease-backendv2.onrender.com";
+  url = "https://docease-backendv2-9dyj.onrender.com/api/v1";
+  socketUrl = "https://docease-backendv2-9dyj.onrender.com";
 }
-
-// let url: string;
-// if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-//   url = "https://docease-backend-v2.onrender.com/api/v1";
-// } else {
-//   url = "https://docease-backend-v2.onrender.com/api/v1";
-// }
 
 export { url, socketUrl };
 export const authActions = authSlice.actions;
