@@ -8,9 +8,8 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { Loader } from "../../shared/UI/Loader";
 import { TMedicalFile } from "../../types/medication";
-// import { DocumentViewerLayout } from "../layout/DocumentViewerLayout";
+import { FileLoader } from "./FileLoader";
 
 export const MedicalFileList: React.FC = () => {
   const userId = useSelector(
@@ -36,11 +35,7 @@ export const MedicalFileList: React.FC = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center w-full">
-        <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />
-      </div>
-    );
+    return <FileLoader />;
   }
 
   if (!data) return;
