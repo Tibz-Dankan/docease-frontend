@@ -7,8 +7,8 @@ import {
   showCardNotification,
 } from "../../store/actions/notification";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader } from "../../shared/UI/Loader";
 import { PatientProfileCard } from "../../patient/UI/PatientProfileCard";
+import { PatientProfileCardLoader } from "../../patient/UI/PatientProfileCardLoader";
 
 type TAccessTokens = {
   createdAt: string;
@@ -63,7 +63,7 @@ export const MyPatients: React.FC = () => {
   });
 
   if (isLoading) {
-    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+    return <PatientProfileCardLoader />;
   }
 
   const patients = data?.data?.patients as TDoctorsPatient[];
@@ -78,7 +78,7 @@ export const MyPatients: React.FC = () => {
           {!hasPatients && <span>You have no patients yet!</span>}
         </div>
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+          className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
            gap-4 mt-16 place-items-center"
         >
           {patients.map((patient, index) => (
