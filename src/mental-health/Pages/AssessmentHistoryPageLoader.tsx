@@ -43,8 +43,11 @@ export const AssessmentHistoryPageLoader: React.FC = () => {
             <div className="w-full border-b-[1px] border-gray-opacity my-2" />
 
             {/* AI Response Loader */}
-            <div className="w-full h-64 overflow-x-hidden">
-              <SkeletonLoader className="rounded-2xl" />
+            <div className="w-full h-60 overflow-x-hidden">
+              <SkeletonLoader
+                className="rounded-2xl bg-[#868e96]"
+                innerLoaderClassName="from-[#868e96] via-blue-gray-300 to-[#868e96]"
+              />
             </div>
           </div>
         </MentalHealthAssessmentLayout>
