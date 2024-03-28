@@ -11,6 +11,7 @@ import { getAppointmentsByPatient } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAppointment } from "../../types/appointments";
 import { Button } from "../../shared/UI/Button";
+import { AppointmentLoader } from "./AppointmentLoader";
 
 export const PatientAppointmentList: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -44,7 +45,7 @@ export const PatientAppointmentList: React.FC = () => {
   });
 
   if (isLoading) {
-    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+    return <AppointmentLoader />;
   }
 
   const getAppointmentsByPatientHandler = async () => {

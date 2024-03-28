@@ -1,11 +1,18 @@
 import React, { Fragment } from "react";
+import { twMerge } from "tailwind-merge";
 
-export const SkeletonLoader: React.FC = () => {
+interface SkeletonLoaderProps {
+  className?: string;
+}
+
+export const SkeletonLoader: React.FC<SkeletonLoaderProps> = (props) => {
   return (
     <Fragment>
       <div
-        className="w-full h-full bg-gray-300 rounded-md
-        relative"
+        className={twMerge(
+          `w-full h-full bg-gray-300 rounded-md relative`,
+          props.className
+        )}
       >
         <div
           className="h-full w-1/2 absolute left-0 
