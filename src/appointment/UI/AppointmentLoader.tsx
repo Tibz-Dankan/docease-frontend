@@ -34,9 +34,11 @@ export const AppointmentLoader: React.FC = () => {
             </div>
 
             <div className="flex items-center justify-between gap-4">
+              {/* Appointment date Loader */}
               <div className="w-[40%] h-16 rounded">
                 <SkeletonLoader />
               </div>
+              {/* Appointment start and end time Loader */}
               <div className="w-[50%] h-16 rounded">
                 <SkeletonLoader />
               </div>
