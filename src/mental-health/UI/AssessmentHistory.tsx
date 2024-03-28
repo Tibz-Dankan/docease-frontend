@@ -7,10 +7,10 @@ import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
-import { Loader } from "../../shared/UI/Loader";
 import { TMentalHealthAssessment } from "../../types/mentalHealth";
 import { AppDate } from "../../utils/appDate";
 import { Link, useParams } from "react-router-dom";
+import { AssessmentHistoryLoader } from "./AssessmentHistoryLoader";
 
 export const AssessmentHistory: React.FC = () => {
   const user = useSelector((state: TAuthState) => state.auth?.user)!;
@@ -37,7 +37,7 @@ export const AssessmentHistory: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-full">
-        <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />
+        <AssessmentHistoryLoader />
       </div>
     );
   }
