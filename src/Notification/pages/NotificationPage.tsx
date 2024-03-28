@@ -7,9 +7,9 @@ import {
   showCardNotification,
   updateServerNotifications,
 } from "../../store/actions/notification";
-import { Loader } from "../../shared/UI/Loader";
 import { getNotificationsByUser } from "../API";
 import { NotificationList } from "../layout/NotificationList";
+import { NotificationLoader } from "../UI/NotificationLoader";
 
 export const NotificationPage: React.FC = () => {
   const accessToken = useSelector(
@@ -36,7 +36,7 @@ export const NotificationPage: React.FC = () => {
   });
 
   if (isLoading) {
-    return <Loader className="w-10 h-10 sm:w-16 sm:h-16 stroke-gray-600" />;
+    return <NotificationLoader />;
   }
 
   return (

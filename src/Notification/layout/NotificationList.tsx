@@ -31,7 +31,10 @@ export const NotificationList: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="bg-gray-50 p-4 px-2 rounded-md shadow-md">
+      <div
+        className="w-full bg-gray-50 p-4 px-2 rounded-md shadow-md
+         md:max-w-[700px]"
+      >
         <div>
           <div
             className="w-full flex items-center justify-center gap-2
