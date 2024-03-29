@@ -205,13 +205,16 @@ export const ChatRecipientList: React.FC = () => {
                     gap-1 px-2 text-sm text-gray-800"
                   >
                     <div>
-                      <p className="font-bold">
+                      <p className="font-semibold">
                         {truncateString(
                           `${recipient.firstName} ${recipient.lastName}`,
-                          16
+                          17
                         )}
                       </p>
-                      <span className="text-gray-600 absolute top-3 right-2 text-sm">
+                      <span
+                        className="text-gray-600 absolute top-2 right-2 text-sm
+                         tracking-tight"
+                      >
                         {getLastMessageDate(recipient.messages)}
                       </span>
                     </div>
