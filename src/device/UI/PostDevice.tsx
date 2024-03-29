@@ -13,38 +13,15 @@ import { TAuthState } from "../../types/auth";
 import { postDevice } from "../API";
 import { Button } from "../../shared/UI/Button";
 import { Loader } from "../../shared/UI/Loader";
-// import dotenv from "dotenv";
-
-// dotenv.config();
-
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-//   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-//   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-// };
-
-// const firebaseConfig = {
-//   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-//   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-//   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-//   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: import.meta.env.VITE_FIREBASE_APP_ID,
-//   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-// };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAcG4U56TO1A1cCOxXWpBr-DQDuyQsXm7A",
-  authDomain: "doceasev2.firebaseapp.com",
-  projectId: "doceasev2",
-  storageBucket: "doceasev2.appspot.com",
-  messagingSenderId: "740647548486",
-  appId: "1:740647548486:web:8e1aa9297f4d9d049e3c47",
-  measurementId: "G-TF2C92VX7R",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 initializeApp(firebaseConfig);
@@ -96,8 +73,7 @@ export const PostDevice = () => {
 
     try {
       const token = await getToken(messaging, {
-        vapidKey:
-          "BJrrFxIA2ARpI7OSEyz8rWAVR_qgokExtQ3C7cqq_1tXlnP_cZYGfo1-eNqGkGI21BtO9ueLDeAdpm7cKCOcQRE",
+        vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
       });
 
       console.log("device token", token);
