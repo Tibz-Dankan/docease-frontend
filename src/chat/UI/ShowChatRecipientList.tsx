@@ -78,10 +78,6 @@ export const ShowChatRecipientList: React.FC = () => {
           )}
           <span className="font-semibold text-gray-800">Messaging</span>
         </div>
-        {/* <div className="flex items-center justify-center gap-2 text-gray-800">
-          <span>{user.firstName}</span>
-          <span>{user.lastName}</span>
-        </div> */}
         <div>
           {showChatRecipientListValue && (
             <span
