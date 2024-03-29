@@ -21,6 +21,7 @@ import { AppDate } from "../../utils/appDate";
 import { truncateString } from "../../utils/truncateString";
 import { MessageBadge } from "./MessageBadge";
 import { Loader } from "../../shared/UI/Loader";
+import { Image } from "../../shared/UI/Image";
 
 export const ChatRecipientList: React.FC = () => {
   const currentUserId: string = useSelector(
@@ -178,22 +179,22 @@ export const ChatRecipientList: React.FC = () => {
                   {recipient.imageUrl && (
                     <div
                       className="bg-gray-light-3 flex items-center justify-center 
-                      w-14 h-14 rounded-[50%]"
+                      w-12 h-12 rounded-[50%]"
                     >
-                      <img
+                      <Image
                         src={recipient.imageUrl}
                         alt={recipient.firstName}
-                        className="w-full  h-full rounded-[50%] bg-gray-400"
+                        className="w-full h-full rounded-[50%] bg-gray-400"
                       />
                     </div>
                   )}
                   {!recipient.imageUrl && (
                     <span
                       className="cursor-pointer grid place-items-center  bg-gray-400
-                      w-14 h-14 rounded-[50%]"
+                      w-12 h-12 rounded-[50%]"
                     >
                       <IconContext.Provider
-                        value={{ size: "1.6rem", color: "#495057" }}
+                        value={{ size: "1.4rem", color: "#495057" }}
                       >
                         <IoPerson />
                       </IconContext.Provider>
