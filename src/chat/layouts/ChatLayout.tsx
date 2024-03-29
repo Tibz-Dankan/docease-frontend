@@ -34,7 +34,7 @@ export const ChatLayout: React.FC = () => {
          sm:pr-4 transition-all"
       >
         {showChatValue && <ChatAggregator />}
-        <div className="w-full sm:w-80 shadow">
+        <div className="w-full sm:w-72 shadow">
           <ShowChatRecipientList />
           {showChatRecipientListValue && <ChatRecipientList />}
         </div>

@@ -132,7 +132,7 @@ export const ChatRecipientList: React.FC = () => {
   return (
     <Fragment>
       <div
-        className="w-full sm:w-80 h-[58vh] sm:h-[50vh] overflow-x-hidden
+        className="w-full sm:w-72 h-[58vh] sm:h-[50vh] overflow-x-hidden
          border-[1px] border-gray-400 border-t-[0px]
          shadow-md animate-opacityZeroToFull bg-gray-50"
       >
