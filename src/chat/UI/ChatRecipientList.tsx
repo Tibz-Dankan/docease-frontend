@@ -20,8 +20,8 @@ import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
 import { AppDate } from "../../utils/appDate";
 import { truncateString } from "../../utils/truncateString";
 import { MessageBadge } from "./MessageBadge";
-import { Loader } from "../../shared/UI/Loader";
 import { Image } from "../../shared/UI/Image";
+import { ChatRecipientListLoader } from "./ChatRecipientListLoader";
 
 export const ChatRecipientList: React.FC = () => {
   const currentUserId: string = useSelector(
@@ -136,6 +136,8 @@ export const ChatRecipientList: React.FC = () => {
   // TODO: To improve the appearance of the recipient display
   // TODO: To add a custom loader for chat recipient
 
+  if (isLoading) return <ChatRecipientListLoader />;
+
   return (
     <Fragment>
       <div
@@ -143,17 +145,6 @@ export const ChatRecipientList: React.FC = () => {
          border-[1px] border-gray-400 border-t-[0px]
          shadow-md animate-opacityZeroToFull bg-gray-50"
       >
-        {/* Recipient search component here */}
-        <div>
-          {isLoading && (
-            <div
-              className="flex items-center justify-center
-              bg-gray-50 w-full h-40 text-gray-800"
-            >
-              <Loader className="stroke-gray-600" />
-            </div>
-          )}
-        </div>
         <div>
           {!filteredRecipientList[0] && (
             <div
