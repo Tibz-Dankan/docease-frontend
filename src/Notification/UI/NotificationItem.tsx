@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { Fragment, ReactNode, useState } from "react";
 import { IconContext } from "react-icons";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { TServerNotification } from "../../types/notification";
@@ -17,6 +17,9 @@ import {
 import { markNotificationAsRead } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
+import { truncateString } from "../../utils/truncateString";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
+import { AppDate } from "../../utils/appDate";
 
 interface NotificationItemProps {
   notification: TServerNotification;
@@ -79,20 +82,24 @@ export const NotificationItem: React.FC<NotificationItemProps> = (props) => {
     );
   }
 
-  //TODO: To add notification api to mark the notification as read
   const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
   const userRole = useSelector((state: TAuthState) => state.auth.user?.role!);
+  const [showDetailedMessage, setShowDetailedMessage] =
+    useState<boolean>(false);
+
+  const showDetailedMessageHandler = () => {
+    setShowDetailedMessage(() => !showDetailedMessage);
+  };
 
   const { isLoading, mutate } = useMutation({
     mutationFn: markNotificationAsRead,
     onSuccess: (response: any) => {
-      console.log("response::::: ", response);
       dispatch(updateOneServerNotification(response?.data?.notification));
-      navigate(`/${userRole}${link}`, { replace: true });
+      navigate(`/${userRole}${link}`, { replace: false });
       return;
     },
     onError: (error: any) => {
@@ -105,6 +112,10 @@ export const NotificationItem: React.FC<NotificationItemProps> = (props) => {
 
   const markNotificationAsReadHandler = () => {
     if (!notificationId) return;
+    if (isRead) {
+      navigate(`/${userRole}${link}`, { replace: false });
+      return;
+    }
 
     mutate({
       notificationId: notificationId,
@@ -113,40 +124,134 @@ export const NotificationItem: React.FC<NotificationItemProps> = (props) => {
   };
 
   return (
-    <div
-      className={`flex items-center justify-between gap-4
-       text-gray-800 relative py-2 px-4 md:px-8
-       cursor-pointer ${isLoading && "pr-6 md:pr-10"}
-       border-b-[1px] border-gray-300 hover:bg-gray-200`}
-      onClick={() => markNotificationAsReadHandler()}
-    >
-      <div>
-        <span
-          className="cursor-pointer grid place-items-center  bg-gray-300 p-1
-          w-10 h-10 rounded-[50%]"
+    <Fragment>
+      {!showDetailedMessage && (
+        <div
+          className="flex items-center justify-between gap-4
+           text-gray-800 relatives py-2 px-4 md:px-8
+           border-b-[1px] border-gray-300 hover:bg-gray-200
+           transition-all"
         >
-          {icon}
-        </span>
-      </div>
-      <div>
-        <span
-          className={`${
-            !isRead ? "font-semibold" : "text-gray-700"
-          } text-start`}
-        >
-          {message}
-        </span>
-      </div>
-      <div>
-        <span
-          className={`text-sm ${!isRead ? "font-semibold" : "text-gray-700"}`}
-        >{`${elapsedTime(createdAt)} ago`}</span>
-      </div>
-      {isLoading && (
-        <div className="absolute top-5 right-2">
-          <Loader className="stroke-gray-600 w-4 h-4" />
+          <div>
+            <span
+              className="cursor-pointer grid place-items-center 
+               bg-gray-300 p-1 w-10 h-10 rounded-[50%]"
+            >
+              {icon}
+            </span>
+          </div>
+          <div
+            onClick={() => markNotificationAsReadHandler()}
+            className="flex items-center gap-2 cursor-pointer relative"
+          >
+            <span
+              className={`${
+                !isRead ? "font-semibold" : "text-gray-700"
+              } text-start`}
+            >
+              {truncateString(message, 44)}
+            </span>
+            {isLoading && (
+              <div className="absolute top-1 -right-[17px]">
+                <Loader className="stroke-gray-600 w-4 h-4" />
+              </div>
+            )}
+          </div>
+          <div>
+            <span
+              className={`text-sm ${
+                !isRead ? "font-semibold" : "text-gray-700"
+              }`}
+            >{`${elapsedTime(createdAt)} ago`}</span>
+          </div>
+          <div
+            className="flex items-center justify-center p-1 sm:p-2 
+             rounded-md cursor-pointer border-[1px] 
+             border-gray-400"
+            onClick={() => showDetailedMessageHandler()}
+          >
+            {!showDetailedMessage && (
+              <span>
+                <IconContext.Provider
+                  value={{ size: "1.0rem", color: "#495057" }}
+                >
+                  <HiChevronDown />
+                </IconContext.Provider>
+              </span>
+            )}
+          </div>
         </div>
       )}
-    </div>
+
+      {showDetailedMessage && (
+        <div
+          className={`flex flex-col items-center justify-between 
+            gap-2 text-gray-800 relative py-2 px-4 md:px-8
+            cursor-pointer ${isLoading && "pr-6 md:pr-10"}
+            border-b-[1px] border-gray-300 transition-all py-4 pb-6`}
+        >
+          <div className="w-full flex items-center justify-between gap-4">
+            <div>
+              <span
+                className="cursor-pointer grid place-items-center 
+                bg-gray-300s p-1 w-10 h-10 rounded-[50%] border-[1px]
+                border-gray-400"
+              >
+                {icon}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`text-sm ${
+                  !isRead ? "font-semibold" : "text-gray-700"
+                }`}
+              >
+                {`${new AppDate(createdAt).monthDayYear()},`}
+              </span>
+
+              <span
+                className={`text-sm ${
+                  !isRead ? "font-semibold" : "text-gray-700"
+                }`}
+              >
+                {`${new AppDate(createdAt).time()}`}
+              </span>
+
+              <span
+                onClick={() => showDetailedMessageHandler()}
+                className="flex items-center justify-center p-1 sm:p-[6px] 
+                rounded-md cursor-pointer border-[1px] 
+                border-gray-400"
+              >
+                <IconContext.Provider
+                  value={{ size: "1rem", color: "#495057" }}
+                >
+                  <HiChevronUp />
+                </IconContext.Provider>
+              </span>
+            </div>
+          </div>
+          <div
+            className="flex items-center justify-center gap-4
+             border-[1px] border-gray-300 rounded-2xl p-2 sm:p-4
+             text-sm sm:text-base bg-gray-200 relative"
+            onClick={() => markNotificationAsReadHandler()}
+          >
+            <span
+              className={`${
+                !isRead ? "font-semibold" : "text-gray-700"
+              } text-start`}
+            >
+              {message}
+            </span>
+            {isLoading && (
+              <div className="absolute top-0 sm:top-2 right-0 sm:right-2">
+                <Loader className="stroke-gray-600 w-4 h-4" />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </Fragment>
   );
 };
