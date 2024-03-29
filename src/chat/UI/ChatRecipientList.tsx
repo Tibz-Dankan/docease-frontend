@@ -97,9 +97,15 @@ export const ChatRecipientList: React.FC = () => {
     const lastMessage = messages[messages.length - 1];
     return new AppDate(lastMessage?.createdAt).timeOrDate();
   };
-  const getLastMessage = (messages: IChatMessage[]) => {
+  const getLastMessage = (recipient: TChatRecipient) => {
+    const messages = recipient.messages;
     const lastMessage = messages[messages.length - 1];
-    return truncateString(lastMessage?.message, 24);
+
+    const msgSenderName: string =
+      lastMessage.senderId === currentUserId ? "You" : recipient.firstName;
+    const msg = `${msgSenderName}: ${lastMessage?.message}`;
+
+    return truncateString(msg, 44);
   };
 
   const startChatRecipientFromList = recipientList.find((recipient) => {
@@ -164,7 +170,7 @@ export const ChatRecipientList: React.FC = () => {
               return (
                 <div
                   className={`relative p-2 flex items-center justify-start
-                  border-b-[1px] border-gray-light-3 cursor-pointer ${
+                  border-b-[1px] border-gray-light-3 cursor-pointer gap-2 ${
                     recipient.userId == activeRecipient?.userId
                       ? "bg-gray-200"
                       : "bg-gray-50"
@@ -179,7 +185,7 @@ export const ChatRecipientList: React.FC = () => {
                   {recipient.imageUrl && (
                     <div
                       className="bg-gray-light-3 flex items-center justify-center 
-                      w-12 h-12 rounded-[50%]"
+                      w-14 h-14 rounded-[50%]"
                     >
                       <Image
                         src={recipient.imageUrl}
@@ -191,7 +197,7 @@ export const ChatRecipientList: React.FC = () => {
                   {!recipient.imageUrl && (
                     <span
                       className="cursor-pointer grid place-items-center  bg-gray-400
-                      w-12 h-12 rounded-[50%]"
+                      w-14 h-14 rounded-[50%]"
                     >
                       <IconContext.Provider
                         value={{ size: "1.4rem", color: "#495057" }}
@@ -202,7 +208,7 @@ export const ChatRecipientList: React.FC = () => {
                   )}
                   <div
                     className="flex-1 flex flex-col items-between justify-center
-                    gap-1 px-2 text-sm text-gray-800"
+                    gap-[2px] text-sm text-gray-800"
                   >
                     <div>
                       <p className="font-semibold">
@@ -218,8 +224,21 @@ export const ChatRecipientList: React.FC = () => {
                         {getLastMessageDate(recipient.messages)}
                       </span>
                     </div>
-                    <div className="text-gray-600">
-                      <p>{getLastMessage(recipient.messages)}</p>
+                    <div
+                      className="text-gray-600 w-full leading-tight bg-green-500s 
+                       flex items-end justify-between"
+                    >
+                      <div className="w-[85%] bg-pink-500s">
+                        <p>{getLastMessage(recipient)}</p>
+                      </div>
+                      {/* Un read messages count */}
+                      <div
+                        className="grid place-items-center text-[12px]
+                         font-semibold bg-primary rounded-[50%] h-5 min-w-5
+                        text-white w-auto p-1 invisible"
+                      >
+                        <span>9</span>
+                      </div>
                     </div>
                   </div>
                   {recipient.userId === startChatRecipient.userId && (
