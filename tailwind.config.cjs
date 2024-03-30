@@ -19,14 +19,16 @@ module.exports = withMT({
         primaryDark: "#1864ab",
         secondary: "#37b24d",
         "gray-opacity": "rgba(0, 0, 0, 0.15)",
-        info: " #5BC0DE",
+        info: "#fa5252",
         warning: "#F0AD4E",
-        error: "#D9534F",
+        error: "#f03e3e",
         success: "#55C57A",
       },
       animation: {
         slideDown: "slideDown 0.5s ease-out forwards",
         moveInnerLoaderToRight: "moveInnerLoaderToRight 0.8s infinite ease-out",
+        increaseWidthFromZeroToFull: "increaseWidthFromZeroToFull 5s linear",
+        radiate: "radiate 5s linear",
       },
       keyframes: {
         slideDown: {
@@ -36,6 +38,14 @@ module.exports = withMT({
         moveInnerLoaderToRight: {
           "0%": { left: "0%" },
           "100%": { left: "45%" },
+        },
+        increaseWidthFromZeroToFull: {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" },
+        },
+        radiate: {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
         },
       },
       spacing: {

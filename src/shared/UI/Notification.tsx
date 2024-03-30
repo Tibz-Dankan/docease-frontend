@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { Fragment, ReactNode } from "react";
 import { IconContext } from "react-icons";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdErrorOutline } from "react-icons/md";
 import { MdOutlineWarningAmber } from "react-icons/md";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 
 interface NotificationProps {
   type: string | null;
@@ -14,6 +14,7 @@ interface NotificationProps {
 
 interface NotificationIconProps {
   size?: string;
+  color?: string;
   children: ReactNode;
 }
 
@@ -21,8 +22,8 @@ const NotificationIcon: React.FC<NotificationIconProps> = (props) => {
   return (
     <IconContext.Provider
       value={{
-        size: props.size ? props.size : "1.2rem",
-        color: "#fff",
+        size: props.size ? props.size : "1.4rem",
+        color: props.color ? props.color : "#343a40",
       }}
     >
       {props.children}
@@ -33,61 +34,88 @@ const NotificationIcon: React.FC<NotificationIconProps> = (props) => {
 export const Notification: React.FC<NotificationProps> = (props) => {
   const { type, onClose, message } = props;
   let bgColor: string;
+  let bgColorLight: string;
+  let iconColor: string;
   let icon: ReactNode;
 
   if (type === "success") {
     bgColor = "bg-success";
+    bgColorLight = "bg-green-50";
+    iconColor = "#55C57A";
     icon = (
-      <NotificationIcon>
+      <NotificationIcon color={iconColor}>
         <IoMdCheckmarkCircleOutline />
       </NotificationIcon>
     );
   } else if (type === "error") {
     bgColor = "bg-error";
+    bgColorLight = "bg-red-50";
+    iconColor = "#fa5252";
     icon = (
-      <NotificationIcon>
+      <NotificationIcon color={iconColor}>
         <MdErrorOutline />
       </NotificationIcon>
     );
   } else if (type === "info") {
     bgColor = "bg-info";
+    bgColorLight = "bg-blue-50";
+    iconColor = "#5BC0DE";
     icon = (
-      <NotificationIcon>
+      <NotificationIcon color={iconColor}>
         <IoMdInformationCircleOutline />
       </NotificationIcon>
     );
   } else if (type === "warning") {
     bgColor = "bg-warning";
+    bgColorLight = "bg-yellow-50";
+    iconColor = "#F0AD4E";
     icon = (
-      <NotificationIcon>
+      <NotificationIcon color={iconColor}>
         <MdOutlineWarningAmber />
       </NotificationIcon>
     );
   } else {
     bgColor = "bg-info";
+    bgColorLight = "bg-blue-50";
+    iconColor = "#5BC0DE";
     icon = (
-      <NotificationIcon>
+      <NotificationIcon color={iconColor}>
         <IoMdInformationCircleOutline />
       </NotificationIcon>
     );
   }
 
   return (
-    <div
-      className={`fixed top-5  right-5  z-[10000] 
-      flex w-72 animate-opacityZeroToFull items-center
-      justify-start gap-2 rounded ${bgColor} 
-      rounded p-3 shadow-lg`}
-    >
-      <span className="absolute right-1 top-1 cursor-pointer" onClick={onClose}>
-        <NotificationIcon size="1.2rem">
-          <IoClose />
-        </NotificationIcon>
-      </span>
-      <div>{icon}</div>
-      <div>
-        <span className="text-sm  leading-[4px] text-[#fff]">{message}</span>
+    <Fragment>
+      <div
+        className={`fixed top-5 right-5  z-[10000] 
+         flex flex-col items-center justify-start w-72 sm:w-80 
+         animate-slideDown rounded-md shadow-xl bg-white border-[1px]
+        border-gray-300 border-b-[0px]`}
+      >
+        <div className="flex items-center justify-between gap-4 p-4 bg-green-500s">
+          <div>{icon}</div>
+          <div>
+            <span className="text-sm leading-[2px] text-gray-800">
+              {message}
+            </span>
+          </div>
+          <div>
+            <span className="cursor-pointer" onClick={onClose}>
+              <NotificationIcon size="1.4rem" color="#868e96">
+                <IoCloseOutline />
+              </NotificationIcon>
+            </span>
+          </div>
+        </div>
+        <div className={`${bgColorLight} w-full h-2 rounded-b-md relative`}>
+          <div
+            className={`absolute left-0 top-0 h-full rounded-b-md
+            w-full ${bgColor}  
+            animate-radiate`}
+          ></div>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
