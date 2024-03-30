@@ -16,6 +16,7 @@ import { onCloseModal } from "../../store/actions/modal";
 
 interface DoctorCancelAppointmentProps {
   appointment: TAppointment;
+  onCancel: (appointmentId: string) => void;
 }
 
 export const DoctorCancelAppointment: React.FC<DoctorCancelAppointmentProps> = (
@@ -49,7 +50,7 @@ export const DoctorCancelAppointment: React.FC<DoctorCancelAppointmentProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: cancelAppointment,
     onSuccess: (response: any) => {
-      console.log("response--->", response);
+      props.onCancel(appointment.appointmentId);
       dispatch(
         showCardNotification({
           type: "success",

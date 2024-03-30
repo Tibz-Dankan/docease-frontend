@@ -24,6 +24,7 @@ interface TileContentProps {
 
 interface DoctorRescheduleAppointmentProps {
   appointment: TAppointment;
+  onReschedule: (appointmentId: string) => void;
 }
 
 export const DoctorRescheduleAppointment: React.FC<
@@ -90,6 +91,7 @@ export const DoctorRescheduleAppointment: React.FC<
   const { isLoading, mutate } = useMutation({
     mutationFn: rescheduleAppointment,
     onSuccess: (response: any) => {
+      props.onReschedule(appointment.appointmentId);
       dispatch(
         showCardNotification({
           type: "success",

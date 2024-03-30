@@ -16,6 +16,7 @@ import { TAppointment } from "../../types/appointments";
 
 interface DoctorApproveAppointmentProps {
   appointment: TAppointment;
+  onApprove: (appointmentId: string) => void;
 }
 
 export const DoctorApproveAppointment: React.FC<
@@ -37,7 +38,7 @@ export const DoctorApproveAppointment: React.FC<
   const { isLoading, mutate } = useMutation({
     mutationFn: approveAppointment,
     onSuccess: (response: any) => {
-      console.log("response--->", response);
+      props.onApprove(appointment.appointmentId);
       dispatch(
         showCardNotification({
           type: "success",

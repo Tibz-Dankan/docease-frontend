@@ -19,6 +19,9 @@ import { DoctorCancelAppointment } from "./DoctorCancelAppointment";
 
 interface CardProps {
   appointment: TAppointment;
+  onApprove: (appointmentId: string) => void;
+  onReschedule: (appointmentId: string) => void;
+  onCancel: (appointmentId: string) => void;
 }
 
 export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
@@ -213,7 +216,10 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
             }
             className="w-[90vw] sm:w-[400px]"
           >
-            <DoctorApproveAppointment appointment={appointment} />
+            <DoctorApproveAppointment
+              appointment={appointment}
+              onApprove={props.onApprove}
+            />
           </Modal>
           <Modal
             openModalElement={
@@ -236,7 +242,10 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
             }
             className="w-[90vw] sm:w-[600px]"
           >
-            <DoctorRescheduleAppointment appointment={appointment} />
+            <DoctorRescheduleAppointment
+              appointment={appointment}
+              onReschedule={props.onReschedule}
+            />
           </Modal>
           <Modal
             openModalElement={
@@ -259,7 +268,10 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
             }
             className="w-[90vw] sm:w-[400px]"
           >
-            <DoctorCancelAppointment appointment={appointment} />
+            <DoctorCancelAppointment
+              appointment={appointment}
+              onCancel={props.onCancel}
+            />
           </Modal>
         </div>
       </div>
