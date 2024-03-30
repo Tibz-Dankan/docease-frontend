@@ -5,6 +5,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { MdOutlineWarningAmber } from "react-icons/md";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
+import { truncateString } from "../../utils/truncateString";
 
 interface NotificationProps {
   type: string | null;
@@ -97,7 +98,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
           <div>{icon}</div>
           <div>
             <span className="text-sm leading-[2px] text-gray-800">
-              {message}
+              {truncateString(message!, 48)}
             </span>
           </div>
           <div>

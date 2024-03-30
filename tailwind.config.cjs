@@ -19,7 +19,7 @@ module.exports = withMT({
         primaryDark: "#1864ab",
         secondary: "#37b24d",
         "gray-opacity": "rgba(0, 0, 0, 0.15)",
-        info: "#fa5252",
+        info: "#5BC0DE",
         warning: "#F0AD4E",
         error: "#f03e3e",
         success: "#55C57A",
