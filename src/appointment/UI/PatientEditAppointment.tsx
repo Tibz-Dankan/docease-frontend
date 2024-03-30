@@ -24,6 +24,7 @@ interface TileContentProps {
 
 interface PatientEditAppointmentProps {
   appointment: TAppointment;
+  onEdit: (appointmentId: string) => void;
 }
 
 export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
@@ -88,6 +89,7 @@ export const PatientEditAppointment: React.FC<PatientEditAppointmentProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: updateAppointment,
     onSuccess: (response: any) => {
+      props.onEdit(appointment.appointmentId);
       dispatch(
         showCardNotification({
           type: "success",

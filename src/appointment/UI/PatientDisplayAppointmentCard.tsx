@@ -15,6 +15,8 @@ import { PatientDeleteAppointment } from "./PatientDeleteAppointment";
 
 interface CardProps {
   appointment: TAppointment;
+  onDelete: (appointmentId: string) => void;
+  onEdit: (appointmentId: string) => void;
 }
 
 export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
@@ -209,7 +211,10 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
             }
             className="w-[90vw] sm:w-[600px]"
           >
-            <PatientEditAppointment appointment={appointment} />
+            <PatientEditAppointment
+              appointment={appointment}
+              onEdit={props.onEdit}
+            />
           </Modal>
           <Modal
             openModalElement={
@@ -233,7 +238,10 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
             className="w-[90vw] sm:w-[400px] h-[90vh]s
             md:h-autos"
           >
-            <PatientDeleteAppointment appointment={appointment} />
+            <PatientDeleteAppointment
+              appointment={appointment}
+              onDelete={props.onDelete}
+            />
           </Modal>
         </div>
       </div>

@@ -16,6 +16,7 @@ import { onCloseModal } from "../../store/actions/modal";
 
 interface PatientDeleteAppointmentProps {
   appointment: TAppointment;
+  onDelete: (appointmentId: string) => void;
 }
 
 export const PatientDeleteAppointment: React.FC<
@@ -49,6 +50,7 @@ export const PatientDeleteAppointment: React.FC<
     mutationFn: deleteAppointment,
     onSuccess: (response: any) => {
       console.log("response--->", response);
+      props.onDelete(appointment.appointmentId);
       dispatch(
         showCardNotification({
           type: "success",

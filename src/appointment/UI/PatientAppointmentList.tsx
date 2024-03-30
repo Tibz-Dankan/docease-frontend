@@ -68,6 +68,16 @@ export const PatientAppointmentList: React.FC = () => {
     }
   };
 
+  const onDeleteHandler = (appointmentId: string) => {
+    if (!appointmentId) return;
+    getAppointmentsByPatientHandler();
+  };
+
+  const onEditHandler = (appointmentId: string) => {
+    if (!appointmentId) return;
+    getAppointmentsByPatientHandler();
+  };
+
   return (
     <Fragment>
       <div className="w-full relative">
@@ -89,7 +99,11 @@ export const PatientAppointmentList: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-16">
           {appointments.map((appointment, index) => (
             <div key={index}>
-              <PatientDisplayAppointmentCard appointment={appointment} />
+              <PatientDisplayAppointmentCard
+                appointment={appointment}
+                onEdit={onEditHandler}
+                onDelete={onDeleteHandler}
+              />
             </div>
           ))}
         </div>
