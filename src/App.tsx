@@ -9,7 +9,6 @@ import { TNotificationState } from "./types/notification";
 import { AuthRoutes } from "./routes/AuthRoutes";
 import { PatientRoutes } from "./routes/PatientRoutes";
 import { DoctorRoutes } from "./routes/DoctorRoutes";
-// import { useGetDeviceToken } from "./hooks/useGetDeviceToken";
 import { useLiveNotification } from "./hooks/useLiveNotification";
 import { useGetOnlineStatus } from "./hooks/useGetOnlineStatus";
 import { useUpdateOnlineStatus } from "./hooks/useUpdateOnlineStatus";
@@ -47,7 +46,6 @@ export const App: React.FC = () => {
     }, 4000);
   }, [dispatch]);
 
-  // useGetDeviceToken();
   useLiveNotification();
   useLiveChat();
   useGetOnlineStatus();
