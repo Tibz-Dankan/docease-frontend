@@ -14,6 +14,7 @@ import { LuPlus } from "react-icons/lu";
 
 interface PostScheduleTimeProps {
   scheduleId: string;
+  onPost: (id: string) => void;
 }
 
 export const PostScheduleTime: React.FC<PostScheduleTimeProps> = (props) => {
@@ -28,7 +29,7 @@ export const PostScheduleTime: React.FC<PostScheduleTimeProps> = (props) => {
   const { isLoading, mutate } = useMutation({
     mutationFn: postScheduleTime,
     onSuccess: (response: any) => {
-      console.log("response", response);
+      props.onPost(response?.data?.scheduleTime?.scheduleTimeId);
       dispatch(updateReload({ isReloading: true, entity: "schedules" }));
       setTimeout(() => {
         dispatch(clearReload());

@@ -9,10 +9,10 @@ import { postSchedule } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import { TAuthState } from "../../types/auth";
-import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface PostScheduleProps {
   weekday: string;
+  onPost: (id: string) => void;
 }
 
 export const PostSchedule: React.FC<PostScheduleProps> = (props) => {
@@ -26,12 +26,7 @@ export const PostSchedule: React.FC<PostScheduleProps> = (props) => {
   const { isLoading, mutate } = useMutation({
     mutationFn: postSchedule,
     onSuccess: (response: any) => {
-      console.log("response", response);
-      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
-      setTimeout(() => {
-        dispatch(clearReload());
-      }, 1000);
-
+      props.onPost(response?.data?.schedule?.scheduleId);
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

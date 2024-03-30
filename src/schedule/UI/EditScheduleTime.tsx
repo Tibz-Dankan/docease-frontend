@@ -8,12 +8,12 @@ import { useMutation } from "@tanstack/react-query";
 import { updateScheduleTime } from "../API";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
-import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface EditScheduleTimeTimeProps {
   scheduleTimeId: string;
   start: string;
   end: string;
+  onEdit: (id: string) => void;
 }
 
 export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
@@ -38,12 +38,7 @@ export const EditScheduleTime: React.FC<EditScheduleTimeTimeProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: updateScheduleTime,
     onSuccess: (response: any) => {
-      console.log("response", response);
-      dispatch(updateReload({ isReloading: true, entity: "schedules" }));
-      setTimeout(() => {
-        dispatch(clearReload());
-      }, 1000);
-
+      props.onEdit(props.scheduleTimeId);
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

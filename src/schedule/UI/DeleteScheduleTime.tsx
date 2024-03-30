@@ -14,6 +14,7 @@ import { clearReload, updateReload } from "../../store/actions/reload";
 
 interface DeleteScheduleTimeProps {
   scheduleTimeId: string;
+  onDelete: (id: string) => void;
 }
 
 export const DeleteScheduleTime: React.FC<DeleteScheduleTimeProps> = (
@@ -28,7 +29,7 @@ export const DeleteScheduleTime: React.FC<DeleteScheduleTimeProps> = (
   const { isLoading, mutate } = useMutation({
     mutationFn: deleteScheduleTime,
     onSuccess: (response: any) => {
-      console.log("response", response);
+      props.onDelete(props.scheduleTimeId);
       dispatch(updateReload({ isReloading: true, entity: "schedules" }));
       setTimeout(() => {
         dispatch(clearReload());
