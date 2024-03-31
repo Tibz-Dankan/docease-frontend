@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { InputField } from "../../shared/UI/InputField";
 import { ResendEnableTwo } from "./ResendEnableTwo";
+import { authenticate } from "../../store/actions/auth";
 
 type TConfirmTwoFAToken = {
   token: string;
@@ -27,7 +28,8 @@ export const ConfirmTwoFA: React.FC = () => {
   const { isLoading, mutate } = useMutation({
     mutationFn: confirmTwoFA,
     onSuccess: (response: any) => {
-      console.log("response--->", response);
+      auth.user!.twoFA = response?.data.twoFA;
+      dispatch(authenticate(auth));
       dispatch(
         showCardNotification({
           type: "success",

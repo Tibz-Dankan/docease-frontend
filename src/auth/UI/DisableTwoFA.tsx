@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "../../shared/UI/Button";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
+import { authenticate } from "../../store/actions/auth";
 
 interface DisableTwoFAProps {
   twofaId: string;
@@ -20,10 +21,14 @@ export const DisableTwoFA: React.FC<DisableTwoFAProps> = (props) => {
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken
   ) as string;
+  const auth = useSelector((state: TAuthState) => state.auth);
 
   const { isLoading, mutate } = useMutation({
     mutationFn: disableTwoFA,
     onSuccess: (response: any) => {
+      auth.user!.twoFA = response?.data.twoFA;
+      dispatch(authenticate(auth));
+
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );

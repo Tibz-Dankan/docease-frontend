@@ -13,11 +13,11 @@ export type TUser = {
 };
 
 export type TAuth = {
-  status: string;
-  accessToken: string;
-  expiresIn: number;
-  expirationTime: string;
-  user: TUser;
+  status?: string;
+  accessToken: string | null;
+  expiresIn?: number;
+  expirationTime?: string;
+  user: TUser | null;
 };
 
 export type TAuthExtended = {

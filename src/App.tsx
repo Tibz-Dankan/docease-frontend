@@ -68,7 +68,7 @@ export const App: React.FC = () => {
         return <Navigate to="/" />;
       }
 
-      const expiryTime = new Date(expirationTime);
+      const expiryTime = new Date(expirationTime!);
       const currentTime = new Date(Date.now());
       const isExpired = expiryTime < currentTime;
 
