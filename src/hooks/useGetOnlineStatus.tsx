@@ -8,6 +8,7 @@ import { TAuthState } from "../types/auth";
 import { url } from "../store";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { TStatus } from "../types/status";
+import { updateOnlineStatus } from "../store/actions/onlineStatus";
 
 export const useGetOnlineStatus = async () => {
   const accessToken = useSelector(
@@ -29,11 +30,13 @@ export const useGetOnlineStatus = async () => {
       console.log("event online data", event);
       const parsedData = JSON.parse(event.data) as TStatus;
       const message = parsedData.message;
-      const parsedUserId = parsedData.userId;
       if (message === "heartbeat" || message === "warmup") return;
-      if (parsedUserId !== userId) return;
+      const parsedUserId = parsedData.userId;
+      const parsedUpdatedAt = parsedData.updatedAt!;
 
-      //TODO: to define format of updating user status on the UI
+      dispatch(
+        updateOnlineStatus({ userId: parsedUserId, updatedAt: parsedUpdatedAt })
+      );
     };
 
     const onerror = async (error: any) => {

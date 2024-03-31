@@ -8,6 +8,7 @@ import { liveNotificationSlice } from "./reducers/liveNotification";
 import { videoConferenceSlice } from "./reducers/videoConference";
 import { chatSlice } from "./reducers/chat";
 import { teamSlice } from "./reducers/team";
+import { onlineStatusSlice } from "./reducers/onlineStatus";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     modal: modalSlice.reducer,
     reload: reloadSlice.reducer,
     team: teamSlice.reducer,
+    onlineStatusSlice: onlineStatusSlice.reducer,
   },
 });
 
@@ -43,3 +45,4 @@ export const sidebarActions = sidebarSlice.actions;
 export const modalActions = modalSlice.actions;
 export const reloadActions = reloadSlice.actions;
 export const teamActions = teamSlice.actions;
+export const onlineStatusActions = onlineStatusSlice.actions;
