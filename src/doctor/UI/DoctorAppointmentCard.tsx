@@ -5,6 +5,7 @@ import { PostAppointment } from "../../appointment/UI/PostAppointment";
 import { StartChat } from "../../chat/UI/StartChat";
 import { TChatRecipient } from "../../types/chat";
 import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
+import { Image } from "../../shared/UI/Image";
 // import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
 
 interface CardProps {
@@ -57,17 +58,17 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
               #{props?.role}
             </span>
           </div>
-          <div className="">
+          <div className="w-16 h-16">
             {props?.imageUrl && (
-              <img
+              <Image
                 src={props?.imageUrl}
                 alt={props?.firstName}
-                className="w-24 h-24 rounded-md"
+                className="w-full h-full rounded-[50%]"
               />
             )}
             {!props?.imageUrl && (
               <span
-                className="w-16 h-16 bg-gray-300 flex items-center
+                className="w-full h-full bg-gray-300 flex items-center
                 justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
