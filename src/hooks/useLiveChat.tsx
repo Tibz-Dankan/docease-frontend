@@ -35,13 +35,6 @@ export const useLiveChat = async () => {
   };
 
   useEffect(() => {
-    // if (effectRan.current === false) {
-
-    //   return () => {
-    //     effectRan.current = true;
-    //   };
-    // }
-
     if (effectRan.current == true) return;
 
     if (!accessToken || !userId) return;
@@ -52,7 +45,6 @@ export const useLiveChat = async () => {
     });
 
     const onmessage = async (event: any) => {
-      console.log("chat message event data", event);
       const parsedData = JSON.parse(event.data);
       const message = parsedData.message;
       const parsedUserId: string = parsedData.recipientId;
@@ -60,9 +52,6 @@ export const useLiveChat = async () => {
       if (parsedUserId !== userId) return;
 
       const newMessage: IChatMessage = parsedData.message;
-      console.log("newMessage from server: ", newMessage);
-
-      console.log("Updating message lists in the store.......");
 
       // prevent unnecessary updates of the chat messages
       const recipient = chatRecipientList.find(
@@ -105,8 +94,6 @@ export const useLiveChat = async () => {
     return () => {
       effectRan.current = true;
     };
-
-    // }, [dispatch, accessToken]);
   }, [accessToken]);
 
   return {};
