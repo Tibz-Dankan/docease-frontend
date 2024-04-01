@@ -11,6 +11,7 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
   const formik = props.formik;
   const label = props.label;
   const name = props.name;
+  // TODO: To add new another component dedicated to passwords
   return (
     <Fragment>
       <div
