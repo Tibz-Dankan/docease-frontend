@@ -169,7 +169,7 @@ export const PatientDashboard: React.FC = () => {
                     <div className="absolute -right-[6px] bottom-1 inline-block">
                       <UserOnlineStatus
                         userId={doctor.Doctor.userId}
-                        updatedAt={doctor.Doctor.onlineStatus.updatedAt}
+                        updatedAt={doctor.Doctor?.onlineStatus?.updatedAt}
                       />
                     </div>
                   </div>
