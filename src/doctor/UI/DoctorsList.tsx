@@ -63,7 +63,7 @@ export const DoctorsList: React.FC = () => {
               imageUrl={doctor.imageUrl}
               createdAt={doctor.createdAt}
               updatedAt={doctor.updatedAt}
-              lastSeenAt={doctor.onlineStatus.updatedAt}
+              lastSeenAt={doctor.onlineStatus?.updatedAt}
             />
           </div>
         ))}
