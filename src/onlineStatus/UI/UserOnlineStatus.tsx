@@ -25,9 +25,9 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
     (state: TOnlineStatusState) => state.onlineStatus
   );
 
-  // const updatedAtFromStore = onlineStatus?.users[`${userId}`];
-  const lastUpdatedAt = onlineStatus?.users.get(userId)!
-    ? onlineStatus?.users.get(userId)!
+  // const lastUpdatedAt = onlineStatus?.users.get(userId)!
+  const lastUpdatedAt = onlineStatus?.users[`${userId}`]
+    ? onlineStatus?.users[`${userId}`]
     : updatedAt;
 
   const isGreaterThanTwoMinutes =
@@ -60,8 +60,8 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
 
   useEffect(() => {
     const updateOnlineStatusHandler = () => {
-      // const updatedAtFromStore = onlineStatus?.users[`${userId}`];
-      const updatedAtFromStore = onlineStatus?.users.get(userId)!;
+      const updatedAtFromStore = onlineStatus?.users[`${userId}`];
+      // const updatedAtFromStore = onlineStatus?.users.get(userId)!;
 
       if (new Date(updatedAt) > new Date(updatedAtFromStore)) {
         dispatch(updateOnlineStatus({ userId: userId, updatedAt: updatedAt }));

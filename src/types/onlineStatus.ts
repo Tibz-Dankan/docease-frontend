@@ -3,13 +3,13 @@ export type TOnlineUserPayload = {
   updatedAt: string;
 };
 
-export type TOnlineStatus = {
-  users: Map<string, string>;
-};
-
 // export type TOnlineStatus = {
-//   users: any;
+//   users: Map<string, string>;
 // };
+
+export type TOnlineStatus = {
+  users: any;
+};
 
 export type TOnlineStatusState = {
   onlineStatus: TOnlineStatus;

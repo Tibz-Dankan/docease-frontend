@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TOnlineStatus, TOnlineUserPayload } from "../../types/onlineStatus";
 
 // Map of key <userId> and value <updatedAt> of iso string
-const users = new Map<string, string>();
+// const users = new Map<string, string>();
 const initialState: TOnlineStatus = {
-  users: users,
-  // users: {},
+  // users: users,
+  users: {},
 };
 
 export const onlineStatusSlice = createSlice({
@@ -14,8 +14,8 @@ export const onlineStatusSlice = createSlice({
   reducers: {
     updateStatus(state, action: PayloadAction<TOnlineUserPayload>) {
       console.log("Updating online status....In the reducer");
-      state.users.set(action.payload.userId, action.payload.updatedAt);
-      // state.users[`${action.payload.userId}`] = action.payload.updatedAt;
+      // state.users.set(action.payload.userId, action.payload.updatedAt);
+      state.users[`${action.payload.userId}`] = action.payload.updatedAt;
       console.log(" state.users==>", state.users);
     },
     clearStatus(state, action) {
@@ -23,8 +23,8 @@ export const onlineStatusSlice = createSlice({
       // delete state.users[`${action.payload.userId}`];
     },
     clearAll(state) {
-      state.users.clear();                                      
-      // state.users = {};
+      // state.users.clear();
+      state.users = {};
     },
   },
 });
