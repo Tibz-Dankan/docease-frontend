@@ -16,6 +16,8 @@ import { Modal } from "../../shared/UI/Modal";
 import { DoctorRescheduleAppointment } from "./DoctorRescheduleAppointment";
 import { DoctorApproveAppointment } from "./DoctorApproveAppointment";
 import { DoctorCancelAppointment } from "./DoctorCancelAppointment";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
+import { Image } from "../../shared/UI/Image";
 
 interface CardProps {
   appointment: TAppointment;
@@ -150,17 +152,17 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
               #{patient?.role}
             </span>
           </div>
-          <div className="">
+          <div className="w-16 h-16">
             {patient?.imageUrl && (
-              <img
+              <Image
                 src={patient?.imageUrl}
                 alt={patient?.firstName}
-                className="w-24 h-24 rounded-md"
+                className="w-full h-full rounded-[50%]"
               />
             )}
             {!patient?.imageUrl && (
               <span
-                className="w-16 h-16 bg-gray-300 flex items-center
+                className="w-full h-full bg-gray-300 flex items-center
                 justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
@@ -176,9 +178,11 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-xl">{`${patient.firstName} ${patient.lastName}`}</span>
-            <span className="text-sm">
-              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
-            </span>
+            <UserOnlineStatus
+              userId={appointment.patientId}
+              updatedAt={lastSeenAt}
+              showDetailedStatus={true}
+            />
           </div>
         </div>
 
