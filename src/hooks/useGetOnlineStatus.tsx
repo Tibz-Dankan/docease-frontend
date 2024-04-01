@@ -30,8 +30,10 @@ export const useGetOnlineStatus = async () => {
       const parsedData = JSON.parse(event.data) as TStatus;
       const message = parsedData.message;
       if (message === "heartbeat" || message === "warmup") return;
-      const parsedUserId = parsedData.userId;
-      const parsedUpdatedAt = parsedData.updatedAt!;
+
+      const parsedUserId = parsedData?.userId;
+      const parsedUpdatedAt = parsedData?.updatedAt!;
+      if (!parsedUserId || !parsedUpdatedAt) return;
       dispatch(
         updateOnlineStatus({ userId: parsedUserId, updatedAt: parsedUpdatedAt })
       );
