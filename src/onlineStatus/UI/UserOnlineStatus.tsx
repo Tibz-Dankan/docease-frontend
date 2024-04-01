@@ -70,8 +70,6 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
     updateOnlineStatusHandler();
   }, []);
 
-  console.log("onlineStatus==>", onlineStatus);
-
   return (
     <Fragment>
       {!showDetailedStatus && (
