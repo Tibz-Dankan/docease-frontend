@@ -2,11 +2,12 @@ import React, { Fragment } from "react";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
 import { Button } from "../../shared/UI/Button";
-import { elapsedTime } from "../../utils/elapsedTime";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TAuthState } from "../../types/auth";
 // import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
+import { Image } from "../../shared/UI/Image";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 
 interface CardProps {
   patientId: string;
@@ -46,17 +47,17 @@ export const PatientProfileCard: React.FC<CardProps> = (props) => {
               #{props?.role}
             </span>
           </div>
-          <div className="">
+          <div className="w-16 h-16">
             {props?.imageUrl && (
-              <img
+              <Image
                 src={props?.imageUrl}
                 alt={props?.firstName}
-                className="w-24 h-24 rounded-md"
+                className="w-full h-full rounded-[50%]"
               />
             )}
             {!props?.imageUrl && (
               <span
-                className="w-16 h-16 bg-gray-300 flex items-center
+                className="w-full h-full bg-gray-300 flex items-center
                 justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
@@ -72,9 +73,11 @@ export const PatientProfileCard: React.FC<CardProps> = (props) => {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-xl">{`${patientName}`}</span>
-            <span className="text-sm">
-              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
-            </span>
+            <UserOnlineStatus
+              userId={patientId}
+              updatedAt={lastSeenAt}
+              showDetailedStatus={true}
+            />
           </div>
         </div>
 

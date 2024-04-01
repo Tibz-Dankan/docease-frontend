@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { PatientProfileCard } from "../../patient/UI/PatientProfileCard";
 import { PatientProfileCardLoader } from "../../patient/UI/PatientProfileCardLoader";
 
-type TAccessTokens = {
-  createdAt: string;
+type TOnlineStatus = {
+  updatedAt: string;
 };
 
 type TPatient = {
@@ -24,7 +24,7 @@ type TPatient = {
   imageUrl: string;
   createdAt: string;
   updatedAt: string;
-  accessTokens: TAccessTokens[];
+  onlineStatus: TOnlineStatus;
 };
 
 type TDoctorsPatient = {
@@ -92,7 +92,7 @@ export const MyPatients: React.FC = () => {
                 imageUrl={patient.Patient.imageUrl}
                 createdAt={patient.Patient.createdAt}
                 updatedAt={patient.Patient.updatedAt}
-                lastSeenAt={patient.Patient.accessTokens[0].createdAt}
+                lastSeenAt={patient.Patient.onlineStatus.updatedAt}
               />
             </div>
           ))}

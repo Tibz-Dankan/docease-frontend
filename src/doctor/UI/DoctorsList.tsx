@@ -10,8 +10,8 @@ import {
 import { getAllDoctors } from "../API";
 import { DoctorProfileCardLoader } from "../pages/DoctorProfileCardLoader";
 
-interface AccessToken {
-  createdAt: string;
+interface OnlineStatus {
+  updatedAt: string;
 }
 interface Doctor {
   userId: string;
@@ -22,7 +22,7 @@ interface Doctor {
   imageUrl: string | null;
   createdAt: string;
   updatedAt: string;
-  accessTokens: AccessToken[];
+  onlineStatus: OnlineStatus;
 }
 
 export const DoctorsList: React.FC = () => {
@@ -63,7 +63,7 @@ export const DoctorsList: React.FC = () => {
               imageUrl={doctor.imageUrl}
               createdAt={doctor.createdAt}
               updatedAt={doctor.updatedAt}
-              lastSeenAt={doctor.accessTokens[0]?.createdAt}
+              lastSeenAt={doctor.onlineStatus.updatedAt}
             />
           </div>
         ))}

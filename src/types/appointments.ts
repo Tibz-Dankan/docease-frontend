@@ -10,10 +10,10 @@ export type TPostAppointment = {
 export type TPostAppointmentAuthorized = TPostAppointment & {
   token: string;
 };
-
-type TAccessTokens = {
-  createdAt: string;
+type TOnlineStatus = {
+  updatedAt: string;
 };
+
 export type TUser = {
   userId: string;
   firstName: string;
@@ -21,7 +21,7 @@ export type TUser = {
   gender: string;
   role: string;
   imageUrl: string;
-  accessTokens: TAccessTokens[];
+  onlineStatus: TOnlineStatus;
 };
 
 export type TAppointmentStatus = {
