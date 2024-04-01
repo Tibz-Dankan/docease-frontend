@@ -7,6 +7,8 @@ export type TUser = {
   role: "patient" | "doctor" | "admin";
   gender?: "string";
   imageUrl: string | null;
+  createdAt: string;
+  // updatedAt: string;
   twoFA?: TTwoFA;
   onlineStatus?: TOnlineStatus;
 };

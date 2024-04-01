@@ -79,7 +79,7 @@ export const ShowChatRecipientList: React.FC = () => {
             <div className="absolute -right-[6px] bottom-1 inline-block">
               <UserOnlineStatus
                 userId={user.userId}
-                updatedAt={user.updatedAt}
+                updatedAt={user.onlineStatus?.updatedAt!}
               />
             </div>
           </div>
