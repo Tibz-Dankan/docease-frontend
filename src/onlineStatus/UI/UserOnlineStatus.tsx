@@ -11,9 +11,7 @@ interface UserOnlineStatusProps {
 }
 
 export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
-  // use different colors to different meaning of the colors
-  // calculate elapsed time
-  // use different colors to different meaning of the colors
+  // TODO: calculate elapsed time
   const userId = props.userId;
   const updatedAt = props.updatedAt;
 
@@ -22,7 +20,8 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
     (state: TOnlineStatusState) => state.onlineStatus
   );
 
-  const updatedAtFromStore = onlineStatus.users[`${userId}`];
+  // const updatedAtFromStore = onlineStatus?.users[`${userId}`];
+  const updatedAtFromStore = onlineStatus?.users.get(userId)!;
 
   const isGreaterThanTwoMinutes =
     new Date(Date.now()).getTime() - new Date(updatedAtFromStore).getTime() >
@@ -54,14 +53,17 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
 
   useEffect(() => {
     const updateOnlineStatusHandler = () => {
-      const updatedAtFromStore = onlineStatus.users[`${userId}`];
+      // const updatedAtFromStore = onlineStatus?.users[`${userId}`];
+      const updatedAtFromStore = onlineStatus?.users.get(userId)!;
+
       if (new Date(updatedAt) > new Date(updatedAtFromStore)) {
         dispatch(updateOnlineStatus({ userId: userId, updatedAt: updatedAt }));
       }
     };
     updateOnlineStatusHandler();
-    //   }, [onlineStatus, dispatch]);
   }, []);
+
+  console.log("onlineStatus==>", onlineStatus);
 
   return (
     <Fragment>
@@ -69,12 +71,7 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
         className="w-[14px] h-[14px] rounded-[50%] bg-gray-50  
         flex items-center justify-center"
       >
-        <IconContext.Provider
-          // value={{ size: "1.2rem", color: "#495057" }} //gray
-          // value={{ size: "1.2rem", color: "#f59f00" }} //yellow
-          // value={{ size: "1.2rem", color: "#37b24d" }} //green
-          value={{ size: "1.2rem", color: getIconColor() }} //green
-        >
+        <IconContext.Provider value={{ size: "1.2rem", color: getIconColor() }}>
           <GoDotFill />
         </IconContext.Provider>
       </span>

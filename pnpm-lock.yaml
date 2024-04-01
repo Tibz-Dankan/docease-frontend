@@ -32,6 +32,9 @@ dependencies:
   formik:
     specifier: ^2.4.5
     version: 2.4.5(react@18.2.0)
+  immer:
+    specifier: ^10.0.4
+    version: 10.0.4
   peerjs:
     specifier: ^1.5.2
     version: 1.5.2
@@ -1410,7 +1413,7 @@ packages:
       react-redux:
         optional: true
     dependencies:
-      immer: 10.0.3
+      immer: 10.0.4
       react: 18.2.0
       react-redux: 9.0.4(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1)
       redux: 5.0.1
@@ -2657,8 +2660,8 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /immer@10.0.3:
-    resolution: {integrity: sha512-pwupu3eWfouuaowscykeckFmVTpqbzW+rXFCX8rQLkZzM9ftBmU/++Ra+o+L27mz03zJTlyV4UUr+fdKNffo4A==}
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
     dev: false
 
   /import-fresh@3.3.0:

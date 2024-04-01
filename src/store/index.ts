@@ -21,7 +21,7 @@ export const store = configureStore({
     modal: modalSlice.reducer,
     reload: reloadSlice.reducer,
     team: teamSlice.reducer,
-    onlineStatusSlice: onlineStatusSlice.reducer,
+    onlineStatus: onlineStatusSlice.reducer,
   },
 });
 

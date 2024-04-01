@@ -13,6 +13,7 @@ import {
   TNotificationState,
   TServerNotification,
 } from "../../types/notification";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 
 export const DashboardHeader = () => {
   const dispatch: any = useDispatch();
@@ -99,25 +100,33 @@ export const DashboardHeader = () => {
           </Link>
           <NavDropdown>
             <div className="flex items-center gap-2 cursor-pointer">
-              {user.imageUrl && (
-                <Image
-                  src={user.imageUrl!}
-                  alt={username}
-                  className="w-10 h-10 rounded-[50%]"
-                />
-              )}
-              {!user.imageUrl && (
-                <span
-                  className="cursor-pointer grid place-items-center  bg-gray-300 p-1
-                  w-10 h-10 rounded-[50%] "
-                >
-                  <IconContext.Provider
-                    value={{ size: "1.2rem", color: "#495057" }}
+              <div className="w-10 h-10 relative">
+                {user.imageUrl && (
+                  <Image
+                    src={user.imageUrl!}
+                    alt={username}
+                    className="w-full h-full rounded-[50%]"
+                  />
+                )}
+                {!user.imageUrl && (
+                  <span
+                    className="cursor-pointer grid place-items-center  bg-gray-300 p-1
+                    w-full h-full rounded-[50%]"
                   >
-                    <IoPerson />
-                  </IconContext.Provider>
-                </span>
-              )}
+                    <IconContext.Provider
+                      value={{ size: "1.2rem", color: "#495057" }}
+                    >
+                      <IoPerson />
+                    </IconContext.Provider>
+                  </span>
+                )}
+                <div className="absolute -right-[6px] bottom-1 inline-block">
+                  <UserOnlineStatus
+                    userId={user.userId}
+                    updatedAt={user.updatedAt}
+                  />
+                </div>
+              </div>
               <span className="text-gray-800 hidden sm:block">{username}</span>
             </div>
           </NavDropdown>

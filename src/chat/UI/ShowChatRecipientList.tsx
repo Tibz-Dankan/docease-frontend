@@ -10,6 +10,7 @@ import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
 import { HiOutlineChevronDoubleDown } from "react-icons/hi2";
 import { HiOutlineChevronDoubleUp } from "react-icons/hi2";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 
 export const ShowChatRecipientList: React.FC = () => {
   const showChatRecipientListValue = useSelector(
@@ -52,30 +53,36 @@ export const ShowChatRecipientList: React.FC = () => {
         onClick={() => showChatOperationHandler()}
       >
         <div className="flex items-center justify-center gap-3">
-          {user.imageUrl && (
-            <div
-              className="bg-gray-light-3 flex items-center justify-center 
-             w-10 h-10 rounded-[50%]"
-            >
+          <div
+            className="bg-gray-light-3 flex items-center justify-center 
+            w-10 h-10 rounded-[50%] relative"
+          >
+            {user.imageUrl && (
               <img
                 src={user.imageUrl}
                 alt={user.firstName}
-                className="w-full  h-full rounded-[50%]"
+                className="w-full h-full rounded-[50%]"
+              />
+            )}
+            {!user.imageUrl && (
+              <span
+                className="cursor-pointer grid place-items-center bg-gray-300
+                 w-full h-full rounded-[50%]"
+              >
+                <IconContext.Provider
+                  value={{ size: "1.2rem", color: "#495057" }}
+                >
+                  <IoPerson />
+                </IconContext.Provider>
+              </span>
+            )}
+            <div className="absolute -right-[6px] bottom-1 inline-block">
+              <UserOnlineStatus
+                userId={user.userId}
+                updatedAt={user.updatedAt}
               />
             </div>
-          )}
-          {!user.imageUrl && (
-            <span
-              className="cursor-pointer grid place-items-center bg-gray-300
-             w-10 h-10 rounded-[50%]"
-            >
-              <IconContext.Provider
-                value={{ size: "1.2rem", color: "#495057" }}
-              >
-                <IoPerson />
-              </IconContext.Provider>
-            </span>
-          )}
+          </div>
           <span className="font-semibold text-gray-800">Messaging</span>
         </div>
         <div>
