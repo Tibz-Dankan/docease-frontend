@@ -31,9 +31,11 @@ export const InputTextArea: React.FC<InputTextAreaProps> = (props) => {
           onChange={formik.handleChange}
           value={formik.values[`${name}`]}
           className={twMerge(
-            `p-2 outline-none rounded border-[2px]
+            `p-2 outline-none rounded border-[1px]
             border-gray-500 focus:border-primary
-            transition-all text-sm w-full`,
+            transition-all text-sm w-full focus:outline-none 
+            focus:shadow-[0px_0px_0px_4px_rgba(28,126,214,0.3)]
+            text-gray-800`,
             props.className
           )}
         />

@@ -94,11 +94,11 @@ export const MedicalForm: React.FC = () => {
         }
         className=""
       >
-        <div className="flex items-center justify-center p-8">
+        <div className="flex items-center justify-center p-7">
           <form
             onSubmit={formik.handleSubmit}
             className="flex flex-col gap-0 items-center w-[90%] sm:w-[480px]
-             text-gray-800 h-[70vh] overflow-x-hidden mb-4"
+             text-gray-800 h-[70vh] overflow-x-hidden mb-4 p-1"
           >
             <p className="w-full font-semibold text-primary text-lg">
               Medical Form
