@@ -12,6 +12,7 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
   const label = props.label;
   const name = props.name;
   // TODO: To add new another component dedicated to passwords
+  // TODO: To add more improved styles to displayed on focus
   return (
     <Fragment>
       <div
