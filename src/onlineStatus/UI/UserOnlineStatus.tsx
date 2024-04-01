@@ -65,7 +65,11 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
 
       if (new Date(updatedAt) > new Date(updatedAtFromStore)) {
         dispatch(updateOnlineStatus({ userId: userId, updatedAt: updatedAt }));
+        return;
       }
+
+      if (!updatedAt) return;
+      dispatch(updateOnlineStatus({ userId: userId, updatedAt: updatedAt }));
     };
     updateOnlineStatusHandler();
   }, []);
