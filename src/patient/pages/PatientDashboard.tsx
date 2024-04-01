@@ -18,6 +18,7 @@ import { AppDate } from "../../utils/appDate";
 import { TAppointment } from "../../types/appointments";
 import { AppointmentStatusKey } from "../../appointment/UI/AppointmentStatusKey";
 import { DashboardLoader } from "../UI/DashboardLoader";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 
 interface TileContentProps {
   date: any;
@@ -145,27 +146,33 @@ export const PatientDashboard: React.FC = () => {
                   }`}
                   key={index}
                 >
-                  {doctor.Doctor.imageUrl && (
-                    <span>
+                  <div className="w-10 h-10 relative">
+                    {doctor.Doctor.imageUrl && (
                       <Image
                         src={doctor.Doctor.imageUrl!}
                         alt={`${doctor.Doctor.firstName}`}
-                        className="w-10 h-10 rounded-[50%]"
+                        className="w-full h-full rounded-[50%]"
                       />
-                    </span>
-                  )}
-                  {!doctor.Doctor.imageUrl && (
-                    <span
-                      className="cursor-pointer grid place-items-center
-                       bg-gray-300 p-1 w-10 h-10 rounded-[50%]"
-                    >
-                      <IconContext.Provider
-                        value={{ size: "1.1rem", color: "#495057" }}
+                    )}
+                    {!doctor.Doctor.imageUrl && (
+                      <span
+                        className="cursor-pointer grid place-items-center
+                        bg-gray-300 p-1 w-full h-full rounded-[50%]"
                       >
-                        <IoPerson />
-                      </IconContext.Provider>
-                    </span>
-                  )}
+                        <IconContext.Provider
+                          value={{ size: "1.1rem", color: "#495057" }}
+                        >
+                          <IoPerson />
+                        </IconContext.Provider>
+                      </span>
+                    )}
+                    <div className="absolute -right-[6px] bottom-1 inline-block">
+                      <UserOnlineStatus
+                        userId={doctor.Doctor.userId}
+                        updatedAt={doctor.Doctor.onlineStatus.updatedAt}
+                      />
+                    </div>
+                  </div>
                   <span>
                     {doctor.Doctor.firstName} {doctor.Doctor.lastName}
                   </span>
@@ -204,27 +211,35 @@ export const PatientDashboard: React.FC = () => {
                   } text-gray-800 text-sm`}
                     key={index}
                   >
-                    {appointment.doctor?.imageUrl && (
-                      <span>
+                    <div className="w-8 h-8 relative">
+                      {appointment.doctor?.imageUrl && (
                         <Image
                           src={appointment.doctor?.imageUrl!}
                           alt={`${appointment.doctor?.firstName}`}
-                          className="w-8 h-8 rounded-[50%]"
+                          className="w-full h-full rounded-[50%]"
                         />
-                      </span>
-                    )}
-                    {!appointment.doctor?.imageUrl && (
-                      <span
-                        className="cursor-pointer grid place-items-center
-                        bg-gray-300 p-1 w-8 h-8 rounded-[50%]"
-                      >
-                        <IconContext.Provider
-                          value={{ size: "1rem", color: "#495057" }}
+                      )}
+                      {!appointment.doctor?.imageUrl && (
+                        <span
+                          className="cursor-pointer grid place-items-center
+                          bg-gray-300 p-1 w-full h-full rounded-[50%]"
                         >
-                          <IoPerson />
-                        </IconContext.Provider>
-                      </span>
-                    )}
+                          <IconContext.Provider
+                            value={{ size: "1rem", color: "#495057" }}
+                          >
+                            <IoPerson />
+                          </IconContext.Provider>
+                        </span>
+                      )}
+                      <div className="absolute -right-[6px] bottom-0 inline-block">
+                        <UserOnlineStatus
+                          userId={appointment.doctorId}
+                          updatedAt={
+                            appointment.doctor?.onlineStatus.updatedAt!
+                          }
+                        />
+                      </div>
+                    </div>
                     <span>
                       {appointment.doctor?.firstName}{" "}
                       {appointment.doctor?.lastName}

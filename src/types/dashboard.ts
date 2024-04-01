@@ -1,12 +1,12 @@
 import { TAppointment } from "./appointments";
 import { TUser } from "./auth";
 
-type AccessToken = {
-  createdAt: string;
+type TOnlineStatus = {
+  updatedAt: string;
 };
 
 type TUserExtended = TUser & {
-  accessToken: AccessToken;
+  onlineStatus: TOnlineStatus;
 };
 
 type RecentPatient = {
