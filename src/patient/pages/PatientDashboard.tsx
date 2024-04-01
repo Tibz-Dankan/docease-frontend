@@ -235,7 +235,7 @@ export const PatientDashboard: React.FC = () => {
                         <UserOnlineStatus
                           userId={appointment.doctorId}
                           updatedAt={
-                            appointment.doctor?.onlineStatus.updatedAt!
+                            appointment.doctor?.onlineStatus?.updatedAt!
                           }
                         />
                       </div>

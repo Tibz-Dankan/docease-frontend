@@ -33,7 +33,7 @@ export const DoctorDisplayAppointmentCard: React.FC<CardProps> = (props) => {
   const dayMonthYear = new AppDate(appointment.startsAt).dayMonthYear();
   const appointmentDate = `${weekday}, ${dayMonthYear}`;
 
-  const lastSeenAt = appointment.patient?.onlineStatus.updatedAt as string;
+  const lastSeenAt = appointment.patient?.onlineStatus?.updatedAt as string;
   const patient = appointment?.patient as TUser;
 
   const overallStatus = getAppointmentOverallStatus(appointment);
