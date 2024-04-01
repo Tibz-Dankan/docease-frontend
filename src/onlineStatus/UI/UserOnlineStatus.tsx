@@ -4,16 +4,21 @@ import { GoDotFill } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { TOnlineStatusState } from "../../types/onlineStatus";
 import { updateOnlineStatus } from "../../store/actions/onlineStatus";
+import { elapsedTime } from "../../utils/elapsedTime";
 
 interface UserOnlineStatusProps {
   userId: string;
   updatedAt: string;
+  showDetailedStatus?: boolean;
 }
 
 export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
   // TODO: calculate elapsed time
   const userId = props.userId;
   const updatedAt = props.updatedAt;
+  const showDetailedStatus = props.showDetailedStatus
+    ? props.showDetailedStatus
+    : false;
 
   const dispatch: any = useDispatch();
   const onlineStatus = useSelector(
@@ -21,19 +26,21 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
   );
 
   // const updatedAtFromStore = onlineStatus?.users[`${userId}`];
-  const updatedAtFromStore = onlineStatus?.users.get(userId)!;
+  const lastUpdatedAt = onlineStatus?.users.get(userId)!
+    ? onlineStatus?.users.get(userId)!
+    : updatedAt;
 
   const isGreaterThanTwoMinutes =
-    new Date(Date.now()).getTime() - new Date(updatedAtFromStore).getTime() >
+    new Date(Date.now()).getTime() - new Date(lastUpdatedAt).getTime() >
     1000 * 60 * 2;
   const isLessThanTwoMinutes =
-    new Date(Date.now()).getTime() - new Date(updatedAtFromStore).getTime() <
+    new Date(Date.now()).getTime() - new Date(lastUpdatedAt).getTime() <
     1000 * 60 * 2;
   const isGreaterThanThirtyMinutes =
-    new Date(Date.now()).getTime() - new Date(updatedAtFromStore).getTime() >
+    new Date(Date.now()).getTime() - new Date(lastUpdatedAt).getTime() >
     1000 * 60 * 30;
   const isLessThanThirtyMinutes =
-    new Date(Date.now()).getTime() - new Date(updatedAtFromStore).getTime() <
+    new Date(Date.now()).getTime() - new Date(lastUpdatedAt).getTime() <
     1000 * 60 * 30;
 
   const isOnline: boolean = isLessThanTwoMinutes;
@@ -67,14 +74,42 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
 
   return (
     <Fragment>
-      <span
-        className="w-[14px] h-[14px] rounded-[50%] bg-gray-50  
-        flex items-center justify-center"
-      >
-        <IconContext.Provider value={{ size: "1.2rem", color: getIconColor() }}>
-          <GoDotFill />
-        </IconContext.Provider>
-      </span>
+      {!showDetailedStatus && (
+        <span
+          className="w-[14px] h-[14px] rounded-[50%] bg-gray-50  
+          flex items-center justify-center"
+        >
+          <IconContext.Provider
+            value={{ size: "1.2rem", color: getIconColor() }}
+          >
+            <GoDotFill />
+          </IconContext.Provider>
+        </span>
+      )}
+      {showDetailedStatus && isOnline && (
+        <div className="flex items-center justify-center text-sm -ml-1">
+          <span className="flex items-center justify-center">
+            <IconContext.Provider
+              value={{ size: "1.2rem", color: getIconColor() }}
+            >
+              <GoDotFill />
+            </IconContext.Provider>
+          </span>
+          <span>online</span>
+        </div>
+      )}
+      {showDetailedStatus && !isOnline && (
+        <div className="flex items-center justify-center text-sm -ml-1">
+          <span className="flex items-center justify-center">
+            <IconContext.Provider
+              value={{ size: "1.2rem", color: getIconColor() }}
+            >
+              <GoDotFill />
+            </IconContext.Provider>
+          </span>
+          <span>Last seen: {`${elapsedTime(lastUpdatedAt)} ago`}</span>
+        </div>
+      )}
     </Fragment>
   );
 };

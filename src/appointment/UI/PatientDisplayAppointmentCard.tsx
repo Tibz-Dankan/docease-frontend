@@ -12,6 +12,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Modal } from "../../shared/UI/Modal";
 import { PatientEditAppointment } from "./PatientEditAppointment";
 import { PatientDeleteAppointment } from "./PatientDeleteAppointment";
+import { Image } from "../../shared/UI/Image";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 
 interface CardProps {
   appointment: TAppointment;
@@ -145,17 +147,17 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
               #{appointment.doctor?.role}
             </span>
           </div>
-          <div className="">
+          <div className="w-16 h-16 relatives">
             {appointment.doctor?.imageUrl && (
-              <img
+              <Image
                 src={appointment.doctor?.imageUrl}
                 alt={appointment.doctor?.firstName}
-                className="w-24 h-24 rounded-md"
+                className="w-full h-full rounded-[50%]"
               />
             )}
             {!appointment.doctor?.imageUrl && (
               <span
-                className="w-16 h-16 bg-gray-300 flex items-center
+                className="w-full h-full bg-gray-300 flex items-center
                 justify-center rounded-[50%] shadow-sm"
               >
                 <IconContext.Provider
@@ -171,9 +173,11 @@ export const PatientDisplayAppointmentCard: React.FC<CardProps> = (props) => {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-xl">{`Dr. ${doctor.firstName} ${doctor.lastName}`}</span>
-            <span className="text-sm">
-              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
-            </span>
+            <UserOnlineStatus
+              userId={appointment.doctorId}
+              updatedAt={lastSeenAt}
+              showDetailedStatus={true}
+            />
           </div>
         </div>
 
