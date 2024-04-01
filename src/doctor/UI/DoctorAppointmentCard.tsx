@@ -2,9 +2,9 @@ import React, { Fragment } from "react";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
 import { PostAppointment } from "../../appointment/UI/PostAppointment";
-import { elapsedTime } from "../../utils/elapsedTime";
 import { StartChat } from "../../chat/UI/StartChat";
 import { TChatRecipient } from "../../types/chat";
+import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 // import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
 
 interface CardProps {
@@ -83,9 +83,11 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-xl">{`Dr. ${doctorName}`}</span>
-            <span className="text-sm">
-              Last seen: {`${elapsedTime(lastSeenAt)} ago`}
-            </span>
+            <UserOnlineStatus
+              userId={doctorId}
+              updatedAt={lastSeenAt}
+              showDetailedStatus={true}
+            />
           </div>
         </div>
 
