@@ -213,7 +213,7 @@ export const DoctorDashboard: React.FC = () => {
                   } text-gray-800 text-sm`}
                     key={index}
                   >
-                    <div className="w-8 h-8">
+                    <div className="w-8 h-8 relative">
                       {appointment.patient?.imageUrl && (
                         <span>
                           <Image
@@ -239,7 +239,7 @@ export const DoctorDashboard: React.FC = () => {
                         <UserOnlineStatus
                           userId={appointment.patientId}
                           updatedAt={
-                            appointment.patient?.onlineStatus.updatedAt!
+                            appointment.patient?.onlineStatus?.updatedAt!
                           }
                         />
                       </div>
