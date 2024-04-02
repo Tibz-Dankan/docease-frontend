@@ -16,6 +16,7 @@ import femaleDoctor from "../../assets/images/female-doctor.jpeg";
 import { SquareDots } from "../UI/SquareDots";
 import { LandingAppointmentSection } from "../layout/LandingAppointmentSection";
 import { ContactUs } from "../layout/ContactUs";
+import { NewsLetter } from "../layout/NewsLetter";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -315,6 +316,10 @@ export const LandingPage: React.FC = () => {
         {/* Contact us Section */}
         <div className="mt-24 w-full">
           <ContactUs />
+        </div>
+        {/* Contact us Section */}
+        <div className="w-full">
+          <NewsLetter />
         </div>
         {/* Footer section */}
         <Footer />

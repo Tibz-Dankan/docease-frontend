@@ -7,12 +7,14 @@ interface InputFieldProps extends React.HTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   type: "text" | "password" | "email" | "number" | "date" | "time";
+  placeholder?: string;
 }
 
 export const InputField: React.FC<InputFieldProps> = (props) => {
   const formik = props.formik;
   const label = props.label;
   const name = props.name;
+  const placeholder = props.placeholder ? props.placeholder : "";
 
   const isPasswordField: boolean = props.type === "password";
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -46,6 +48,7 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values[`${name}`]}
+            placeholder={placeholder}
             className="p-2 outline-none rounded border-[1px]
              border-gray-500 focus:border-[1px] focus:border-primary
              transition-all text-sm w-full focus:outline-none 
