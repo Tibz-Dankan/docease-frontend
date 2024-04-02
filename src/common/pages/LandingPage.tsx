@@ -14,8 +14,8 @@ import { PiChatsCircleLight } from "react-icons/pi";
 import maleDoctor from "../../assets/images/male-doctor.jpeg";
 import femaleDoctor from "../../assets/images/female-doctor.jpeg";
 import { SquareDots } from "../UI/SquareDots";
-import { Team } from "../UI/Team";
 import { LandingAppointmentSection } from "../layout/LandingAppointmentSection";
+import { ContactUs } from "../layout/ContactUs";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -312,11 +312,10 @@ export const LandingPage: React.FC = () => {
         <div className="px-4 sm:px-16 lg:px-28">
           <LandingAppointmentSection />
         </div>
-        {/* Team section */}
-        <div>
-          <Team />
+        {/* Contact us Section */}
+        <div className="mt-24 w-full">
+          <ContactUs />
         </div>
-
         {/* Footer section */}
         <Footer />
       </div>
