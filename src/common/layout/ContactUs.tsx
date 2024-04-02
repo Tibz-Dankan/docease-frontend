@@ -25,6 +25,9 @@ export const ContactUs: React.FC = () => {
   const { isLoading, mutate } = useMutation({
     mutationFn: sendContactMessage,
     onSuccess: (response: any) => {
+      formik.values.name = "";
+      formik.values.email = "";
+      formik.values.message = "";
       dispatch(
         showCardNotification({ type: "success", message: response.message })
       );
