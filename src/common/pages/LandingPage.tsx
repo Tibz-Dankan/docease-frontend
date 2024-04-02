@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { AuthLinkDropdown } from "../UI/AuthLinkDropdown";
 import { Button } from "../../shared/UI/Button";
 import { Image } from "../../shared/UI/Image";
-import { Footer } from "../layout/Footer";
+// import { Footer } from "../layout/Footer";
 import { IconContext } from "react-icons";
 import { SlCloudUpload } from "react-icons/sl";
 import { PiFileCloudLight, PiBrainLight } from "react-icons/pi";
@@ -17,6 +17,7 @@ import { SquareDots } from "../UI/SquareDots";
 import { LandingAppointmentSection } from "../layout/LandingAppointmentSection";
 import { ContactUs } from "../layout/ContactUs";
 import { NewsLetter } from "../layout/NewsLetter";
+import { Footer } from "../../shared/layout/Footer";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -318,7 +319,7 @@ export const LandingPage: React.FC = () => {
           <ContactUs />
         </div>
         {/* Contact us Section */}
-        <div className="w-full">
+        <div className="w-full bg-blue-50 py-[3px]">
           <NewsLetter />
         </div>
         {/* Footer section */}
