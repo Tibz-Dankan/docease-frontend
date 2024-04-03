@@ -78,6 +78,8 @@ export const ChatRecipientList: React.FC = () => {
   );
 
   const markMessagesAsReadHandler = async (recipient: TChatRecipient) => {
+    // TODO: check if any message is unread and
+    // if yes proceed the request or else stop the operation
     const lastMessageCreatedAt =
       recipient.messages[recipient.messages.length - 1].createdAt;
 
