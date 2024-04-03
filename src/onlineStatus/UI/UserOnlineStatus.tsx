@@ -13,7 +13,6 @@ interface UserOnlineStatusProps {
 }
 
 export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
-  // TODO: calculate elapsed time
   const userId = props.userId;
   const updatedAt = props.updatedAt;
   const showDetailedStatus = props.showDetailedStatus
@@ -25,7 +24,6 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
     (state: TOnlineStatusState) => state.onlineStatus
   );
 
-  // const lastUpdatedAt = onlineStatus?.users.get(userId)!
   const lastUpdatedAt = onlineStatus?.users[`${userId}`]
     ? onlineStatus?.users[`${userId}`]
     : updatedAt;
@@ -61,7 +59,6 @@ export const UserOnlineStatus: React.FC<UserOnlineStatusProps> = (props) => {
   useEffect(() => {
     const updateOnlineStatusHandler = () => {
       const updatedAtFromStore = onlineStatus?.users[`${userId}`];
-      // const updatedAtFromStore = onlineStatus?.users.get(userId)!;
 
       if (new Date(updatedAt) > new Date(updatedAtFromStore)) {
         dispatch(updateOnlineStatus({ userId: userId, updatedAt: updatedAt }));
