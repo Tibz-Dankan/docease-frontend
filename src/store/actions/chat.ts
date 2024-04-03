@@ -57,6 +57,18 @@ export const updateCurrentRecipientMessage = (message: IChatMessage) => {
   };
 };
 
+// recipientId is currentUserId and senderId is the chatMateId
+export const updateMessagesAsRead = (recipientId: string, senderId: string) => {
+  return (dispatch: any) => {
+    dispatch(
+      chatActions.markMessagesAsRead({
+        recipientId: recipientId,
+        senderId: senderId,
+      })
+    );
+  };
+};
+
 export const updatePostingMessage = (postMessaging: IPostingMessage) => {
   return (dispatch: any) => {
     dispatch(

@@ -25,14 +25,14 @@ export const useLiveChat = async () => {
   const dispatch: any = useDispatch();
   const effectRan = useRef(false);
 
-  const scrollToBottom = () => {
-    // Delay scrolling to bottom to allow element attain  its full height
-    setTimeout(() => {
-      const viewElement = document.querySelector("#message-container")!;
-      viewElement.scrollIntoView({ behavior: "smooth" });
-      viewElement.scrollTop = viewElement?.scrollHeight;
-    }, 50);
-  };
+  // const scrollToBottom = () => {
+  //   // Delay scrolling to bottom to allow element attain  its full height
+  //   setTimeout(() => {
+  //     const viewElement = document.querySelector("#message-container")!;
+  //     viewElement.scrollIntoView({ behavior: "smooth" });
+  //     viewElement.scrollTop = viewElement?.scrollHeight;
+  //   }, 50);
+  // };
 
   useEffect(() => {
     if (effectRan.current == true) return;
@@ -66,7 +66,7 @@ export const useLiveChat = async () => {
 
       dispatch(updateChatRecipientListMessage(newMessage));
       dispatch(updateCurrentRecipientMessage(newMessage));
-      scrollToBottom();
+      // scrollToBottom();
 
       dispatch(
         showCardNotification({ type: "info", message: "You have new message" })

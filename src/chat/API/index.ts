@@ -93,3 +93,30 @@ export const getChatRecipientByRole = async (
 
   return await response.json();
 };
+
+export const markMessagesAsRead = async ({
+  userId: userId,
+  createdAt: createdAt,
+  accessToken: accessToken,
+}: {
+  userId: string;
+  createdAt: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(`${url}/chat/mark-message-as-read`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      userId: userId,
+      createdAt: createdAt,
+    }),
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};

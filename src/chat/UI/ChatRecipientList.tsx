@@ -1,19 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { TAuthState } from "../../types/auth";
 import {
   hideChatRecipientList,
   showChat,
   updateChatRecipientList,
   updateCurrentRecipient,
+  updateMessagesAsRead,
 } from "../../store/actions/chat";
 import {
   hideCardNotification,
   showCardNotification,
 } from "../../store/actions/notification";
 
-import { getChatRecipients } from "../API";
+import { getChatRecipients, markMessagesAsRead } from "../API";
 import { IconContext } from "react-icons";
 import { IoPerson } from "react-icons/io5";
 import { IChatMessage, TChatRecipient, TChatState } from "../../types/chat";
@@ -76,6 +77,38 @@ export const ChatRecipientList: React.FC = () => {
     }
   );
 
+  const markMessagesAsReadHandler = async (recipient: TChatRecipient) => {
+    const lastMessageCreatedAt =
+      recipient.messages[recipient.messages.length - 1].createdAt;
+
+    if (!lastMessageCreatedAt || !currentUserId) return;
+
+    const response = await markMessagesAsRead({
+      userId: currentUserId,
+      createdAt: lastMessageCreatedAt,
+      accessToken: accessToken,
+    });
+    console.log("response", response);
+    dispatch(updateMessagesAsRead(currentUserId, recipient.userId));
+  };
+
+  const scrollToBottom = (recipient: TChatRecipient) => {
+    // Delay scrolling to bottom to allow element attain  its full height
+    setTimeout(() => {
+      const viewElement = document.querySelector("#message-container")!;
+      viewElement.scrollIntoView({ behavior: "smooth" });
+      viewElement.scrollTop = viewElement?.scrollHeight;
+
+      // Check if scrolled to the bottom
+      const isScrolledToBottom =
+        viewElement.scrollTop >=
+        viewElement.scrollHeight - viewElement.clientHeight;
+
+      if (!isScrolledToBottom) return;
+      markMessagesAsReadHandler(recipient);
+    }, 50);
+  };
+
   const joinChatRoom = async (recipient: TChatRecipient) => {
     dispatch(updateCurrentRecipient(recipient));
     setActiveRecipient(recipient);
@@ -91,6 +124,7 @@ export const ChatRecipientList: React.FC = () => {
     if (window.innerWidth < 640) {
       hideRecipientListHandler();
     }
+    scrollToBottom(recipient);
   };
 
   const getLastMessageDate = (messages: IChatMessage[]) => {
@@ -106,6 +140,14 @@ export const ChatRecipientList: React.FC = () => {
     const msg = `${msgSenderName}: ${lastMessage?.message}`;
 
     return truncateString(msg, 44);
+  };
+
+  const getUnReadMessageCount = (messages: IChatMessage[]): number => {
+    const readMessages: IChatMessage[] = messages.filter((message) => {
+      return message.isRead === false && message.recipientId === currentUserId;
+    });
+
+    return readMessages.length;
   };
 
   const startChatRecipientFromList = recipientList.find((recipient) => {
@@ -223,13 +265,17 @@ export const ChatRecipientList: React.FC = () => {
                         <p>{getLastMessage(recipient)}</p>
                       </div>
                       {/* Un read messages count */}
-                      <div
-                        className="grid place-items-center text-[12px]
-                         font-semibold bg-primary rounded-[50%] h-5 min-w-5
-                        text-white w-auto p-1 invisible"
-                      >
-                        <span>9</span>
-                      </div>
+                      {!!getUnReadMessageCount(recipient.messages) && (
+                        <div
+                          className="grid place-items-center text-[12px]
+                          font-semibold bg-primary rounded-[50%] h-5 min-w-5
+                         text-white w-auto p-1"
+                        >
+                          <span>
+                            {getUnReadMessageCount(recipient.messages)}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   {recipient.userId === startChatRecipient.userId && (

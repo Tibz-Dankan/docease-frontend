@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  IChatMessage,
   TChat,
   TCurrentRecipientPayload,
+  TMarkMessagesAsRead,
   TMessageListPayload,
   TMessagePayload,
   TPostingMessagePayload,
@@ -147,6 +149,45 @@ export const chatSlice = createSlice({
 
       recipient.messages.push(action.payload.message);
       state.currentRecipient = recipient;
+    },
+
+    // Mark messages as read
+    markMessagesAsRead(state, action: PayloadAction<TMarkMessagesAsRead>) {
+      const recipientList = state.chatRecipientList;
+
+      const recipient = recipientList.find((recipient) => {
+        return recipient.userId === action.payload.senderId;
+      });
+      if (!recipient) return;
+
+      const readMessages = [] as unknown as IChatMessage[];
+
+      recipient.messages.map((message) => {
+        const isRecipient: boolean =
+          message.recipientId !== action.payload.recipientId;
+
+        const isRead: boolean = message.isRead;
+        const isMessageMarkableAsRead: boolean = isRecipient && !isRead;
+
+        if (isMessageMarkableAsRead) {
+          message.isRead = true;
+          readMessages.push(message);
+          return;
+        }
+        readMessages.push(message);
+      });
+
+      recipient.messages = readMessages;
+
+      if (recipientList.length === 1) {
+        state.chatRecipientList = [recipient];
+        return;
+      }
+
+      const recipientIndex: number = recipientList.findIndex((recipient) => {
+        return recipient.userId === action.payload.senderId;
+      });
+      state.chatRecipientList[recipientIndex] = recipient;
     },
 
     updatePostingMessage(state, action: PayloadAction<TPostingMessagePayload>) {

@@ -81,3 +81,8 @@ export type TMessageListPayload = {
 export type TMessagePayload = {
   message: IChatMessage;
 };
+
+export type TMarkMessagesAsRead = {
+  recipientId: string;
+  senderId: string;
+};
