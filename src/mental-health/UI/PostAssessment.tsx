@@ -11,7 +11,6 @@ import { postAssessment } from "../API";
 import { Button } from "../../shared/UI/Button";
 import { Loader } from "../../shared/UI/Loader";
 import { TAuthState } from "../../types/auth";
-// import { AssessmentResultCard } from "./AssessmentResultCard";
 import { TAnsweredQuestion } from "../../types/mentalHealth";
 import { AIResponse } from "./AIResponse";
 
@@ -105,7 +104,6 @@ export const PostAssessment: React.FC = () => {
   };
 
   const assessmentSummary = data?.data?.mentalHealth?.aiResponse;
-  console.log("selectedValues: ", selectedValues);
 
   return (
     <Fragment>
@@ -144,11 +142,6 @@ export const PostAssessment: React.FC = () => {
         {assessmentSummary && (
           <div className="mt-8 border-t-[1px] border-gray-300 w-full pt-2">
             <p className="pl-2 text-gray-800 mb-2 text-lg">Summary</p>
-            {/* <AssessmentResultCard
-              message={
-                "Based on your responses, you have an overall excellent mental well-being but have experienced negative changes in your mental health over the past few months. While you feel that your healthcare provider is addressing your mental health to some extent, you are satisfied with the treatment and support provided. Your relationships with colleagues are somewhat positive and supportive, and there are some opportunities for team-building activities or social support within your company. However, you describe your ability to focus and concentrate as fair and your satisfaction with daily activities and routines as neutral. You also experience moments of feeling overwhelmed or anxious."
-              }
-            /> */}
             <AIResponse message={assessmentSummary} />
           </div>
         )}

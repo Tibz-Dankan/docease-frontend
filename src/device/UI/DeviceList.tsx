@@ -44,65 +44,6 @@ export const DeviceList: React.FC = () => {
 
   const devices = data?.data?.devices as TDevice[];
 
-  // const devices: TDevice[] = [
-  //   {
-  //     deviceId: "1",
-  //     userId: "user1",
-  //     devicePlatform: "windows",
-  //     deviceToken: "token1",
-  //     isDisable: true,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  //   {
-  //     deviceId: "2",
-  //     userId: "user2",
-  //     devicePlatform: "linux",
-  //     deviceToken: "token2",
-  //     isDisable: false,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  //   {
-  //     deviceId: "3",
-  //     userId: "user3",
-  //     devicePlatform: "android",
-  //     deviceToken: "token3",
-  //     isDisable: true,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  //   {
-  //     deviceId: "4",
-  //     userId: "user4",
-  //     devicePlatform: "ios",
-  //     deviceToken: "token4",
-  //     isDisable: false,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  //   {
-  //     deviceId: "5",
-  //     userId: "user5",
-  //     devicePlatform: "macOS",
-  //     deviceToken: "token5",
-  //     isDisable: true,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  //   {
-  //     deviceId: "6",
-  //     userId: "user6",
-  //     devicePlatform: "web",
-  //     deviceToken: "token6",
-  //     isDisable: false,
-  //     createdAt: "2024-02-14",
-  //     updatedAt: "2024-02-14",
-  //   },
-  // ];
-
-  console.log(devices);
-
   return (
     <Fragment>
       <div className="space-y-2">

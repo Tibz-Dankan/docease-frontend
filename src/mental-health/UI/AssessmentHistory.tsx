@@ -46,8 +46,6 @@ export const AssessmentHistory: React.FC = () => {
 
   const assessments = data?.data?.mentalHealth as TMentalHealthAssessment[];
 
-  console.log("mental health assessments: ", assessments);
-
   const isSameMentalHealthId = (id: string): boolean => {
     return mentalHealthId === id;
   };

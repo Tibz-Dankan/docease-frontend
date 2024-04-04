@@ -50,8 +50,6 @@ export const MedicalRecordList: React.FC = () => {
 
   if (!data) return;
 
-  console.log("data from api<medical records->", data);
-
   const medication = data?.data?.medicalRecords as TMedicationAPIExtended[];
 
   return (

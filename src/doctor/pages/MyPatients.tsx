@@ -51,9 +51,7 @@ export const MyPatients: React.FC = () => {
     queryKey: [`doctors-patients-${userId}`],
     queryFn: () =>
       getDoctorsPatients({ doctorId: userId, accessToken: accessToken }),
-    onSuccess: (response: any) => {
-      console.log("response: ", response);
-    },
+    onSuccess: (_: any) => {},
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
       setTimeout(() => {

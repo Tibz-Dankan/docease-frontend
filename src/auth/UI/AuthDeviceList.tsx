@@ -46,9 +46,6 @@ export const AuthDeviceList: React.FC = () => {
   const devices = data?.data?.sessionDevices as TAuthDevices[];
   const twoFA = data?.data?.twoFA as TTwoFA;
 
-  console.log("twoFA ==>", twoFA);
-  console.log(devices);
-
   const deviceName = (device: TAuthDevices): string => {
     return `${device.browser} ${device.browserVersion} (${device.platform})`;
   };

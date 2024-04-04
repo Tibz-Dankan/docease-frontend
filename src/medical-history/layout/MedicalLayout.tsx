@@ -9,7 +9,6 @@ export const MedicalLayout: React.FC<MedicalLayoutProps> = (props) => {
   const getLastWordFromUrl = (): string => {
     const url = window.location.pathname;
     const segments = url.split("/");
-    console.log("segments->", segments);
     return segments[segments.length - 1];
   };
 
