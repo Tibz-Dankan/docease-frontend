@@ -26,6 +26,7 @@ export const DisableTwoFA: React.FC<DisableTwoFAProps> = (props) => {
   const { isLoading, mutate } = useMutation({
     mutationFn: disableTwoFA,
     onSuccess: (response: any) => {
+      // TODO: to fix error 'read only error'
       auth.user!.twoFA = response?.data.twoFA;
       dispatch(authenticate(auth));
 
