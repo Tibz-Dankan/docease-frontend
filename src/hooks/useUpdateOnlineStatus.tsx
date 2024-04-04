@@ -12,12 +12,9 @@ export const useUpdateOnlineStatus = () => {
     (state: TAuthState) => state.auth.user?.userId
   ) as string;
 
-  //   TODO: to remove the logs
   const { mutate } = useMutation({
     mutationFn: updateOnlineStatus,
-    onSuccess: (response: any) => {
-      console.log(response);
-    },
+    onSuccess: (_: any) => {},
     onError: (error: any) => {
       console.log(error);
     },
