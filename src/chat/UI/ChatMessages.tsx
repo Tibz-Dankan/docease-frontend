@@ -44,8 +44,6 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
     return false;
   };
 
-  console.log("messages", messages);
-
   return (
     <Fragment>
       <div

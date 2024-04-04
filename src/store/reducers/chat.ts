@@ -164,7 +164,7 @@ export const chatSlice = createSlice({
 
       recipient.messages.map((message) => {
         const isRecipient: boolean =
-          message.recipientId !== action.payload.recipientId;
+          message.recipientId === action.payload.recipientId;
 
         const isRead: boolean = message.isRead;
         const isMessageMarkableAsRead: boolean = isRecipient && !isRead;
@@ -187,7 +187,8 @@ export const chatSlice = createSlice({
       const recipientIndex: number = recipientList.findIndex((recipient) => {
         return recipient.userId === action.payload.senderId;
       });
-      state.chatRecipientList[recipientIndex] = recipient;
+      recipientList[recipientIndex] = recipient;
+      state.chatRecipientList = recipientList;
     },
 
     updatePostingMessage(state, action: PayloadAction<TPostingMessagePayload>) {
