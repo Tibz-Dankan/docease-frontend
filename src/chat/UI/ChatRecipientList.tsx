@@ -139,10 +139,13 @@ export const ChatRecipientList: React.FC = () => {
   const getLastMessage = (recipient: TChatRecipient) => {
     const messages = recipient.messages;
     const lastMessage = messages[messages.length - 1];
+    const lastMsg = lastMessage?.message ? lastMessage?.message : "";
 
     const msgSenderName: string =
       lastMessage?.senderId === currentUserId ? "You" : recipient.firstName;
-    const msg = `${msgSenderName}: ${lastMessage?.message}`;
+
+    if (!lastMsg) return "";
+    const msg = `${msgSenderName}: ${lastMsg}`;
 
     return truncateString(msg, 44);
   };
