@@ -141,7 +141,7 @@ export const ChatRecipientList: React.FC = () => {
     const lastMessage = messages[messages.length - 1];
 
     const msgSenderName: string =
-      lastMessage.senderId === currentUserId ? "You" : recipient.firstName;
+      lastMessage?.senderId === currentUserId ? "You" : recipient.firstName;
     const msg = `${msgSenderName}: ${lastMessage?.message}`;
 
     return truncateString(msg, 44);
