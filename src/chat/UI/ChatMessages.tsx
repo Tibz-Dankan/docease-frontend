@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { MessagePrimary } from "./MessagePrimary";
 import { MessageSecondary } from "./MessageSecondary";
 import { useDispatch, useSelector } from "react-redux";
@@ -229,6 +229,9 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
             accessToken: accessToken,
           });
           setIsLoading(() => false);
+
+          if (response?.data?.messages) return;
+          if (response?.data?.messages[0]) return;
 
           console.log("response for messages", response?.data?.messages);
           dispatch(
