@@ -26,7 +26,7 @@ export const ChatAggregator: React.FC = () => {
           recipientImageUrl={`${recipient.imageUrl}`}
           onChatClose={() => {}}
         />
-        <ChatMessages messages={messageList} />
+        <ChatMessages messages={messageList} recipient={recipient} />
         <ChatForm />
       </div>
     </Fragment>

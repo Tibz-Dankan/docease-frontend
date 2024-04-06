@@ -8,6 +8,7 @@ import {
   TMessagePayload,
   TPostingMessagePayload,
   TRecipientListPayload,
+  TRecipientMessageListPayload,
   TRecipientMessagePayload,
   TStartChatRecipientPayload,
 } from "../../types/chat";
@@ -125,7 +126,7 @@ export const chatSlice = createSlice({
       state.currentRecipient = action.payload.currentRecipient;
     },
 
-    // updating messages coming from backend(recipient user)
+    // updating message coming from backend(recipient user)
     updateCurrentRecipientMessage(
       state,
       action: PayloadAction<TRecipientMessagePayload>
@@ -142,7 +143,28 @@ export const chatSlice = createSlice({
       state.currentRecipient = recipient;
     },
 
-    // Adding messages coming from current device user
+    // updating messageList at start of list for messages coming from backend(recipient user)
+    updateCurrentRecipientMessageWithList(
+      state,
+      action: PayloadAction<TRecipientMessageListPayload>
+    ) {
+      const recipient = state.currentRecipient;
+      console.log("updating with list from backend ....");
+
+      // const inComingLastMessage =
+      //   action.payload.messages[action.payload.messages.length - 1];
+      const inComingLastMessage = action.payload.messages[0];
+
+      const message = recipient.messages.find(
+        (message) => message.messageId === inComingLastMessage.messageId
+      );
+      if (message) return;
+
+      recipient.messages = [...action.payload.messages, ...recipient.messages];
+      state.currentRecipient = recipient;
+    },
+
+    // Adding message coming from current device user
     addToMessageList(state, action: PayloadAction<TMessagePayload>) {
       const recipient = state.currentRecipient;
       if (recipient.userId !== action.payload.message.recipientId) return;
