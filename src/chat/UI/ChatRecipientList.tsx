@@ -88,12 +88,11 @@ export const ChatRecipientList: React.FC = () => {
 
     if (!lastMessageCreatedAt || !currentUserId) return;
 
-    const response = await markMessagesAsRead({
+    await markMessagesAsRead({
       userId: currentUserId,
       createdAt: lastMessageCreatedAt,
       accessToken: accessToken,
     });
-    console.log("response", response);
     dispatch(updateMessagesAsRead(currentUserId, recipient.userId));
   };
 
