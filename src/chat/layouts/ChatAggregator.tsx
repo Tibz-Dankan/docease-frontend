@@ -12,6 +12,8 @@ export const ChatAggregator: React.FC = () => {
 
   const messageList = recipient.messages;
 
+  const showMessageInbox: boolean = !!recipient.userId;
+
   return (
     <Fragment>
       <div
@@ -26,7 +28,9 @@ export const ChatAggregator: React.FC = () => {
           recipientImageUrl={`${recipient.imageUrl}`}
           onChatClose={() => {}}
         />
-        <ChatMessages messages={messageList} recipient={recipient} />
+        {showMessageInbox && (
+          <ChatMessages messages={messageList} recipient={recipient} />
+        )}
         <ChatForm />
       </div>
     </Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { MessagePrimary } from "./MessagePrimary";
 import { MessageSecondary } from "./MessageSecondary";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,24 +38,26 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
   const recipient = props.recipient;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const cursorId = recipient.messages[0].messageId;
-  const chatRoomId = generateChatRoomId(currentUser, recipient);
+  // const cursorId = recipient.messages[0].messageId;
+  // const chatRoomId = generateChatRoomId(currentUser, recipient);
+  const userId = recipient.userId;
+  console.log("userId:::=>", userId);
 
   const accessToken = useSelector(
     (state: TAuthState) => state.auth.accessToken!
   );
 
-  // const effectRan = useRef(false);
+  const effectRan = useRef(false);
 
   const dispatch: any = useDispatch();
 
   const messages = new Messages(currentUser, recipient).organize(
     props.messages
   );
-  // const [chatRoomId, setChatRoomId] = useState<string>(
-  //   generateChatRoomId(currentUser, recipient)
-  // );
-  // const [cursorId, setCursorId] = useState<string>(messages[0].messageId!);
+  const [chatRoomId, setChatRoomId] = useState<string>(
+    generateChatRoomId(currentUser, recipient)
+  );
+  const [cursorId, setCursorId] = useState<string>(messages[0].messageId!);
 
   console.log("recipient:::", recipient);
 
@@ -102,156 +104,71 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
   //   dispatch(updateMessagesAsRead(currentUserId, recipient.userId));
   // };
 
-  // useEffect(() => {
-  //   const scrollToBottom = () => {
-  //     // Delay scrolling to bottom to allow element attain its full height
-  //     setTimeout(() => {
-  //       const viewElement = document.querySelector("#message-container")!;
-  //       // viewElement.scrollIntoView({ behavior: "smooth" });
-  //       // viewElement.scrollTop = viewElement?.scrollHeight;
+  useEffect(() => {
+    const setChatRoomIdAndCursorId = () => {
+      setChatRoomId(() => generateChatRoomId(currentUser, recipient));
+      setCursorId(() => messages[0].messageId!);
+    };
+    setChatRoomIdAndCursorId();
 
-  //       // Check if scrolled to the bottom
-  //       const isScrolledToBottom =
-  //         viewElement.scrollTop >=
-  //         viewElement.scrollHeight - viewElement.clientHeight;
-
-  //       if (!isScrolledToBottom) return;
-  //       // Mark messages as read if any on reaching the bottom
-  //       viewElement.addEventListener("scrollend", (_) => {
-  //         markMessagesAsReadHandler();
-  //       });
-  //     }, 50);
-  //   };
-
-  //   scrollToBottom();
-  // }, []);
-  // const chatRoomId = generateChatRoomId(currentUser, recipient);
-
-  // useEffect(() => {
-  //   const setChatRoomIdAndCursorId = () => {
-  //     setChatRoomId(() => generateChatRoomId(currentUser, recipient));
-  //     setCursorId(() => messages[0].messageId!);
-  //   };
-
-  //   setChatRoomIdAndCursorId();
-  // }, [chatRoomId, cursorId]);
-
-  // useEffect(() => {
-  //   if (effectRan.current === false) {
-  //     // const scrollToTop = () => {
-  //     const viewElement = document.querySelector("#message-container")!;
-
-  //     viewElement.addEventListener("scrollend", async (_) => {
-  //       const isScrolledToTop = viewElement.scrollTop === 0;
-  //       if (isScrolledToTop) {
-  //         // const getMessageByChatRoomHandler = async () => {
-  //         console.log("chatRoomId::: ", chatRoomId);
-  //         console.log("cursorId::: ", cursorId);
-
-  //         console.log("recipient inside api handler:::", recipient);
-
-  //         const containsRecipientId = chatRoomId.includes(recipient.userId);
-  //         const isRecipientMessageId =
-  //           recipient.messages[0].messageId === cursorId;
-
-  //         if (!containsRecipientId || !isRecipientMessageId) return;
-
-  //         console.log("containsRecipientId::: ", containsRecipientId);
-  //         console.log("isRecipientMessageId::: ", isRecipientMessageId);
-
-  //         if (!cursorId || !chatRoomId) return;
-
-  //         try {
-  //           setIsLoading(() => true);
-  //           const response = await getMessagesByChatRoom({
-  //             chatRoomId: chatRoomId,
-  //             cursorId: cursorId,
-  //             accessToken: accessToken,
-  //           });
-  //           setIsLoading(() => false);
-
-  //           console.log("response for messages", response?.data.messages);
-  //           dispatch(
-  //             updateCurrentRecipientMessageWithList(response?.data.messages)
-  //           );
-  //         } catch (error: any) {
-  //           setIsLoading(() => false);
-  //           dispatch(
-  //             showCardNotification({ type: "error", message: error.message })
-  //           );
-  //           setTimeout(() => {
-  //             dispatch(hideCardNotification());
-  //           }, 5000);
-  //         }
-  //         // };
-
-  //         // if (isScrolledToTop) {
-  //         // getMessageByChatRoomHandler();
-  //       }
-  //     });
-  //     // };
-
-  //     // scrollToTop();
-  //     return () => {
-  //       effectRan.current = true;
-  //     };
-  //   }
-  // }, [chatRoomId, cursorId, recipient]);
+    return () => {
+      setChatRoomId(() => "");
+      setCursorId(() => "");
+    };
+  }, [chatRoomId, cursorId]);
 
   useEffect(() => {
-    const viewElement = document.querySelector("#message-container")!;
+    if (effectRan.current === false) {
+      const viewElement = document.querySelector("#message-container")!;
 
-    viewElement?.addEventListener("scrollend", async (_) => {
-      const isScrolledToTop = viewElement.scrollTop === 0;
-      if (isScrolledToTop) {
-        // const getMessageByChatRoomHandler = async () => {
-        console.log("chatRoomId::: ", chatRoomId);
-        console.log("cursorId::: ", cursorId);
+      viewElement?.addEventListener("scrollend", async (_) => {
+        const isScrolledToTop = viewElement.scrollTop === 0;
 
-        console.log("recipient inside api handler:::", recipient);
+        if (isScrolledToTop) {
+          const containsRecipientId = chatRoomId.includes(recipient.userId);
+          const isRecipientMessageId =
+            recipient.messages[0].messageId === cursorId;
 
-        const containsRecipientId = chatRoomId.includes(recipient.userId);
-        const isRecipientMessageId =
-          recipient.messages[0].messageId === cursorId;
+          if (!containsRecipientId || !isRecipientMessageId) return;
+          if (!cursorId || !chatRoomId) return;
 
-        if (!containsRecipientId || !isRecipientMessageId) return;
+          try {
+            setIsLoading(() => true);
+            const response = await getMessagesByChatRoom({
+              chatRoomId: chatRoomId,
+              cursorId: cursorId,
+              accessToken: accessToken,
+            });
+            setIsLoading(() => false);
 
-        console.log("containsRecipientId::: ", containsRecipientId);
-        console.log("isRecipientMessageId::: ", isRecipientMessageId);
+            if (!response?.data?.messages) return;
+            if (!response?.data?.messages[0]) return;
 
-        if (!cursorId || !chatRoomId) return;
-
-        try {
-          setIsLoading(() => true);
-          const response = await getMessagesByChatRoom({
-            chatRoomId: chatRoomId,
-            cursorId: cursorId,
-            accessToken: accessToken,
-          });
-          setIsLoading(() => false);
-
-          if (response?.data?.messages) return;
-          if (response?.data?.messages[0]) return;
-
-          console.log("response for messages", response?.data?.messages);
-          dispatch(
-            updateCurrentRecipientMessageWithList(response?.data?.messages)
-          );
-        } catch (error: any) {
-          setIsLoading(() => false);
-          dispatch(
-            showCardNotification({ type: "error", message: error.message })
-          );
-          setTimeout(() => {
-            dispatch(hideCardNotification());
-          }, 5000);
+            console.log("response for messages", response?.data?.messages);
+            dispatch(
+              updateCurrentRecipientMessageWithList(response?.data?.messages)
+            );
+          } catch (error: any) {
+            setIsLoading(() => false);
+            dispatch(
+              showCardNotification({ type: "error", message: error.message })
+            );
+            setTimeout(() => {
+              dispatch(hideCardNotification());
+            }, 5000);
+          }
         }
-        // };
 
         // if (isScrolledToTop) {
-        // getMessageByChatRoomHandler();
-      }
-    });
+        //   getMessageByChatRoomHandler();
+        // }
+      });
+      return () => {
+        effectRan.current = true;
+        setChatRoomId(() => "");
+        setCursorId(() => "");
+      };
+    }
   }, [chatRoomId, cursorId, dispatch]);
 
   return (
