@@ -13,6 +13,7 @@ export const ChatAggregator: React.FC = () => {
   const messageList = recipient.messages;
 
   const showMessageInbox: boolean = !!recipient.userId;
+  // TODO: Set query params on every inbox entering
 
   return (
     <Fragment>
