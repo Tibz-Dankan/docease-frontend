@@ -12,6 +12,9 @@ export const ChatAggregator: React.FC = () => {
 
   const messageList = recipient.messages;
 
+  const showMessageInbox: boolean = !!recipient.userId;
+  // TODO: Set query params on every inbox entering
+
   return (
     <Fragment>
       <div
@@ -26,7 +29,9 @@ export const ChatAggregator: React.FC = () => {
           recipientImageUrl={`${recipient.imageUrl}`}
           onChatClose={() => {}}
         />
-        <ChatMessages messages={messageList} />
+        {showMessageInbox && (
+          <ChatMessages messages={messageList} recipient={recipient} />
+        )}
         <ChatForm />
       </div>
     </Fragment>

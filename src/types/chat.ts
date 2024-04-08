@@ -70,6 +70,10 @@ export type TStartChatRecipientPayload = {
 export type TRecipientMessagePayload = {
   message: IChatMessage;
 };
+
+export type TRecipientMessageListPayload = {
+  messages: IChatMessage[];
+};
 export type TPostingMessagePayload = {
   postMessaging: IPostingMessage;
 };

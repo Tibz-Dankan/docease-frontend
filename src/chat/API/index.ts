@@ -74,6 +74,32 @@ export const getChatMessages = async ({
   return await response.json();
 };
 
+export const getMessagesByChatRoom = async ({
+  chatRoomId: chatRoomId,
+  cursorId: cursorId,
+  accessToken: accessToken,
+}: {
+  chatRoomId: string;
+  cursorId: string;
+  accessToken: string;
+}) => {
+  const response = await fetch(
+    `${url}/chat/get-messages?chatRoomId=${chatRoomId}&cursorId=${cursorId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
 export const getChatRecipientByRole = async (
   accessToken: string,
   role: string

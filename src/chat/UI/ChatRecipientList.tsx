@@ -100,7 +100,7 @@ export const ChatRecipientList: React.FC = () => {
     // Delay scrolling to bottom to allow element attain  its full height
     setTimeout(() => {
       const viewElement = document.querySelector("#message-container")!;
-      viewElement.scrollIntoView({ behavior: "smooth" });
+      viewElement?.scrollIntoView({ behavior: "smooth" });
       viewElement.scrollTop = viewElement?.scrollHeight;
 
       // Check if scrolled to the bottom
