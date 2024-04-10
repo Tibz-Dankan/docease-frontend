@@ -15,7 +15,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { GoHistory } from "react-icons/go";
 // import { LiaBrainSolid } from "react-icons/lia";
-import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
+// import { VideoConferencePage } from "../video-conference/pages/VideoConferencePage";
 import { AssessmentHistoryPage } from "../mental-health/Pages/AssessmentHistoryPage";
 import { CiCalendarDate } from "react-icons/ci";
 import { PiBrainLight } from "react-icons/pi";
@@ -174,18 +174,18 @@ export const PatientRoutes: React.FC = () => {
         path: "settings",
         element: <Settings />,
       },
-      {
-        name: "Video Call",
-        icon: (
-          <span className="inline-block cursor-pointer">
-            <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
-              <SlSettings />
-            </IconContext.Provider>
-          </span>
-        ),
-        path: "video-conferencing",
-        element: <VideoConferencePage />,
-      },
+      // {
+      //   name: "Video Call",
+      //   icon: (
+      //     <span className="inline-block cursor-pointer">
+      //       <IconContext.Provider value={{ size: "1.5rem", color: "#495057" }}>
+      //         <SlSettings />
+      //       </IconContext.Provider>
+      //     </span>
+      //   ),
+      //   path: "video-conferencing/:videoConferenceId",
+      //   element: <VideoConferencePage />,
+      // },
     ],
   };
 

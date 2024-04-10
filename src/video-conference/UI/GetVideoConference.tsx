@@ -29,19 +29,19 @@ export const GetVideoConference: React.FC<GetVideoConferenceProps> = (
 
   const user = useSelector((state: TAuthState) => state.auth.user!);
 
-  const navigateToVideoConferencePage = () => {
-    const userRole = user.role;
-    navigate(`/${userRole}/video-conferencing`);
+  const navigateToVideoConferencePage = (videoConfId: string) => {
+    navigate(`/${user.role}/video-conferencing/${videoConfId}`, {
+      replace: false,
+    });
   };
 
   const { isLoading, mutate } = useMutation({
     mutationFn: getVideoConference,
     onSuccess: (response: any) => {
-      // dispatch(authenticate(auth));
-      // TODO: save the
-      console.log("response->", response);
       dispatch(updateVideoConference(response.data.conference));
-      navigateToVideoConferencePage();
+      navigateToVideoConferencePage(
+        response?.data?.conference?.videoConferenceId
+      );
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));

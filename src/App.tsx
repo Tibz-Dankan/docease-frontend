@@ -16,6 +16,7 @@ import { useLiveChat } from "./hooks/useLiveChat";
 import { LandingPage } from "./common/pages/LandingPage";
 import { Chat } from "./chat/pages/Chat";
 import { MembersPage } from "./common/pages/MembersPage";
+import { VideoConfRoute } from "./routes/videoConfRoute";
 // import { io, Socket } from "socket.io-client";
 
 export const App: React.FC = () => {
@@ -100,14 +101,6 @@ export const App: React.FC = () => {
                 <Route path="/auth/*" element={<AuthRoutes />} />
                 <Route path="/profile/:name" element={<MembersPage />} />
                 <Route path="/home" element={<Navigate to="/" replace />} />
-                <Route
-                  path="/doctor/dashboard"
-                  element={<Navigate to="/auth/doctor/signin" replace />}
-                />
-                <Route
-                  path="/patient/dashboard"
-                  element={<Navigate to="/auth/patient/signin" replace />}
-                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Fragment>
@@ -125,6 +118,7 @@ export const App: React.FC = () => {
                     onClose={closeCardHandler}
                   />
                 )}
+                <VideoConfRoute />
                 <Routes>
                   <Route path="/patient/*" element={<PatientRoutes />} />
                   <Route
@@ -148,6 +142,7 @@ export const App: React.FC = () => {
                     onClose={closeCardHandler}
                   />
                 )}
+                <VideoConfRoute />
                 <Routes>
                   <Route path="/doctor/*" element={<DoctorRoutes />} />
                   <Route

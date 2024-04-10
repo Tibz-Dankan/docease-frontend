@@ -9,11 +9,10 @@ import { joinVideoConference } from "../API";
 import { TAuthState } from "../../types/auth";
 import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
+import { useNavigate } from "react-router-dom";
 
 interface JoinVideoConferenceProps {
   videoConferenceId: string;
-  peerId: string;
-  onJoin: (joined: boolean) => void;
 }
 
 export const JoinVideoConference: React.FC<JoinVideoConferenceProps> = (
@@ -25,15 +24,24 @@ export const JoinVideoConference: React.FC<JoinVideoConferenceProps> = (
     (state: TAuthState) => state.auth.accessToken
   ) as string;
 
-  const hasJoinedVideoConference = () => {
-    props.onJoin(true);
+  const userRole = useSelector(
+    (state: TAuthState) => state.auth.user?.role!
+  ) as string;
+
+  const navigate = useNavigate();
+
+  const navigateToVideoConferencePage = (videoConfId: string) => {
+    navigate(`/${userRole}/video-conferencing/${videoConfId}`, {
+      replace: false,
+    });
   };
 
   const { isLoading, mutate } = useMutation({
     mutationFn: joinVideoConference,
     onSuccess: (response: any) => {
-      console.log("response: ", response);
-      hasJoinedVideoConference();
+      navigateToVideoConferencePage(
+        response?.data?.conference?.videoConferenceId
+      );
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -44,12 +52,10 @@ export const JoinVideoConference: React.FC<JoinVideoConferenceProps> = (
   });
 
   const joinVideoConferenceHandler = () => {
-    const peerId = props.peerId;
     const videoConferenceId = props.videoConferenceId;
 
-    if (!peerId || !videoConferenceId) return;
+    if (!videoConferenceId) return;
     mutate({
-      peerId: peerId,
       videoConferenceId: videoConferenceId,
       accessToken: accessToken,
     });

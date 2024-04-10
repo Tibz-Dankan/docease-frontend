@@ -10,20 +10,20 @@ import { IoVideocam, IoVideocamOff } from "react-icons/io5";
 import { AiFillAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { MdCallEnd } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { JoinVideoConference } from "../UI/JoinVideoConference";
+// import { JoinVideoConference } from "../UI/JoinVideoConference";
 import { Socket, io } from "socket.io-client";
 import { generateChatRoomId } from "../../utils/generateChatRoomId";
 
 export const VideoConference: React.FC = () => {
-  const [hasJoinedConference, setHasJoinedConference] =
-    useState<boolean>(false);
+  // const [hasJoinedConference, setHasJoinedConference] =
+  //   useState<boolean>(false);
   const [hasMutedVideo, setHasMutedVideo] = useState<boolean>(false);
   const [hasMutedAudio, setHasMutedAudio] = useState<boolean>(false);
   const user = useSelector((state: TAuthState) => state.auth.user!);
 
-  const joinedConferenceHandler = (hasJoined: boolean) => {
-    setHasJoinedConference(() => hasJoined);
-  };
+  // const joinedConferenceHandler = (hasJoined: boolean) => {
+  //   setHasJoinedConference(() => hasJoined);
+  // };
 
   const videoMuteHandler = () => {
     // TODO: add actual functionality for muting and un muting
@@ -40,7 +40,7 @@ export const VideoConference: React.FC = () => {
   ) as TVideoConferenceConnected;
 
   console.log("videoConference: ", videoConference);
-  const socket = useRef<Socket | null>(io("http://localhost:3030"));
+  const socket = useRef<Socket | null>(io("http://localhost:8000"));
   const peer = useRef<Peer | null>(null);
   const effectRan = useRef(false);
 
@@ -175,13 +175,11 @@ export const VideoConference: React.FC = () => {
         </div>
         <div className="px-4 py-4 flex items-center justify-between bg-blue-600">
           <div className="flex items-center justify-center gap-4">
-            {!hasJoinedConference && (
+            {/* {!hasJoinedConference && (
               <JoinVideoConference
                 videoConferenceId={videoConference.videoConferenceId}
-                peerId={"peerId"}
-                onJoin={joinedConferenceHandler}
               />
-            )}
+            )} */}
             {/* TODO: to a counter when the conference starts */}
             {!hasMutedVideo && (
               <span
