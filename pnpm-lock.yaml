@@ -69,8 +69,8 @@ dependencies:
     specifier: ^6.20.1
     version: 6.21.1(react-dom@18.2.0)(react@18.2.0)
   socket.io-client:
-    specifier: ^4.7.1
-    version: 4.7.1
+    specifier: ^4.7.5
+    version: 4.7.5
   solid:
     specifier: link:@heroicons/react/24/solid
     version: link:@heroicons/react/24/solid
@@ -3477,8 +3477,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /socket.io-client@4.7.1:
-    resolution: {integrity: sha512-Qk3Xj8ekbnzKu3faejo4wk2MzXA029XppiXtTF/PkbTg+fcwaTw1PlDrTrrrU4mKoYC4dvlApOnSeyLCKwek2w==}
+  /socket.io-client@4.7.5:
+    resolution: {integrity: sha512-sJ/tqHOCe7Z50JCBCXrsY3I2k03iOiUe+tj1OmKeD2lXPiGH/RUCdTZFoqVyN7l1MnpIzPrGtLcijffmeouNlQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0

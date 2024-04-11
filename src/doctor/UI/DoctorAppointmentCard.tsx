@@ -6,7 +6,7 @@ import { StartChat } from "../../chat/UI/StartChat";
 import { TChatRecipient } from "../../types/chat";
 import { UserOnlineStatus } from "../../onlineStatus/UI/UserOnlineStatus";
 import { Image } from "../../shared/UI/Image";
-// import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
+import { GetVideoConference } from "../../video-conference/UI/GetVideoConference";
 
 interface CardProps {
   userId: string;
@@ -94,7 +94,7 @@ export const DoctorAppointmentCard: React.FC<CardProps> = (props) => {
 
         <div className="space-y-2">
           <div className="w-full flex justify-center items-center gap-2">
-            {/* <GetVideoConference attendeeId={doctorId} /> */}
+            <GetVideoConference attendeeId={doctorId} />
             <StartChat startChatRecipient={startChatRecipient} />
           </div>
           <PostAppointment doctorName={doctorName} doctorId={doctorId} />

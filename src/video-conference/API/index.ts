@@ -50,18 +50,15 @@ export const getVideoConferenceById = async ({
 };
 
 export const joinVideoConference = async ({
-  peerId,
   videoConferenceId,
   accessToken,
 }: {
-  peerId: string;
   videoConferenceId: string;
   accessToken: string;
 }) => {
   const response = await fetch(`${url}/conferences/join`, {
     method: "POST",
     body: JSON.stringify({
-      peerId,
       videoConferenceId,
     }),
     headers: {

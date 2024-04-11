@@ -169,7 +169,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = (props) => {
         setCursorId(() => "");
       };
     }
-  }, [chatRoomId, cursorId, dispatch]);
+  }, [chatRoomId, cursorId, userId, dispatch]);
 
   return (
     <Fragment>

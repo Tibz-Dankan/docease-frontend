@@ -2,10 +2,7 @@ import React, { Fragment } from "react";
 import { IconContext } from "react-icons";
 import { IoVideocam } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
-import {
-  clearRequestConnectVideoConference,
-  updateVideoConference,
-} from "../../store/actions/videoConference";
+import { clearRequestConnectVideoConference } from "../../store/actions/videoConference";
 import {
   hideCardNotification,
   showCardNotification,
@@ -31,18 +28,18 @@ export const VCNotificationBanner: React.FC = () => {
   const videoConference = useSelector(
     (state: TVideoConferenceConnectedState) => state.videoConference
   );
-
-  const navigateToVideoConferencePage = () => {
-    const userRole = user.role;
-    navigate(`/${userRole}/video-conferencing`);
+  const navigateToVideoConferencePage = (videoConfId: string) => {
+    navigate(`/${user.role}/video-conferencing/${videoConfId}`, {
+      replace: false,
+    });
   };
 
   const { isLoading, mutate } = useMutation({
     mutationFn: getVideoConferenceById,
     onSuccess: (response: any) => {
-      console.log("response->", response);
-      dispatch(updateVideoConference(response.data.conference));
-      navigateToVideoConferencePage();
+      navigateToVideoConferencePage(
+        response?.data?.conference?.videoConferenceId
+      );
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
