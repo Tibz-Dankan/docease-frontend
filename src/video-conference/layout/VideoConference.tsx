@@ -15,15 +15,9 @@ import { Socket, io } from "socket.io-client";
 import { generateChatRoomId } from "../../utils/generateChatRoomId";
 
 export const VideoConference: React.FC = () => {
-  // const [hasJoinedConference, setHasJoinedConference] =
-  //   useState<boolean>(false);
   const [hasMutedVideo, setHasMutedVideo] = useState<boolean>(false);
   const [hasMutedAudio, setHasMutedAudio] = useState<boolean>(false);
   const user = useSelector((state: TAuthState) => state.auth.user!);
-
-  // const joinedConferenceHandler = (hasJoined: boolean) => {
-  //   setHasJoinedConference(() => hasJoined);
-  // };
 
   const videoMuteHandler = () => {
     // TODO: add actual functionality for muting and un muting
@@ -234,13 +228,6 @@ export const VideoConference: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* <video ref={myVideoRef} muted autoPlay style={{ width: "300px" }}></video>
-      <div ref={videoGridRef}></div>
-      <input id="chat_message" ref={textRef} type="text" />
-      <button id="send" onClick={handleSend}>
-        Send
-      </button>
-      <div className="messages" ref={messagesRef}></div> */}
     </div>
   );
 };
