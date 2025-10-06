@@ -27,4 +27,4 @@ dist-ssr
 .netlify
 
 # Environmental variables
-.env
+*.env
