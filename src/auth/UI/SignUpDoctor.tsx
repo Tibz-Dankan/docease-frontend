@@ -1,6 +1,6 @@
-import React, { Fragment, ChangeEvent } from "react";
+import React, { Fragment, ChangeEvent, useState } from "react";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import {
   showCardNotification,
@@ -16,22 +16,26 @@ import { Loader } from "../../shared/UI/Loader";
 import { Button } from "../../shared/UI/Button";
 import logo from "../../assets/images/logo.jpeg";
 import { SquareDots } from "../../common/UI/SquareDots";
+import { authenticate } from "../../store/actions/auth";
 
 export const SignUpDoctor: React.FC = () => {
   const dispatch: any = useDispatch();
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const { isLoading, mutate } = useMutation({
     mutationFn: signUpDoctor,
-    onSuccess: (response: any) => {
+    onSuccess: (auth: any) => {
       dispatch(
         showCardNotification({
           type: "success",
-          message: response.message,
+          message: "Account created successfully!",
         })
       );
       setTimeout(() => {
         dispatch(hideCardNotification());
       }, 5000);
+
+      dispatch(authenticate(auth));
     },
     onError: (error: any) => {
       dispatch(showCardNotification({ type: "error", message: error.message }));
@@ -85,6 +89,15 @@ export const SignUpDoctor: React.FC = () => {
     if (genderValue === "--select-gender--") return;
 
     formik.values.gender = genderValue;
+  };
+
+  const passwordsMatch =
+    confirmPassword && confirmPassword !== formik.values.password;
+
+  const confirmPasswordChangeHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(() => event.target.value);
   };
 
   return (
@@ -157,6 +170,26 @@ export const SignUpDoctor: React.FC = () => {
             options={gender}
             formik={formik}
           />
+          <InputField
+            type="password"
+            label="Password"
+            name="password"
+            formik={formik}
+          />
+          <div className="inline-block relative w-full">
+            {passwordsMatch && (
+              <span className="text-sm text-red-500 absolute top-0 left-0">
+                Passwords don't much!
+              </span>
+            )}
+            <InputField
+              type="password"
+              label="Confirm password"
+              name="confirmPassword"
+              formik={formik}
+              onChange={(event: any) => confirmPasswordChangeHandler(event)}
+            />
+          </div>
           {!isLoading && (
             <Button
               label="Sign up"

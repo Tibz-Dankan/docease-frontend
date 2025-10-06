@@ -24,6 +24,7 @@ export const SignIn: React.FC = () => {
   const { isLoading, mutate } = useMutation({
     mutationFn: signIn,
     onSuccess: (auth: any) => {
+      console.log("auth: ", auth);
       if (auth.redirectTo) {
         navigate("/auth/2fa-verification", { replace: true });
         dispatch(
